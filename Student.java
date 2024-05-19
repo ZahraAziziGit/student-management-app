@@ -6,7 +6,7 @@ import java.util.Map;
 public class Student {
 	private String firstName;
 	private String lastName;
-	private int id;
+	private String id;
 	private String password;
 	private int numberOfCourses;
 	private int numberOfUnits;
@@ -16,7 +16,7 @@ public class Student {
 	private double currentTermAverage;
 	Map<Double, Double> marks = new HashMap<>();
 
-	public Student(String firstName, String lastName, int id){
+	public Student(String firstName, String lastName, String id){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -56,7 +56,7 @@ public class Student {
 		return lastName;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
