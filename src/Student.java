@@ -6,7 +6,7 @@ import java.util.Map;
 public class Student {
 	private String firstName;
 	private String lastName;
-	private String id;
+	private String studentID;
 	private String password;
 	private int numberOfCourses;
 	private int numberOfUnits;
@@ -19,7 +19,7 @@ public class Student {
 	public Student(String firstName, String lastName, String id){
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.id = id;
+		this.studentID = id;
 	}
 
 	public void printListOfCourses(){
@@ -56,8 +56,8 @@ public class Student {
 		return lastName;
 	}
 
-	public String getId() {
-		return id;
+	public String getStudentID() {
+		return studentID;
 	}
 
 	public String getPassword() {

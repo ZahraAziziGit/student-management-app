@@ -5,6 +5,7 @@ import java.util.List;
 public class Course {
 
 	private String name;
+	private String courseID;
 	private Teacher teacher;
 	private double highestMark = 0;
 	private double numberOfUnits;
@@ -18,8 +19,9 @@ public class Course {
 	private int numberOfActiveProjects;
 	private List<Assignment> listOfProjects = new ArrayList<>();
 
-	public Course(String name, Teacher teacher, int numberOfUnits, LocalDate dateOfExam){
+	public Course(String name, String courseID, Teacher teacher, int numberOfUnits, LocalDate dateOfExam){
 		this.name = name;
+		this.courseID = courseID;
 		this.teacher = teacher;
 		this.numberOfUnits = numberOfUnits;
 		this.dateOfExam = dateOfExam;
@@ -29,7 +31,7 @@ public class Course {
 		for (int i = 0; i < listOfStudents.size(); i++) {
 			Student student = listOfStudents.get(i);
 			System.out.println(i + ". " + student.getFirstName()
-					+ " " + student.getLastName() + ", Student ID: " + student.getId());
+					+ " " + student.getLastName() + ", Student ID: " + student.getStudentID());
 		}
 	}
 
