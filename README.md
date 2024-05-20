@@ -1,2 +1,2 @@
-# AP Project 
-## Application for managing studnets of a university
+## AP Project 
+Application for managing studnets of a university
