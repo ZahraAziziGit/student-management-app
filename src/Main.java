@@ -18,12 +18,12 @@ public class Main {
 			if ("Admin".equalsIgnoreCase(role)) {
 				System.out.print("\033[H\033[2J");
 				System.out.flush();
-				System.out.println("Welcome Admin!");
+				System.out.println(YELLOW + "Welcome Admin!" + RESET);
 				break;
 			} else if ("Teacher".equalsIgnoreCase(role)) {
 				System.out.print("\033[H\033[2J");
 				System.out.flush();
-				System.out.println("Welcome Teacher!");
+				System.out.println(GREEN + "Welcome Teacher!" + RESET);
 				break;
 			}
 			else {
