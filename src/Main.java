@@ -17,14 +17,16 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        String role = scanner.nextLine();
+        String currentRole;
         while (true) {
+            String role = scanner.nextLine();
             if ("Admin".equalsIgnoreCase(role)) {
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
                 System.out.println(GREEN + "Welcome Admin!" + "\n" + RESET
                         + "Choose from the list below:" + "\n" +
                         "---------------------------------");
+                currentRole = role;
                 break;
             } else if ("Teacher".equalsIgnoreCase(role)) {
                 System.out.print("\033[H\033[2J");
@@ -32,6 +34,7 @@ public class Main {
                 System.out.println(GREEN + "Welcome Teacher!" + "\n" + RESET
                         + "Choose from the list below:" + "\n" +
                         "---------------------------------");
+                currentRole = role;
                 break;
             } else {
                 System.out.print("\033[H\033[2J");
@@ -40,8 +43,9 @@ public class Main {
                 System.out.print("Enter your role: ");
             }
         }
+
         //Admin menu
-        if ("Admin".equalsIgnoreCase(role)) {
+        if ("Admin".equalsIgnoreCase(currentRole)) {
             System.out.println("""
                     1. Add student
                     2. Remove student
@@ -61,7 +65,7 @@ public class Main {
         //به نظرم بعد از انتخاب عملکرد ایدی استاد رو دریافت کنیم
         //می تونیم بعد از انتخاب role استاد و قبل از پیام
         //خوش آمد هم دریافت کنیم.
-        if ("Teacher".equalsIgnoreCase(role)) {
+        if ("Teacher".equalsIgnoreCase(currentRole)) {
             System.out.println("""
                     1. Add student
                     2. remove student
@@ -71,8 +75,8 @@ public class Main {
                     6. Remove assignment
                     """);
         }
-        int action = scanner.nextInt();
-        switch (action) {
+        int teacherAction = scanner.nextInt();
+        switch (teacherAction) {
             case 1:
                 System.out.println("adding student...");
 
