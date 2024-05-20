@@ -34,11 +34,11 @@ public class Teacher {
 		assignment.setDeadline(newDeadline);
 	}
 
-	public void addProject(Course course, Assignment assignment){
+	public void addAssignment(Course course, Assignment assignment){
 		course.getListOfAssignments().add(assignment);
 	}
 	
-	public void removeProject(Course course, Assignment assignment){
+	public void removeAssignment(Course course, Assignment assignment){
 		course.getListOfAssignments().remove(assignment);
 	}
 

@@ -23,14 +23,14 @@ public class Main {
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
                 System.out.println(GREEN + "Welcome Admin!" + "\n" + RESET
-                        + "Chose from the list below:" + "\n" +
+                        + "Choose from the list below:" + "\n" +
                         "---------------------------------");
                 break;
             } else if ("Teacher".equalsIgnoreCase(role)) {
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
                 System.out.println(GREEN + "Welcome Teacher!" + "\n" + RESET
-                        + "Chose from the list below:" + "\n" +
+                        + "Choose from the list below:" + "\n" +
                         "---------------------------------");
                 break;
             } else {
@@ -43,7 +43,16 @@ public class Main {
         //Admin menu
         if ("Admin".equalsIgnoreCase(role)) {
             System.out.println("""
-                   
+                    1. Add student
+                    2. Remove student
+                    3. Give mark to a student
+                    4. Change an assignment deadline
+                    5. Add assignment
+                    6. Remove assignment
+                    7. Add teacher
+                    8. Remove teacher
+                    9. Add course
+                    10. Remove course
                     """);
         }
 
@@ -66,6 +75,7 @@ public class Main {
         switch (action) {
             case 1:
                 System.out.println("adding student...");
+
         }
 
     }
