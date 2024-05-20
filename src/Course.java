@@ -19,6 +19,7 @@ public class Course {
 	private int numberOfActiveProjects;
 	private List<Assignment> listOfProjects = new ArrayList<>();
 
+
 	public Course(String name, String courseID, Teacher teacher, int numberOfUnits, LocalDate dateOfExam){
 		this.name = name;
 		this.courseID = courseID;
@@ -26,6 +27,7 @@ public class Course {
 		this.numberOfUnits = numberOfUnits;
 		this.dateOfExam = dateOfExam;
 	}
+
 
 	public void printListOfStudents(){
 		for (int i = 0; i < listOfStudents.size(); i++) {
@@ -49,16 +51,13 @@ public class Course {
 		System.out.println(highestMark);
 	}
 
+
 	public String getName() {
 		return name;
 	}
 
 	public double getHighestMark() {
 		return highestMark;
-	}
-
-	public void setHighestMark(double highestMark) {
-		this.highestMark = highestMark;
 	}
 
 	public double getNumberOfUnits() {
@@ -71,5 +70,9 @@ public class Course {
 
 	public Teacher getTeacher() {
 		return teacher;
+	}
+
+	public void setHighestMark(double highestMark) {
+		this.highestMark = highestMark;
 	}
 }
