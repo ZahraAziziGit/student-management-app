@@ -3,17 +3,20 @@ import java.util.List;
 import java.time.LocalDate;
 
 public class Teacher {
+
 	private String teacherID;
 	private String firstName;
 	private String lastName;
 	private int numberOfCourses;
 	private List<Course> listOfCourses = new ArrayList<>();
 
+
 	public Teacher(String teacherID, String firstName, String lastName) {
 		this.teacherID = teacherID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
+
 
 	public void addStudent(Student student, Course course) {
 		course.addStudent(student);
@@ -33,7 +36,7 @@ public class Teacher {
 	public void changeDeadline(Assignment assignment, LocalDate newDeadline) {
 		assignment.setDeadline(newDeadline);
 	}
-
+	//assignment??
 	public void addProject(Course course, Assignment assignment){
 		course.getListOfAssignments().add(assignment);
 	}
@@ -41,6 +44,7 @@ public class Teacher {
 	public void removeProject(Course course, Assignment assignment){
 		course.getListOfAssignments().remove(assignment);
 	}
+
 
 	public String getFirstName() {
 		return firstName;
@@ -53,6 +57,5 @@ public class Teacher {
 	public String getTeacherID() {
 		return teacherID;
 	}
-
 
 }
