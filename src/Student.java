@@ -16,11 +16,13 @@ public class Student {
 	private double currentTermAverage;
 	Map<Double, Double> marks = new HashMap<>();
 
+
 	public Student(String firstName, String lastName, String id){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.studentID = id;
 	}
+
 
 	public void printListOfCourses(){
 		for (int i = 0; i < listOfCourses.size(); i++) {
@@ -47,6 +49,7 @@ public class Student {
 	public void printNumberOfRegistrationUnits(){
 		System.out.println(numberOfRegistrationUnits);
 	}
+
 
 	public String getFirstName() {
 		return firstName;
