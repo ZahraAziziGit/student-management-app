@@ -4,7 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-
     //method to clear the commandline
     public static void clear() {
         System.out.print("\033[H\033[2J");
@@ -12,7 +11,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
         //color codes
         String RESET = "\u001B[0m";
         String RED = "\u001B[31m";
@@ -44,8 +42,7 @@ public class Main {
                 clear();
                 System.out.print("Enter your teacher's ID: ");
                 String teacherID = scanner.nextLine();
-                //validate teacher's id----------------------
-                //-------------------------------------------
+                //TODO: validate teacher's id
                 System.out.println(GREEN + "Welcome Teacher!" + "\n" + RESET
                         + "Choose from the list below:" + "\n" +
                         "---------------------------------");
@@ -90,7 +87,8 @@ public class Main {
             //----------------------------------------
 
             //variables
-            String studentID, courseID, assignmentID, assignmentDeadline;
+            String studentID, courseID, assignmentID, assignmentDeadline, teacherID,
+                    teacherFirstName, teacherLastName;
             double mark = -1;
             LocalDate deadline = LocalDate.now();
 
@@ -100,13 +98,13 @@ public class Main {
                     studentID = scanner.nextLine();
                     System.out.print("Enter Course ID: ");
                     courseID = scanner.nextLine();
-                    //find student and course with this ID
+                    //TODO: find student and course with this ID
                     //temp actions-----------------
                     course.addStudent(student);
                     //-----------------------------
-                    System.out.println(GREEN + "Student " + student.getFirstName() + " " + student.getLastName() +
-                            " with ID: " + student.getStudentID() + " has been successfully added to course " +
-                            course.getName() + " with ID: " + course.getCourseID() + "." + RESET);
+                    System.out.println(GREEN + "Student \"" + student.getFirstName() + " " + student.getLastName() +
+                            "\" with ID: " + student.getStudentID() + " has been successfully added to course \"" +
+                            course.getName() + "\" with ID: " + course.getCourseID() + "." + RESET);
                     isAdminActionChosen = true;
                     break;
                 case "2": //remove student
@@ -114,13 +112,13 @@ public class Main {
                     studentID = scanner.nextLine();
                     System.out.print("Enter Course ID: ");
                     courseID = scanner.nextLine();
-                    //find student and course with this ID
+                    //TODO: find student and course with this ID
                     //temp actions-----------------
                     course.removeStudent(student);
                     //-----------------------------
-                    System.out.println(GREEN + "Student " + student.getFirstName() + " " + student.getLastName() +
-                            " with ID: " + student.getStudentID() + " has been successfully removed from course " +
-                            course.getName() + " with ID: " + course.getCourseID() + "." + RESET);
+                    System.out.println(GREEN + "Student \"" + student.getFirstName() + " " + student.getLastName() +
+                            "\" with ID: " + student.getStudentID() + " has been successfully removed from course " +
+                            course.getName() + "\" with ID: " + course.getCourseID() + "." + RESET);
                     isAdminActionChosen = true;
                     break;
                 case "3": //give mark
@@ -139,7 +137,7 @@ public class Main {
                             scanner.nextLine(); //clear buffer
                         }
                     } while (!isMarkDouble);
-                    //find student and course with this ID
+                    //TODO: find student and course with this ID
                     //temp actions-----------------
                     student.marks.put(mark, course.getNumberOfUnits());
                     //-----------------------------
@@ -152,7 +150,7 @@ public class Main {
                     boolean isDeadlineCorrect = false;
                     do {
                         try {
-                            System.out.print("Enter new deadline: ");
+                            System.out.print("Enter new deadline (Format: yyyy-mm-dd): ");
                             assignmentDeadline = scanner.nextLine();
                             deadline = LocalDate.parse(assignmentDeadline);
                             isDeadlineCorrect = true;
@@ -160,7 +158,7 @@ public class Main {
                             System.out.println(RED + "Deadline format is not correct!" + RESET);
                         }
                     } while (!isDeadlineCorrect);
-                    //find assignment with this ID
+                    //TODO: find assignment with this ID
                     //temp actions-----------------
                     assignment.setDeadline(deadline);
                     //-----------------------------
@@ -172,7 +170,7 @@ public class Main {
                     courseID = scanner.nextLine();
                     System.out.print("Enter Assignment ID: ");
                     assignmentID = scanner.nextLine();
-                    //find course and assignment with this ID
+                    //TODO: find course and assignment with this ID
                     //temp actions-----------------
                     course.getListOfAssignments().add(assignment);
                     //-----------------------------
@@ -184,26 +182,27 @@ public class Main {
                     courseID = scanner.nextLine();
                     System.out.print("Enter Assignment ID: ");
                     assignmentID = scanner.nextLine();
-                    //find course and assignment with this ID
+                    //TODO: find course and assignment with this ID
                     //temp actions-----------------
                     course.getListOfAssignments().remove(assignment);
                     //-----------------------------
                     System.out.println(GREEN + "Assignment has been successfully removed." + RESET);
                     isAdminActionChosen = true;
                     break;
-                case "7":
+                case "7": //add teacher
+
+
+                    isAdminActionChosen = true;
+                    break;
+                case "8": //remove teacher
                     System.out.println();
                     isAdminActionChosen = true;
                     break;
-                case "8":
-                    System.out.println();
+                case "9": //add course
+
                     isAdminActionChosen = true;
                     break;
-                case "9":
-                    
-                    isAdminActionChosen = true;
-                    break;
-                case "10":
+                case "10": //remove course
 
                     isAdminActionChosen = true;
                     break;
@@ -215,9 +214,9 @@ public class Main {
         }
 
 
-        //به نظرم بعد از انتخاب عملکرد ایدی استاد رو دریافت کنیم
-        //می تونیم بعد از انتخاب role استاد و قبل از پیام
-        //خوش آمد هم دریافت کنیم.
+        /*به نظرم بعد از انتخاب عملکرد ایدی استاد رو دریافت کنیم
+        می تونیم بعد از انتخاب role استاد و قبل از پیام
+        خوش آمد هم دریافت کنیم.*/
         //Teacher menu
 //        if ("Teacher".equalsIgnoreCase(currentRole)) {
 //            System.out.println("""
