@@ -23,6 +23,11 @@
 hs_err_pid*
 replay_pid*
 
+out
 .gitignore
 README.md
-../.idea
+.idea
+
+
+
+

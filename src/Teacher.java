@@ -26,7 +26,7 @@ public class Teacher {
 		course.removeStudent(student);
 	}
 
-	public void giveMark(Course course, Student student, double mark) {
+	public void giveMark(Student student, Course course, double mark) {
 		student.marks.put(mark, course.getNumberOfUnits());
 		if (mark > course.getHighestMark()) {
 			course.setHighestMark(mark);
