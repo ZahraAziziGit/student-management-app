@@ -56,6 +56,10 @@ public class Course {
 		return name;
 	}
 
+	public String getCourseID() {
+		return courseID;
+	}
+
 	public double getHighestMark() {
 		return highestMark;
 	}
