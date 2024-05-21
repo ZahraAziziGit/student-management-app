@@ -200,11 +200,11 @@ public class Main {
                     isAdminActionChosen = true;
                     break;
                 case "9":
-                    System.out.println();
+                    
                     isAdminActionChosen = true;
                     break;
                 case "10":
-                    System.out.println();
+
                     isAdminActionChosen = true;
                     break;
                 default:
