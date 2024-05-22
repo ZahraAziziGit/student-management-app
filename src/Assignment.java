@@ -7,7 +7,8 @@ public class Assignment {
 	private String assignmentID;
 
 
-	public Assignment(LocalDate deadline, boolean isActive){
+	public Assignment(String assignmentID, LocalDate deadline, boolean isActive){
+		this.assignmentID = assignmentID;
 		this.deadline = ChronoUnit.DAYS.between(LocalDate.now(), deadline);
 		this.isActive = isActive;
 	}
