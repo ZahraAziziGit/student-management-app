@@ -10,12 +10,10 @@ public class Student {
 	private String password;
 	private int numberOfCourses;
 	private int numberOfUnits;
-	private int numberOfRegistrationUnits;
 	private List<Course> listOfCourses = new ArrayList<>();
 	private double totalAverage;
 	private double currentTermAverage;
 	Map<Double, Double> marks = new HashMap<>();
-
 
 	public Student(String firstName, String lastName, String id){
 		this.firstName = firstName;
@@ -29,6 +27,10 @@ public class Student {
 			Course course = listOfCourses.get(i);
 			System.out.println(i + ". " + course.getName());
 		}
+	}
+
+	public void calculateNumberOfCourses() {
+		numberOfCourses = listOfCourses.size();
 	}
 
 	public void calculateTotalAverage(){
@@ -46,8 +48,8 @@ public class Student {
 		System.out.println(totalAverage);
 	}
 
-	public void printNumberOfRegistrationUnits(){
-		System.out.println(numberOfRegistrationUnits);
+	public void printNumberOfUnits(){
+		System.out.println(numberOfUnits);
 	}
 
 
@@ -67,4 +69,16 @@ public class Student {
 		return password;
 	}
 
+	public int getNumberOfCourses() {
+		calculateNumberOfCourses();
+		return numberOfCourses;
+	}
+
+	public int getNumberOfUnits() {
+		return numberOfUnits;
+	}
+
+	public List<Course> getListOfCourses() {
+		return listOfCourses;
+	}
 }
