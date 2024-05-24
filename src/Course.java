@@ -16,16 +16,14 @@ public class Course {
 	private int numberOfDefinedAssignments;
 	private int numberOfActiveAssignments;
 	private LocalDate dateOfExam;
-	private int numberOfActiveProjects;
-	private List<Assignment> listOfProjects = new ArrayList<>();
 
-
-	public Course(String name, String courseID, Teacher teacher, int numberOfUnits, LocalDate dateOfExam){
+	public Course(String name, String courseID, Teacher teacher, int numberOfUnits, LocalDate dateOfExam, boolean isCourseActive){
 		this.name = name;
 		this.courseID = courseID;
 		this.teacher = teacher;
 		this.numberOfUnits = numberOfUnits;
 		this.dateOfExam = dateOfExam;
+		this.isCourseActive = isCourseActive;
 	}
 
 
@@ -60,6 +58,10 @@ public class Course {
 		return courseID;
 	}
 
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
 	public double getHighestMark() {
 		return highestMark;
 	}
@@ -68,12 +70,24 @@ public class Course {
 		return numberOfUnits;
 	}
 
+	public List<Student> getListOfStudents() {
+		return listOfStudents;
+	}
+
+	public int getNumberOfStudents() {
+		return numberOfStudents;
+	}
+
+	public boolean isCourseActive() {
+		return isCourseActive;
+	}
+
 	public List<Assignment> getListOfAssignments() {
 		return listOfAssignments;
 	}
 
-	public Teacher getTeacher() {
-		return teacher;
+	public LocalDate getDateOfExam() {
+		return dateOfExam;
 	}
 
 	public void setHighestMark(double highestMark) {
