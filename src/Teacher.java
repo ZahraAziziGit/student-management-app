@@ -10,7 +10,6 @@ public class Teacher {
 	private int numberOfCourses;
 	private List<Course> listOfCourses = new ArrayList<>();
 
-
 	public Teacher(String teacherID, String firstName, String lastName) {
 		this.teacherID = teacherID;
 		this.firstName = firstName;
@@ -24,6 +23,16 @@ public class Teacher {
 
 	public void removeStudent(Student student, Course course) {
 		course.removeStudent(student);
+	}
+
+	public void addCourse(Course course){
+		listOfCourses.add(course);
+		numberOfCourses++;
+	}
+
+	public void removeCourse(Course course){
+		listOfCourses.remove(course);
+		numberOfCourses--;
 	}
 
 	public void giveMark(Student student, Course course, double mark) {
@@ -58,4 +67,11 @@ public class Teacher {
 		return teacherID;
 	}
 
+	public int getNumberOfCourses() {
+		return numberOfCourses;
+	}
+
+	public List<Course> getListOfCourses() {
+		return listOfCourses;
+	}
 }
