@@ -1,3 +1,5 @@
+package classes;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,8 @@ public class Course {
 	private int numberOfActiveAssignments;
 	private LocalDate dateOfExam;
 
-	public Course(String name, String courseID, Teacher teacher, int numberOfUnits, LocalDate dateOfExam, boolean isCourseActive){
+	public Course(String name, String courseID, Teacher teacher, int numberOfUnits, LocalDate dateOfExam,
+				  boolean isCourseActive){
 		this.name = name;
 		this.courseID = courseID;
 		this.teacher = teacher;

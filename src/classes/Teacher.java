@@ -1,3 +1,5 @@
+package classes;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
@@ -10,7 +12,7 @@ public class Teacher {
 	private int numberOfCourses;
 	private List<Course> listOfCourses = new ArrayList<>();
 
-	public Teacher(String teacherID, String firstName, String lastName) {
+	public Teacher(String firstName, String lastName, String teacherID) {
 		this.teacherID = teacherID;
 		this.firstName = firstName;
 		this.lastName = lastName;

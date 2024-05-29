@@ -1,0 +1,3 @@
+name:math,id:1,teacher:name=ali~lastname=alavi~id=1,units:3,examDate:2020-02-02,active:true
+name:lab,id:2,teacher:name=ali~lastname=alavi~id=1,units:2,examDate:2019-09-09,active:true
+name:logic,id:3,teacher:name=ali~lastname=alavi~id=1,units:2,examDate:2020-02-02,active:true

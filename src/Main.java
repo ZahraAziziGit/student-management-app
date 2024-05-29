@@ -1,10 +1,14 @@
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.InputMismatchException;
+import java.io.*;
+import java.util.Objects;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.InputMismatchException;
+import java.time.format.DateTimeParseException;
+
 
 public class Main {
-    //method to clear the commandline
+
+    //clear the commandline
     public static void clear() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -39,7 +43,7 @@ public class Main {
                 clear();
                 System.out.print("Enter your ID: ");
                 String teacherID = scanner.nextLine();
-                //TODO: validate teacher's id
+                //TODO: validate teacher's id?
                 System.out.println(GREEN + "Welcome Teacher!" + "\n" + RESET
                         + "Choose from the list below:" + "\n" +
                         "---------------------------------");
@@ -50,6 +54,18 @@ public class Main {
                 System.out.print("Enter your role: ");
             }
         }
+
+        //paths
+        String studentPath = "/home/zahra/Documents/Radiohead/Data/Student/students_data.txt";
+        String studentTempPath = "/home/zahra/Documents/Radiohead/Data/Student/temp_students_data.txt";
+        String assignmentPath = "/home/zahra/Documents/Radiohead/Data/Assignment/assignments_data.txt";
+        String assignmentTempPath = "/home/zahra/Documents/Radiohead/Data/Assignment/temp_assignments_data.txt";
+
+        //files
+        File studentFile = new File(studentPath);
+        File studentTempFile = new File(studentTempPath);
+        File assignmentFile = new File(assignmentPath);
+        File assignmentTempFile = new File(assignmentTempPath);
 
         if ("Admin".equalsIgnoreCase(role)) {
             boolean isExitEntered = false;
@@ -74,39 +90,49 @@ public class Main {
                     //----------------------------------------
                     /*these are temp objects and are going to be
                     replaced when backend is finished*/
-                    Student student = new Student("student_name", "student_family_name",
-                            "1");
-                    Teacher teacher = new Teacher("1", "teacher_name", "teacher_lasst_name");
-                    Course course = new Course("course_name", "1", teacher, 3,
-                            LocalDate.of(2020, 12, 12), true);
-                    Assignment assignment = new Assignment("1",
+                    Student student1 = new Student("student_name", "student_family_name",
+                            "student_id");
+                    Assignment assignment1 = new Assignment("1",
                             LocalDate.of(2020, 12, 12),
                             true);
+                    Teacher teacher1 = new Teacher("teacher_name", "teacher_last_name", "teacher_id");
+                    Course course1 = new Course("course_name", "course_id", teacher1, 3,
+                            LocalDate.of(2020, 12, 12), true);
                     //----------------------------------------
 
                     //variables
-                    String studentID, courseID, assignmentID, teacherID, assignmentDeadline,
-                            teacherFirstName, teacherLastName, courseName, courseExamDate;
+                    String studentFirstName, studentLastName, studentID,
+                            assignmentID, assignmentDeadline = "",
+                            teacherFirstName, teacherLastName, teacherID,
+                            courseName, courseID, courseExamDate;
                     double mark = -1;
                     int numberOfUnits = 0;
                     LocalDate deadline = LocalDate.now(), dateOfExam = LocalDate.now();
+                    Student student = null;
+                    Teacher teacher = null;
+                    Course course = null;
+                    Assignment assignment = null;
 
                     switch (adminAction) {
                         case "1":
                             clear();
                             System.out.println(YELLOW + "Adding student..." + RESET);
+                            System.out.println("Enter Student first name: ");
+                            studentFirstName = scanner.nextLine();
+                            System.out.println("Enter Student last name: ");
+                            studentLastName = scanner.nextLine();
                             System.out.print("Enter Student ID: ");
                             studentID = scanner.nextLine();
                             System.out.print("Enter Course ID: ");
                             courseID = scanner.nextLine();
-                            //TODO: find student and course with this ID
-                            //temp actions-----------------
-                            course.addStudent(student);
-                            //-----------------------------
+                            //TODO: find course with this ID
+                            student = new Student(studentFirstName, studentLastName, studentID);
+                            StoreData.storeStudent(studentFirstName, studentLastName, studentID, studentFile);
+                            course1.addStudent(student);
                             System.out.println(GREEN + "Student \"" + student.getFirstName() + " "
                                     + student.getLastName() + "\" with ID: " + student.getStudentID() +
-                                    " has been successfully added to course \"" +
-                                    course.getName() + "\" with ID: " + course.getCourseID() + "." + RESET);
+                                    " has been successfully added to course \"" + course1.getName() +
+                                    "\" with ID: " + course1.getCourseID() + "." + RESET);
                             isAdminActionChosen = true;
                             break;
                         case "2":
@@ -116,23 +142,37 @@ public class Main {
                             studentID = scanner.nextLine();
                             System.out.print("Enter Course ID: ");
                             courseID = scanner.nextLine();
-                            //TODO: find student and course with this ID
-                            //temp actions-----------------
-                            course.removeStudent(student);
-                            //-----------------------------
+                            //TODO: find course1 with this ID
+                            try {
+                                student = IdFinder.findStudentByID(studentID, studentFile);
+                            } catch (NotFoundException e) {
+                                System.out.println(e.getMessage());
+                                isAdminActionChosen = true;
+                                break;
+                            }
+                            UpdateData.updateStudentData(studentFile, studentTempFile, studentID);
+                            course1.removeStudent(student);
                             System.out.println(GREEN + "Student \"" + student.getFirstName() + " "
                                     + student.getLastName() + "\" with ID: " + student.getStudentID() +
                                     " has been successfully removed from course \"" +
-                                    course.getName() + "\" with ID: " + course.getCourseID() + "." + RESET);
+                                    course1.getName() + "\" with ID: " + course1.getCourseID() + "." + RESET);
                             isAdminActionChosen = true;
                             break;
                         case "3":
                             clear();
-                            System.out.println(YELLOW + "Giving mark to a student..." + RESET);
+                            System.out.println(YELLOW + "Giving mark to a student1..." + RESET);
                             System.out.print("Enter Student ID: ");
                             studentID = scanner.nextLine();
                             System.out.print("Enter Course ID: ");
                             courseID = scanner.nextLine();
+                            //TODO: find course1 with this ID
+                            try {
+                                student = IdFinder.findStudentByID(studentID, studentFile);
+                            } catch (NotFoundException e) {
+                                System.out.println(e.getMessage());
+                                isAdminActionChosen = true;
+                                break;
+                            }
                             boolean isMarkDouble = false;
                             do {
                                 try {
@@ -144,18 +184,13 @@ public class Main {
                                     scanner.nextLine(); //clear buffer
                                 }
                             } while (!isMarkDouble);
-                            //TODO: find student and course with this ID
-                            //temp actions-----------------
-                            student.marks.put(mark, course.getNumberOfUnits());
-                            //-----------------------------
+                            student.marks.put(mark, course1.getNumberOfUnits());
                             System.out.println(GREEN + "Student mark has been successfully added." + RESET);
                             isAdminActionChosen = true;
                             break;
                         case "4":
                             clear();
-                            System.out.println(YELLOW + "Adding assignment..." + RESET);
-                            System.out.print("Enter Course ID: ");
-                            courseID = scanner.nextLine();
+                            System.out.println(YELLOW + "Adding assignment1..." + RESET);
                             System.out.print("Enter Assignment ID: ");
                             assignmentID = scanner.nextLine();
                             boolean isDeadlineCorrect = false;
@@ -169,31 +204,32 @@ public class Main {
                                     System.out.println(RED + "Deadline format is not correct!" + RESET);
                                 }
                             } while (!isDeadlineCorrect);
-                            //TODO: find course with this ID
-                            //temp actions-----------------
-                            Assignment newAssignment = new Assignment(assignmentID, deadline, true);
-                            course.getListOfAssignments().add(newAssignment);
-                            //-----------------------------
+                            System.out.print("Enter Course ID: ");
+                            courseID = scanner.nextLine();
+                            //TODO: find course1 with this ID
+                            assignment = new Assignment(assignmentID, deadline, true);
+                            StoreData.storeAssignment(assignmentID, assignmentDeadline, true, assignmentFile);
+                            course1.getListOfAssignments().add(assignment);
                             System.out.println(GREEN + "Assignment has been successfully added." + RESET);
                             isAdminActionChosen = true;
                             break;
                         case "5":
                             clear();
-                            System.out.println(YELLOW + "Removing assignment..." + RESET);
+                            System.out.println(YELLOW + "Removing assignment1..." + RESET);
                             System.out.print("Enter Course ID: ");
                             courseID = scanner.nextLine();
                             System.out.print("Enter Assignment ID: ");
                             assignmentID = scanner.nextLine();
-                            //TODO: find course and assignment with this ID
+                            //TODO: find course1 and assignment1 with this ID
                             //temp actions-----------------
-                            course.getListOfAssignments().remove(assignment);
+                            course1.getListOfAssignments().remove(assignment1);
                             //-----------------------------
                             System.out.println(GREEN + "Assignment has been successfully removed." + RESET);
                             isAdminActionChosen = true;
                             break;
                         case "6":
                             clear();
-                            System.out.println(YELLOW + "Changing an assignment deadline..." + RESET);
+                            System.out.println(YELLOW + "Changing an assignment1 deadline..." + RESET);
                             System.out.print("Enter Assignment ID: ");
                             assignmentID = scanner.nextLine();
                             boolean isNewDeadlineCorrect = false;
@@ -207,23 +243,23 @@ public class Main {
                                     System.out.println(RED + "Deadline format is not correct!" + RESET);
                                 }
                             } while (!isNewDeadlineCorrect);
-                            //TODO: find assignment with this ID
+                            //TODO: find assignment1 with this ID
                             //temp actions-----------------
-                            assignment.setDeadline(deadline);
+                            assignment1.setDeadline(deadline);
                             //-----------------------------
                             System.out.println(GREEN + "Deadline has been successfully updated." + RESET);
                             isAdminActionChosen = true;
                             break;
                         case "7":
                             clear();
-                            System.out.println(YELLOW + "Adding teacher..." + RESET);
+                            System.out.println(YELLOW + "Adding teacher1..." + RESET);
                             System.out.print("Enter Teacher first name: ");
                             teacherFirstName = scanner.nextLine();
                             System.out.print("Enter Teacher last name: ");
                             teacherLastName = scanner.nextLine();
                             System.out.print("Enter Teacher ID: ");
                             teacherID = scanner.nextLine();
-                            //TODO: add teacher to database
+                            //TODO: add teacher1 to database
                             //temp actions-----------------
                             Teacher newTEacher = new Teacher(teacherID, teacherFirstName, teacherLastName);
                             //-----------------------------
@@ -233,12 +269,12 @@ public class Main {
                             break;
                         case "8":
                             clear();
-                            System.out.println(YELLOW + "Removing teacher..." + RESET);
+                            System.out.println(YELLOW + "Removing teacher1..." + RESET);
                             System.out.print("Enter Teacher ID: ");
                             teacherID = scanner.nextLine();
-                            //TODO: find teacher with this ID and check if it exits
+                            //TODO: find teacher1 with this ID and check if it exits
                             //temp actions---------------------------
-                            teacher = null;
+                            teacher1 = null;
                             //---------------------------------------
                             System.out.println(GREEN + "Teacher with ID: " + teacherID +
                                     " has been successfully removed" + RESET);
@@ -246,7 +282,7 @@ public class Main {
                             break;
                         case "9":
                             clear();
-                            System.out.println(YELLOW + "Adding course..." + RESET);
+                            System.out.println(YELLOW + "Adding course1..." + RESET);
                             System.out.print("Enter Course name: ");
                             courseName = scanner.nextLine();
                             System.out.print("Enter Course ID: ");
@@ -275,22 +311,22 @@ public class Main {
                                     System.out.println(RED + "Exam date format is not correct!" + RESET);
                                 }
                             } while (!isExamDateCorrect);
-                            //TODO: validate teacherID, add course to database
+                            //TODO: validate teacherID, add course1 to database
                             //temp actions-----------------
-                            Course newCourse = new Course(courseName, courseID, teacher, numberOfUnits, dateOfExam, true);
+                            Course newCourse = new Course(courseName, courseID, teacher1, numberOfUnits, dateOfExam, true);
                             //-----------------------------
-                            System.out.println(GREEN + "Course \"" + course.getName() +
+                            System.out.println(GREEN + "Course \"" + course1.getName() +
                                     "\" has been successfully added" + RESET);
                             isAdminActionChosen = true;
                             break;
                         case "10":
                             clear();
-                            System.out.println(YELLOW + "Removing course..." + RESET);
+                            System.out.println(YELLOW + "Removing course1..." + RESET);
                             System.out.print("Enter Course ID: ");
                             courseID = scanner.nextLine();
-                            //TODO: find course with this ID and check if it exits
+                            //TODO: find course1 with this ID and check if it exits
                             //temp actions---------------------------
-                            course = null;
+                            course1 = null;
                             //---------------------------------------
                             System.out.println(GREEN + "Course with ID: " + courseID +
                                     " has been successfully removed" + RESET);
