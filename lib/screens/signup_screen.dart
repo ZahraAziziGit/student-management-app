@@ -12,6 +12,63 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formSignupKey = GlobalKey<FormState>();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _idController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String? _username;
+  String? _studentId;
+  String? _password;
+  bool _isPasswordVisible = false;
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _idController.dispose();
+    super.dispose();
+  }
+
+  String? _validateUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Username must be filled";
+    }
+    RegExp regex = RegExp(r'^[a-zA-Z0-9_]+$');
+    if (!regex.hasMatch(value)) {
+      return "Only use English Alphabet, numbers and _";
+    }
+    if (value.length < 5) {
+      return "Username must be more than 5 characters";
+    }
+    return null;
+  }
+
+  String? _validateId(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Student ID must be filled";
+    }
+    RegExp regex = RegExp(r'[0-9]{9}');
+    if (!regex.hasMatch(value)) {
+      return "Student ID includes 9 digits";
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Password must be filled";
+    }
+    if (_username != null && value.contains(_username!)) {
+      return "Password must not contain the username";
+    }
+    if (value.length < 8) {
+      return "password must be more than 8 characters";
+    }
+    RegExp regex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?*#@]).+$');
+    if (!regex.hasMatch(value)) {
+      return "Password must contains an uppercase letter, a lowercase letter, a number and a special character (!?*#@)";
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +82,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
           Expanded(
-            flex: 10,
+            flex: 20,
             child: Container(
               margin: const EdgeInsets.all(20.0),
               padding: const EdgeInsets.fromLTRB(30.0, 50.0, 30.0, 10.0),
               decoration: const BoxDecoration(
-                color: Colors.white54,
+                color: Colors.white,
                 borderRadius: BorderRadius.all(
                   Radius.circular(40.0),
                 ),
@@ -41,36 +98,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "ثبت نام",
+                      Text(
+                        "Sign up!",
                         style: TextStyle(
                           fontSize: 35.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          fontFamily: 'Roboto',
+                          color: lightColorScheme.secondary,
                         ),
                       ),
                       const SizedBox(
                         height: 30.0,
                       ),
                       TextFormField(
-                        validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "نام کاربری نمی تواند خالی باشد";
-                        }
-                        RegExp regex = RegExp(r'^[a-zA-Z0-9_]+$');
-                        if (!regex.hasMatch(value)) {
-                          return "فقط از حروف انگلیسی، اعداد و ـ استفاده کنید";
-                        }
-                        if (value.length < 5) {
-                          return "نام کاربری باید حداقل دارای ۵ کارکتر باشد";
-                        }
-                        return null;
-                      },
+                        controller: _usernameController,
                         decoration: InputDecoration(
-                          label: const Text("نام کاربری", textAlign: TextAlign.center),
-                          hintText: "نام کاربری را وارد نمایید",
+                          label: const Text("Username"),
+                          labelStyle: TextStyle(
+                            color: lightColorScheme.secondary,
+                            fontSize: 16.0,
+                            fontFamily: 'Courier New',
+                          ),
+                          hintText: "Enter your username",
                           hintStyle: const TextStyle(
                             color: Colors.black26,
+                            fontFamily: 'Times New Roman',
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
@@ -80,30 +132,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
+                              color: Colors.black12,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        validator: _validateUsername,
+                        onChanged: (value) {
+                          setState(() {
+                            _username = value;
+                          });
+                        },
                       ),
                       const SizedBox(
                         height: 25.0,
                       ),
                       TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "شماره دانشجویی نمی تواند خالی باشد";
-                          }
-                          if (value.length < 9) {
-                            return "شماره دانشجویی شامل ۹ رقم است";
-                          }
-                          return null;
-                        },
+                        controller: _idController,
                         decoration: InputDecoration(
-                          label: const Text("شماره دانشجویی"),
-                          hintText: "شماره دانشجویی را وارد نمایید",
+                          label: const Text("Student ID"),
+                          labelStyle: TextStyle(
+                            color: lightColorScheme.secondary,
+                            fontSize: 16.0,
+                            fontFamily: 'Courier New',
+                          ),
+                          hintText: "Enter your student ID",
                           hintStyle: const TextStyle(
                             color: Colors.black26,
+                            fontFamily: 'Times New Roman',
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
@@ -118,28 +174,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        validator: _validateId,
+                        onChanged: (value) {
+                          setState(() {
+                            _studentId = value;
+                          });
+                        },
                       ),
                       const SizedBox(
                         height: 25.0,
                       ),
                       // password
                       TextFormField(
-                        obscureText: true,
+                        controller: _passwordController,
+                        obscureText: !_isPasswordVisible,
                         obscuringCharacter: '*',
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "رمز عبور نمی تواند خالی باشد";
-                          }
-                          if (value.length < 8) {
-                            return "رمز عبور باید حداقل شامل ۸ کارکتر باشد";
-                          }
-                          return null;
-                        },
                         decoration: InputDecoration(
-                          label: const Text("رمز عبور"),
-                          hintText: "رمز عبور را وارد نمایید",
+                          label: const Text("Password"),
+                          labelStyle: TextStyle(
+                            color: lightColorScheme.secondary,
+                            fontSize: 16.0,
+                            fontFamily: 'Courier New',
+                          ),
+                          hintText: "Enter a safe password",
                           hintStyle: const TextStyle(
                             color: Colors.black26,
+                            fontFamily: 'Times New Roman',
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
@@ -153,10 +213,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                          ),
                         ),
+                        validator: _validatePassword,
+                        onChanged: (value) {
+                          setState(() {
+                            _password = value;
+                          });
+                        },
                       ),
                       const SizedBox(
-                        height: 25.0,
+                        height: 50.0,
                       ),
                       SizedBox(
                         width: double.infinity,
@@ -165,12 +243,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             if (_formSignupKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text("ثبت نام موفقیت آمیز بود"),
+                                  content: Text("Success!"),
                                 ),
                               );
                             }
                           },
-                          child: const Text('ثبت نام'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: lightColorScheme.primary,
+                            // Background color
+                            foregroundColor: Colors.white, // Text color
+                          ),
+                          child: const Text("SIGN UP"),
                         ),
                       ),
                       const SizedBox(
@@ -179,7 +262,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          const Text(
+                            "Already have an account? ",
+                            style: TextStyle(
+                              color: Colors.black45,
+                            ),
+                          ),
                           GestureDetector(
+                            child: Text(
+                              "Log in!",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: lightColorScheme.primary,
+                              ),
+                            ),
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -188,19 +284,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               );
                             },
-                            child: Text(
-                              "وارد شوید",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: lightColorScheme.primary,
-                              ),
-                            ),
-                          ),
-                          const Text(
-                            " حساب دارید؟",
-                            style: TextStyle(
-                              color: Colors.black45,
-                            ),
                           ),
                         ],
                       ),
@@ -216,7 +299,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           const Expanded(
             flex: 1,
             child: SizedBox(
-              height: 10,
+              height: 6,
             ),
           ),
         ],
