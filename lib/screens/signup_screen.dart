@@ -246,12 +246,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   content: Text("Success!"),
                                 ),
                               );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (e) => const LogInScreen(),
+                                ),
+                              );
                             }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: lightColorScheme.primary,
-                            // Background color
-                            foregroundColor: Colors.white, // Text color
+                            foregroundColor: Colors.white,
                           ),
                           child: const Text("SIGN UP"),
                         ),
