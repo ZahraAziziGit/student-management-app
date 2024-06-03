@@ -12,62 +12,24 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  final _formSignupKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _idController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _formLoginKey = GlobalKey<FormState>();
   String? _username;
   String? _studentId;
   String? _password;
   bool _isPasswordVisible = false;
 
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _passwordController.dispose();
-    _idController.dispose();
-    super.dispose();
-  }
-
   String? _validateUsername(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Username must be filled";
-    }
-    RegExp regex = RegExp(r'^[a-zA-Z0-9_]+$');
-    if (!regex.hasMatch(value)) {
-      return "Only use English Alphabet, numbers and _";
-    }
-    if (value.length < 5) {
-      return "Username must be more than 5 characters";
-    }
+    //todo?
     return null;
   }
 
   String? _validateId(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Student ID must be filled";
-    }
-    RegExp regex = RegExp(r'[0-9]{9}');
-    if (!regex.hasMatch(value)) {
-      return "Student ID includes 9 digits";
-    }
+    //todo?
     return null;
   }
 
   String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Password must be filled";
-    }
-    if (_username != null && value.contains(_username!)) {
-      return "Password must not contain the username";
-    }
-    if (value.length < 8) {
-      return "password must be more than 8 characters";
-    }
-    RegExp regex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?*#@]).+$');
-    if (!regex.hasMatch(value)) {
-      return "Password must contains an uppercase letter, a lowercase letter, a number and a special character (!?*#@)";
-    }
+    //todo?
     return null;
   }
 
@@ -95,7 +57,7 @@ class _LogInScreenState extends State<LogInScreen> {
               ),
               child: SingleChildScrollView(
                 child: Form(
-                  key: _formSignupKey,
+                  key: _formLoginKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -112,7 +74,6 @@ class _LogInScreenState extends State<LogInScreen> {
                         height: 50.0,
                       ),
                       TextFormField(
-                        controller: _idController,
                         decoration: InputDecoration(
                           label: const Text("Student ID/Username"),
                           labelStyle: TextStyle(
@@ -150,7 +111,6 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                       // password
                       TextFormField(
-                        controller: _passwordController,
                         obscureText: !_isPasswordVisible,
                         obscuringCharacter: '*',
                         decoration: InputDecoration(
@@ -204,7 +164,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (_formSignupKey.currentState!.validate()) {
+                            if (_formLoginKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text("Success!"),
