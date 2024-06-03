@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:radiohead/theme/theme.dart';
 import 'package:radiohead/widgets/custom_scaffold.dart';
 import 'package:radiohead/widgets/welcome_button.dart';
 import 'package:radiohead/screens/signup_screen.dart';
 import 'package:radiohead/screens/login_screen.dart';
-
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -42,11 +42,10 @@ class WelcomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      TextSpan(text: '\n\n\n'),
                       TextSpan(
-                        text: '\n\n\n'
-                      ),
-                      TextSpan(
-                        text: "please choose one of the options below to continue",
+                        text:
+                            "please choose one of the options below to continue",
                         style: TextStyle(
                           height: 1.5,
                           fontFamily: 'Verdana',
@@ -68,12 +67,13 @@ class WelcomeScreen extends StatelessWidget {
               child: Row(
                 children: [
                   const Expanded(
-                      child: WelcomeButton(
-                    buttonText: "Log in",
-                    onTap: LogInScreen(),
-                    color: Colors.transparent,
-                    textColor: Colors.white,
-                  )),
+                    child: WelcomeButton(
+                      buttonText: "Log in",
+                      onTap: LogInScreen(),
+                      color: Colors.transparent,
+                      textColor: Colors.white,
+                    ),
+                  ),
                   Expanded(
                     child: WelcomeButton(
                       buttonText: "Sign up",

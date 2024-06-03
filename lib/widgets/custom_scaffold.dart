@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomScaffold extends StatelessWidget {
-  const CustomScaffold({super.key, this.child});
+  const CustomScaffold({super.key, required this.child, this.leading});
   final Widget? child;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color : Colors.white),
+        leading: leading,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:radiohead/theme/theme.dart';
 import 'package:radiohead/widgets/custom_scaffold.dart';
 import 'package:radiohead/screens/signup_screen.dart';
 import 'package:radiohead/screens/home_screen.dart';
+import 'package:radiohead/screens/welcome_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -18,24 +20,35 @@ class _LogInScreenState extends State<LogInScreen> {
   String? _password;
   bool _isPasswordVisible = false;
 
-  String? _validateUsername(String? value) {
-    //todo?
-    return null;
-  }
-
-  String? _validateId(String? value) {
-    //todo?
+  String? _validateIdOrUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Field must be filled";
+    }
+    //todo
     return null;
   }
 
   String? _validatePassword(String? value) {
-    //todo?
+    if (value == null || value.isEmpty) {
+      return "Password must be filled";
+    }
+    //todo
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                (Route<dynamic> route) => false,
+          );
+        },
+      ),
       child: Column(
         children: [
           const Expanded(
@@ -75,13 +88,13 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                          label: const Text("Student ID/Username"),
+                          label: const Text("Student ID / Username"),
                           labelStyle: TextStyle(
                             color: lightColorScheme.secondary,
                             fontSize: 16.0,
                             fontFamily: 'Courier New',
                           ),
-                          hintText: "Enter your student ID/Username",
+                          hintText: "Enter your student ID / Username",
                           hintStyle: const TextStyle(
                             color: Colors.black26,
                             fontFamily: 'Times New Roman',
@@ -99,10 +112,16 @@ class _LogInScreenState extends State<LogInScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        validator: _validateId,
+                        validator: _validateIdOrUsername,
                         onChanged: (value) {
                           setState(() {
-                            _studentId = value;
+                            RegExp idRegex = RegExp(r'[0-9]{9}');
+                            RegExp usernameRegex = RegExp(r'^[a-zA-Z0-9_]{5,}$');
+                            if (idRegex.hasMatch(value)) {
+                              _studentId = value;
+                            } else if (usernameRegex.hasMatch(value)) {
+                              _username = value;
+                            }
                           });
                         },
                       ),

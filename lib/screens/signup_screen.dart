@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:radiohead/theme/theme.dart';
 import 'package:radiohead/widgets/custom_scaffold.dart';
 import 'package:radiohead/screens/login_screen.dart';
+import 'package:radiohead/screens/welcome_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -12,12 +14,15 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formSignupKey = GlobalKey<FormState>();
+
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   String? _username;
   String? _studentId;
   String? _password;
+
   bool _isPasswordVisible = false;
 
   @override
@@ -32,12 +37,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (value == null || value.isEmpty) {
       return "Username must be filled";
     }
-    RegExp regex = RegExp(r'^[a-zA-Z0-9_]+$');
-    if (!regex.hasMatch(value)) {
-      return "Only use English Alphabet, numbers and _";
-    }
     if (value.length < 5) {
       return "Username must be more than 5 characters";
+    }
+    RegExp regex = RegExp(r'^[a-zA-Z0-9_]{5,}$');
+    if (!regex.hasMatch(value)) {
+      return "Only use English Alphabet, numbers and _";
     }
     return null;
   }
@@ -65,7 +70,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     RegExp regex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?*#@]).+$');
     if (!regex.hasMatch(value)) {
-      return "Password must contains an uppercase letter, a lowercase letter, a number and a special character (!?*#@)";
+      return "Password must contain:\n"
+          "an uppercase letter and a lowercase letter\n"
+          "a number and a special character (!?*#@)";
     }
     return null;
   }
@@ -73,6 +80,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+            (Route<dynamic> route) => false,
+          );
+        },
+      ),
       child: Column(
         children: [
           const Expanded(
