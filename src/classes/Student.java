@@ -1,9 +1,6 @@
 package classes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Student{
 	private String firstName;
@@ -15,7 +12,7 @@ public class Student{
 	private List<Course> listOfCourses = new ArrayList<>();
 	private double totalAverage;
 	private double currentTermAverage;
-	public Map<Double, Double> marks = new HashMap<>();
+	public Map<Course, Double> marks = new HashMap<>();
 
 	public Student(String firstName, String lastName, String id){
 		this.firstName = firstName;
@@ -36,13 +33,12 @@ public class Student{
 	}
 
 	public void calculateTotalAverage(){
-		double sumMarks = 0;
-		double sumUnits = 0;
-		for (Map.Entry<Double, Double> mark : marks.entrySet()) {
-			sumMarks += mark.getKey() * mark.getValue();
-			sumUnits += mark.getValue();
+		double sum = 0.0;
+		for (Course course: marks.keySet()) {
+			sum += marks.get(course) * course.getNumberOfUnits();
 		}
-		totalAverage = sumMarks / sumUnits;
+		calculateNumberOfUnits();
+		totalAverage = sum / numberOfUnits;
 	}
 
 	public void printTotalAverage(){
@@ -54,6 +50,12 @@ public class Student{
 		System.out.println(numberOfUnits);
 	}
 
+	public void calculateNumberOfUnits() {
+		int numOfUnits = 0;
+        for (Course course : listOfCourses) {
+            numOfUnits += course.getNumberOfUnits();
+        }
+	}
 
 	public String getFirstName() {
 		return firstName;

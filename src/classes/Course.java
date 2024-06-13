@@ -10,7 +10,7 @@ public class Course {
 	private String courseID;
 	private Teacher teacher;
 	private double highestMark = 0;
-	private double numberOfUnits;
+	private int numberOfUnits;
 	private List<Student> listOfStudents = new ArrayList<>();
 	private int numberOfStudents = 0;
 	private boolean isCourseActive;
@@ -69,7 +69,7 @@ public class Course {
 		return highestMark;
 	}
 
-	public double getNumberOfUnits() {
+	public int getNumberOfUnits() {
 		return numberOfUnits;
 	}
 
