@@ -96,4 +96,14 @@ public class Course {
 	public void setHighestMark(double highestMark) {
 		this.highestMark = highestMark;
 	}
+
+	@Override
+	public int hashCode() {
+		return Integer.parseInt(courseID);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return ((Course) obj).getCourseID().equals(this.getCourseID());
+	}
 }
