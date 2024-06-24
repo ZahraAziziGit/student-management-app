@@ -38,7 +38,7 @@ public class Teacher {
 	}
 
 	public void giveMark(Student student, Course course, double mark) {
-		student.marks.put(mark, course.getNumberOfUnits());
+		student.marks.put(course, mark);
 		if (mark > course.getHighestMark()) {
 			course.setHighestMark(mark);
 		}

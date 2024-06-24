@@ -24,10 +24,11 @@ hs_err_pid*
 replay_pid*
 
 out
-README.md
 .idea
-*.iml
+
+README.md
 .gitignore
-
-
+*.iml
+*.txt
+Test.java
 

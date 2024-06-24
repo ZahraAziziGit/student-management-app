@@ -29,31 +29,37 @@ public class Main {
                 If you are a Teacher, type "Teacher".""");
         System.out.print("Enter your role: ");
 
-        //paths
-        String studentPath = "/home/zahra/Documents/Radiohead/Data/Student/students_data.txt";
-        String studentTempPath = "/home/zahra/Documents/Radiohead/Data/Student/temp_students_data.txt";
+        //database directory
+        String filePath = "./Database";
+        File tempFile = new File(filePath);
+        tempFile.mkdir();
 
-        String assignmentPath = "/home/zahra/Documents/Radiohead/Data/Assignment/assignments_data.txt";
-        String assignmentTempPath = "/home/zahra/Documents/Radiohead/Data/Assignment/temp_assignments_data.txt";
+        String studentPath = filePath + "/students.txt";
+        String studentTempPath = filePath + "/temp_students.txt";
+        String assignmentPath = filePath + "/assignments_data.txt";
+        String assignmentTempPath = filePath + "/temp_assignments_data.txt";
+        String teacherPath = filePath + "/teachers_data.txt";
+        String teacherTempPath = filePath + "/temp_teachers_data.txt";
+        String coursePath = filePath + "/courses_data.txt";
+        String courseTempPath = filePath + "/temp_courses_data.txt";
 
-        String teacherPath = "/home/zahra/Documents/Radiohead/Data/Teacher/teachers_data.txt";
-        String teacherTempPath = "/home/zahra/Documents/Radiohead/Data/Teacher/temp_teachers_data.txt";
-
-        String coursePath = "/home/zahra/Documents/Radiohead/Data/Course/courses_data.txt";
-        String courseTempPath = "/home/zahra/Documents/Radiohead/Data/Course/temp_courses_data.txt";
-
-        //files
         File studentFile = new File(studentPath);
         File studentTempFile = new File(studentTempPath);
-
         File assignmentFile = new File(assignmentPath);
         File assignmentTempFile = new File(assignmentTempPath);
-
         File teacherFile = new File(teacherPath);
         File teacherTempFile = new File(teacherTempPath);
-
         File courseFile = new File(coursePath);
         File courseTempFile = new File(courseTempPath);
+
+        try {
+            studentFile.createNewFile();
+            assignmentFile.createNewFile();
+            teacherFile.createNewFile();
+            courseFile.createNewFile();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
 
         String role;
         Teacher validatedTeacher = null;
@@ -214,7 +220,7 @@ public class Main {
                                     scanner.nextLine(); //clear buffer
                                 }
                             } while (!isMarkDouble);
-                            student.marks.put(mark, course.getNumberOfUnits());
+                            student.marks.put(course, mark);
                             System.out.println(GREEN + "Student (ID: " + studentID + ") mark has been successfully added." + RESET);
                             isAdminActionChosen = true;
                             break;
@@ -639,7 +645,7 @@ public class Main {
                                 break;
                             }
                             validatedTeacher.removeCourse(course);
-                            System.out.println(GREEN + "Course \"" + course.getName() + "\" (ID: " + courseID +") has been successfully added" + RESET);
+                            System.out.println(GREEN + "Course \"" + course.getName() + "\" (ID: " + courseID +") has been successfully removed" + RESET);
                             isTeacherActionChosen = true;
                             break;
                         case "9":
