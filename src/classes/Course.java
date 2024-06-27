@@ -6,15 +6,15 @@ import java.util.List;
 
 public class Course {
 
-	private String name;
-	private String courseID;
+	private final String name;
+	private final String courseID;
 	private Teacher teacher;
 	private double highestMark = 0;
-	private int numberOfUnits;
-	private List<Student> listOfStudents = new ArrayList<>();
+	private final int numberOfUnits;
+	private final List<Student> listOfStudents = new ArrayList<>();
 	private int numberOfStudents = 0;
 	private boolean isCourseActive;
-	private List<Assignment> listOfAssignments = new ArrayList<>();
+	private final List<Assignment> listOfAssignments = new ArrayList<>();
 	private int numberOfDefinedAssignments;
 	private int numberOfActiveAssignments;
 	private LocalDate dateOfExam;
@@ -40,12 +40,16 @@ public class Course {
 
 	public void addStudent(Student student){
 		listOfStudents.add(student);
-		numberOfStudents++;
+		calculateNumberOfStudents();
 	}
 
 	public void removeStudent(Student student){
 		listOfStudents.remove(student);
-		numberOfStudents--;
+		calculateNumberOfStudents();
+	}
+
+	public void calculateNumberOfStudents() {
+		numberOfStudents = listOfStudents.size();
 	}
 
 	public void findHighestMark(){
@@ -78,6 +82,7 @@ public class Course {
 	}
 
 	public int getNumberOfStudents() {
+		calculateNumberOfStudents();
 		return numberOfStudents;
 	}
 
@@ -93,9 +98,23 @@ public class Course {
 		return dateOfExam;
 	}
 
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+
 	public void setHighestMark(double highestMark) {
 		this.highestMark = highestMark;
 	}
+
+	public void setDateOfExam(LocalDate dateOfExam) {
+		this.dateOfExam = dateOfExam;
+	}
+
+	public void setCourseActive(boolean courseActive) {
+		isCourseActive = courseActive;
+	}
+
 
 	@Override
 	public int hashCode() {

@@ -6,16 +6,17 @@ import java.time.LocalDate;
 
 public class Teacher {
 
-	private String teacherID;
-	private String firstName;
-	private String lastName;
+	private final String firstName;
+	private final String lastName;
+	private final String teacherID;
 	private int numberOfCourses;
-	private List<Course> listOfCourses = new ArrayList<>();
+	private final List<Course> listOfCourses = new ArrayList<>();
+
 
 	public Teacher(String firstName, String lastName, String teacherID) {
-		this.teacherID = teacherID;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.teacherID = teacherID;
 	}
 
 
@@ -29,16 +30,20 @@ public class Teacher {
 
 	public void addCourse(Course course){
 		listOfCourses.add(course);
-		numberOfCourses++;
+		calculateNumberOfCourses();
 	}
 
 	public void removeCourse(Course course){
 		listOfCourses.remove(course);
-		numberOfCourses--;
+		calculateNumberOfCourses();
+	}
+
+	public void calculateNumberOfCourses() {
+		numberOfCourses = listOfCourses.size();
 	}
 
 	public void giveMark(Student student, Course course, double mark) {
-		student.marks.put(course, mark);
+		student.getMarks().put(course, mark);
 		if (mark > course.getHighestMark()) {
 			course.setHighestMark(mark);
 		}
@@ -70,6 +75,7 @@ public class Teacher {
 	}
 
 	public int getNumberOfCourses() {
+		calculateNumberOfCourses();
 		return numberOfCourses;
 	}
 

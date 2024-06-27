@@ -12,14 +12,19 @@ public class Student{
 	private int numberOfUnits;
 	private List<Course> listOfCourses = new ArrayList<>();
 	private double totalAverage;
-	private double currentTermAverage;
-	private Map<Course, Double> marks = new HashMap<>();
+    private Map<Course, Double> marks = new HashMap<>();
 
 
-	public Student(String firstName, String lastName, String id){
+	public Student(String firstName, String lastName, String id, int numberOfCourses, int numberOfUnits,
+				   List<Course> listOfCourses, double totalAverage, Map<Course, Double> marks){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.studentID = id;
+		this.numberOfCourses = numberOfCourses;
+		this.numberOfUnits = numberOfUnits;
+		this.listOfCourses = listOfCourses;
+		this.totalAverage = totalAverage;
+		this.marks = marks;
 	}
 
 
@@ -38,6 +43,14 @@ public class Student{
 	public void printNumberOfUnits(){
 		calculateNumberOfUnits();
 		System.out.println(numberOfUnits);
+	}
+
+	public void addCourse(Course course) {
+		listOfCourses.add(course);
+	}
+
+	public void removeCourse(Course course) {
+		listOfCourses.remove(course);
 	}
 
 	public void calculateNumberOfUnits() {
@@ -97,12 +110,6 @@ public class Student{
 	public double getTotalAverage() {
 		calculateTotalAverage();
 		return totalAverage;
-	}
-
-	public double getCurrentTermAverage() {
-		calculateTotalAverage();
-		currentTermAverage = totalAverage;
-		return currentTermAverage;
 	}
 
 	public Map<Course, Double> getMarks() {
