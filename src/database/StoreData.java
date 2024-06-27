@@ -12,30 +12,31 @@ import java.util.Map;
 public class StoreData {
     public static void storeStudent(String name, String lastName, String id, int numOfCourses,
                                     int numOfUnits, List<Course> listOfCourse, double totalAvg,
-                                    double currentAvg, Map<Course, Double> marks, File file) {
+                                    Map<Course, Double> marks, File file) {
         try {
             FileWriter writer = new FileWriter(file, true);
             writer.write("name:" + name + ",lastname:" + lastName + ",id:" + id +
                     ",numOfCourses:" + numOfCourses + ",numOfUnits:" + numOfUnits +
                     ",courses:{");
+
             StringBuilder coursesId = new StringBuilder();
             for (Course course : listOfCourse) {
                 coursesId.append(course.getCourseID()).append("~");
             }
             if (!coursesId.isEmpty())
-                writer.write(coursesId.substring(0, coursesId.length() - 1) + "}");
+                writer.write(coursesId.substring(0, coursesId.length() - 1) + "},totalAvg:" + totalAvg + ",marks:{");
             else
-                writer.write("}");
-            writer.write(",totalAvg:" + totalAvg + ",currAvg:" + currentAvg + ",marks:{");
+                writer.write("},totalAvg:" + totalAvg + ",marks:{");
+
             StringBuilder marksStr = new StringBuilder();
-            Iterator<Course> itr = marks.keySet().iterator();
-            while(itr.hasNext()) {
-                marksStr.append(itr.next().getCourseID()).append("=").append(marks.get(itr.next())).append("~");
+            for (Course course : marks.keySet()) {
+                marksStr.append(course.getCourseID()).append("=").append(marks.get(course)).append("~");
             }
             if (!marksStr.isEmpty())
                 writer.write(marksStr.substring(0, marksStr.length() - 1) + "}\n");
             else
                 writer.write("}\n");
+
             writer.flush();
             writer.close();
         } catch (IOException e) {
