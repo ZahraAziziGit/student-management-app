@@ -3,16 +3,18 @@ package classes;
 import java.util.*;
 
 public class Student{
-	private String firstName;
-	private String lastName;
-	private String studentID;
+
+	private final String firstName;
+	private final String lastName;
+	private final String studentID;
 	private String password;
 	private int numberOfCourses;
 	private int numberOfUnits;
 	private List<Course> listOfCourses = new ArrayList<>();
 	private double totalAverage;
 	private double currentTermAverage;
-	public Map<Course, Double> marks = new HashMap<>();
+	private Map<Course, Double> marks = new HashMap<>();
+
 
 	public Student(String firstName, String lastName, String id){
 		this.firstName = firstName;
@@ -28,6 +30,24 @@ public class Student{
 		}
 	}
 
+	public void printTotalAverage(){
+		calculateTotalAverage();
+		System.out.println(totalAverage);
+	}
+
+	public void printNumberOfUnits(){
+		calculateNumberOfUnits();
+		System.out.println(numberOfUnits);
+	}
+
+	public void calculateNumberOfUnits() {
+		int units = 0;
+        for (Course course : listOfCourses) {
+            units += course.getNumberOfUnits();
+        }
+		numberOfUnits = units;
+	}
+
 	public void calculateNumberOfCourses() {
 		numberOfCourses = listOfCourses.size();
 	}
@@ -38,23 +58,10 @@ public class Student{
 			sum += marks.get(course) * course.getNumberOfUnits();
 		}
 		calculateNumberOfUnits();
-		totalAverage = sum / numberOfUnits;
-	}
-
-	public void printTotalAverage(){
-		calculateTotalAverage();
-		System.out.println(totalAverage);
-	}
-
-	public void printNumberOfUnits(){
-		System.out.println(numberOfUnits);
-	}
-
-	public void calculateNumberOfUnits() {
-		int numOfUnits = 0;
-        for (Course course : listOfCourses) {
-            numOfUnits += course.getNumberOfUnits();
-        }
+		if (numberOfUnits == 0 || sum == 0)
+			totalAverage = 0.0;
+		else
+			totalAverage = sum / numberOfUnits;
 	}
 
 	public String getFirstName() {
@@ -79,10 +86,31 @@ public class Student{
 	}
 
 	public int getNumberOfUnits() {
+		calculateNumberOfUnits();
 		return numberOfUnits;
 	}
 
 	public List<Course> getListOfCourses() {
 		return listOfCourses;
+	}
+
+	public double getTotalAverage() {
+		calculateTotalAverage();
+		return totalAverage;
+	}
+
+	public double getCurrentTermAverage() {
+		calculateTotalAverage();
+		currentTermAverage = totalAverage;
+		return currentTermAverage;
+	}
+
+	public Map<Course, Double> getMarks() {
+		return marks;
+	}
+
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
