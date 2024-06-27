@@ -9,15 +9,13 @@ public class Assignment {
 	private LocalDate deadline;
 	private boolean isActive;
 	private final String assignmentID;
-	private final Course course;
 
 
-	public Assignment(String assignmentID, LocalDate deadline, boolean isActive, Course course){
+	public Assignment(String assignmentID, LocalDate deadline, boolean isActive){
 		this.assignmentID = assignmentID;
 		this.deadline = deadline;
 		this.untilDeadline = ChronoUnit.DAYS.between(LocalDate.now(), deadline);
 		this.isActive = isActive;
-		this.course = course;
 	}
 
 
@@ -35,10 +33,6 @@ public class Assignment {
 
 	public String getAssignmentID() {
 		return assignmentID;
-	}
-
-	public Course getCourse() {
-		return course;
 	}
 
 
