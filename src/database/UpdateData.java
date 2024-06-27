@@ -1,8 +1,9 @@
 package database;
 
+import classes.*;
+
 import java.io.*;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class UpdateData {
     public static void updateStudentData(File source, File temp, String id) {
@@ -11,11 +12,51 @@ public class UpdateData {
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] studentData = reader.nextLine().split(",");
+
                 String[] firstNameFromDatabase = studentData[0].split(":");
                 String[] lastNameFromDatabase = studentData[1].split(":");
                 String[] idFromDatabase = studentData[2].split(":");
+                String[] numOfCoursesFromDatabase = studentData[3].split(":");
+                String[] numOfUnitsFromDatabase = studentData[4].split(":");
+                String[] coursesFromDatabase = studentData[5].split(":");
+                String[] totalAvgFromDatabase = studentData[6].split(":");
+                String[] currAvgFromDatabase = studentData[7].split(":");
+                String[] marksFromDatabase = studentData[8].split(":");
+
+                String coursePath = "./Database/courses_data.txt";
+                File courseFile = new File(coursePath);
+
+                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                if (coursesFromDatabase[1].length() > 2) {
+                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
+                    for (String courseId : coursesIds) {
+                        try {
+                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(tempCourse);
+                        } catch (NotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
+
+                Map<Course, Double> listOfMarksFromDatabase = new HashMap<>();
+                if (marksFromDatabase[1].length() > 2) {
+                    String[] marksMap = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("~");
+                    for (String data : marksMap) {
+                        try {
+                            Course tempCourse = IdFinder.findCourseByID(data.split("=")[0], courseFile);
+                            listOfMarksFromDatabase.put(tempCourse, Double.parseDouble(data.split("=")[1]));
+                        } catch (NotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
+
                 if (!Objects.equals(idFromDatabase[1], id))
-                    StoreData.storeStudent(firstNameFromDatabase[1], lastNameFromDatabase[1], idFromDatabase[1], temp);
+                    StoreData.storeStudent(firstNameFromDatabase[1], lastNameFromDatabase[1], idFromDatabase[1],
+                            Integer.parseInt(numOfCoursesFromDatabase[1]), Integer.parseInt(numOfUnitsFromDatabase[1]),
+                            listOfCoursesFromDatabase, Double.parseDouble(totalAvgFromDatabase[1]),
+                            Double.parseDouble(currAvgFromDatabase[1]), listOfMarksFromDatabase, temp);
             }
             reader.close();
             source.delete();
@@ -23,10 +64,50 @@ public class UpdateData {
             reader = new Scanner(temp);
             while (reader.hasNext()) {
                 String[] studentData = reader.nextLine().split(",");
+
                 String[] firstNameFromDatabase = studentData[0].split(":");
                 String[] lastNameFromDatabase = studentData[1].split(":");
                 String[] idFromDatabase = studentData[2].split(":");
-                StoreData.storeStudent(firstNameFromDatabase[1], lastNameFromDatabase[1], idFromDatabase[1], source);
+                String[] numOfCoursesFromDatabase = studentData[3].split(":");
+                String[] numOfUnitsFromDatabase = studentData[4].split(":");
+                String[] coursesFromDatabase = studentData[5].split(":");
+                String[] totalAvgFromDatabase = studentData[6].split(":");
+                String[] currAvgFromDatabase = studentData[7].split(":");
+                String[] marksFromDatabase = studentData[8].split(":");
+
+                String coursePath = "./Database/courses_data.txt";
+                File courseFile = new File(coursePath);
+
+                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                if (coursesFromDatabase[1].length() > 2) {
+                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
+                    for (String courseId : coursesIds) {
+                        try {
+                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(tempCourse);
+                        } catch (NotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
+
+                Map<Course, Double> listOfMarksFromDatabase = new HashMap<>();
+                if (marksFromDatabase[1].length() > 2) {
+                    String[] marksMap = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("~");
+                    for (String data : marksMap) {
+                        try {
+                            Course tempCourse = IdFinder.findCourseByID(data.split("=")[0], courseFile);
+                            listOfMarksFromDatabase.put(tempCourse, Double.parseDouble(data.split("=")[1]));
+                        } catch (NotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
+
+                StoreData.storeStudent(firstNameFromDatabase[1], lastNameFromDatabase[1], idFromDatabase[1],
+                        Integer.parseInt(numOfCoursesFromDatabase[1]), Integer.parseInt(numOfUnitsFromDatabase[1]),
+                        listOfCoursesFromDatabase, Double.parseDouble(totalAvgFromDatabase[1]),
+                        Double.parseDouble(currAvgFromDatabase[1]), listOfMarksFromDatabase, source);
             }
             reader.close();
             temp.delete();
