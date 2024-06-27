@@ -109,7 +109,7 @@ public class Student{
 		return marks;
 	}
 
-	
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
