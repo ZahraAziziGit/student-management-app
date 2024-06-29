@@ -1,13 +1,11 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.InputMismatchException;
 import java.time.format.DateTimeParseException;
 
-import classes.*;
-import database.*;
+import Exceptions.*;
+import Classes.*;
+import Database.*;
 
 public class Main {
 
@@ -33,7 +31,7 @@ public class Main {
 
         //database directory
         String filePath = "./Database";
-//        String filePath = ".\\Database"; //for windows, uncomment this and comment the previous line.
+        //String filePath = ".\\Database"; //for windows, uncomment this and comment the previous line.
         File tempFile = new File(filePath);
         tempFile.mkdir();
 
@@ -46,7 +44,7 @@ public class Main {
         String coursePath = filePath + "/courses_data.txt";
         String courseTempPath = filePath + "/temp_courses_data.txt";
 
-//for windows, uncomment this part and comment the previous part.
+        //for windows, uncomment this part and comment the previous part.
     /*  String studentPath = filePath + "\\students.txt";
         String studentTempPath = filePath + "\\temp_students.txt";
         String assignmentPath = filePath + "\\assignments_data.txt";
@@ -114,21 +112,26 @@ public class Main {
             boolean isExitEntered = false;
             while (!isExitEntered) {
                 System.out.println("""
-                        1. Add student
-                        2. Remove student
-                        3. Add a student to a course
-                        4. Remove a student from a course
-                        5. Give mark to a student
-                        6. Add assignment
-                        7. Remove assignment
-                        8. Change an assignment deadline
-                        9. Add teacher
-                        10. Remove teacher
-                        11. Add a teacher to a course
-                        12. Remove a teacher from a course
-                        13. Add course
-                        14. Remove course
-                        15. Exit
+                        1. Add a new student
+                        2. Remove a student
+                        3. Give mark to a student
+                        4. Add a new assignment
+                        5. Remove an assignment
+                        6. Change an assignment deadline
+                        7. Change an assignment status
+                        8. Add a new teacher
+                        9. Remove a teacher
+                        10. Add a new course
+                        11. Remove a course
+                        12. Add a teacher to a course
+                        13. Remove a teacher from a course
+                        14. Add an assignment to a course
+                        15. Remove an assignment from a course
+                        16. Add a student to a course
+                        17. Remove a student from a course
+                        18. Change a course status
+                        19. Change a course exam date
+                        20. Exit
                         """);
                 System.out.print("Enter a number: ");
 
@@ -161,14 +164,12 @@ public class Main {
                             System.out.print("Enter Student ID: ");
                             studentID = scanner.nextLine();
 
-                            student = new Student(studentFirstName, studentLastName, studentID,
-                                    0, 0, new ArrayList<>(), 0.0, new HashMap<>());
                             StoreData.storeStudent(studentFirstName, studentLastName, studentID,
-                                    student.getNumberOfCourses(), student.getNumberOfUnits(),
-                                    student.getListOfCourses(), student.getTotalAverage(), student.getMarks(), studentFile);
+                                    0, 0,
+                                    new ArrayList<>(), 0.0, new HashMap<>(), studentFile);
 
-                            System.out.println(GREEN + "Student \"" + student.getFirstName() + " "
-                                    + student.getLastName() + "\" (ID: " + student.getStudentID() +
+                            System.out.println(GREEN + "Student \"" + studentFirstName + " "
+                                    + studentLastName + "\" (ID: " + studentID +
                                     ") has been successfully added." + RESET);
                             isAdminActionChosen = true;
                             break;
@@ -179,15 +180,24 @@ public class Main {
 
                             System.out.print("Enter Student ID: ");
                             studentID = scanner.nextLine();
+
+
                             try {
                                 student = IdFinder.findStudentByID(studentID, studentFile);
+                                List<Course> studentCourses = student.getListOfCourses();
+                                for (Course cou : studentCourses) {
+                                    Course tempCourse = IdFinder.findCourseByID(cou.getCourseID(), courseFile);
+                                    tempCourse.removeStudent(student);
+                                    UpdateData.updateCourseData(courseFile, courseTempFile, tempCourse.getCourseID(),
+                                            tempCourse.getListOfStudents(), tempCourse.getNumberOfStudents());
+                                }
                             } catch (NotFoundException e) {
                                 System.out.println(e.getMessage());
                                 isAdminActionChosen = true;
                                 break;
                             }
+
                             UpdateData.updateStudentData(studentFile, studentTempFile, studentID);
-                            //TODO: update course data, delete student form course
 
                             System.out.println(GREEN + "Student \"" + student.getFirstName() + " "
                                     + student.getLastName() + "\" (ID: " + student.getStudentID() +
@@ -197,103 +207,22 @@ public class Main {
 
                         case "3":
                             clear();
-                            System.out.println(YELLOW + "Adding student to course..." + RESET);
-
-                            System.out.print("Enter Student ID: ");
-                            studentID = scanner.nextLine();
-                            try {
-                                student = IdFinder.findStudentByID(studentID, studentFile);
-                            } catch (NotFoundException e) {
-                                System.out.println(e.getMessage());
-                                isAdminActionChosen = true;
-                                break;
-                            }
-
-                            System.out.print("Enter Course ID: ");
-                            courseID = scanner.nextLine();
-                            try {
-                                course = IdFinder.findCourseByID(courseID, courseFile);
-                            } catch (NotFoundException e) {
-                                System.out.println(e.getMessage());
-                                isAdminActionChosen = true;
-                                break;
-                            }
-
-                            course.addStudent(student);
-                            //TODO: update course data
-
-                            student.addCourse(course);
-                            UpdateData.updateStudentData(studentFile, studentTempFile, student.getStudentID(),
-                                    student.getNumberOfCourses(), student.getNumberOfUnits(), student.getListOfCourses());
-
-                            System.out.println(GREEN + "Student \"" + student.getFirstName() + " "
-                                    + student.getLastName() + "\" (ID: " + student.getStudentID() +
-                                    ") has been successfully added to course \"" + course.getName() + "\" (ID: "
-                                    + course.getCourseID() + ")." + RESET);
-                            isAdminActionChosen = true;
-                            break;
-
-                        case "4":
-                            clear();
-                            System.out.println(YELLOW + "Removing student from course..." + RESET);
-
-                            System.out.print("Enter Student ID: ");
-                            studentID = scanner.nextLine();
-                            try {
-                                student = IdFinder.findStudentByID(studentID, studentFile);
-                            } catch (NotFoundException e) {
-                                System.out.println(e.getMessage());
-                                isAdminActionChosen = true;
-                                break;
-                            }
-
-                            System.out.print("Enter Course ID: ");
-                            courseID = scanner.nextLine();
-                            try {
-                                course = IdFinder.findCourseByID(courseID, courseFile);
-                            } catch (NotFoundException e) {
-                                System.out.println(e.getMessage());
-                                isAdminActionChosen = true;
-                                break;
-                            }
-
-                            course.removeStudent(student);
-                            //TODO: update course data
-
-                            student.removeCourse(course);
-                            UpdateData.updateStudentData(studentFile, studentTempFile, student.getStudentID(),
-                                    student.getNumberOfCourses(), student.getNumberOfUnits(), student.getListOfCourses());
-
-                            System.out.println(GREEN + "Student \"" + student.getFirstName() + " "
-                                    + student.getLastName() + "\" (ID: " + student.getStudentID() +
-                                    ") has been successfully remove from course \"" + course.getName() + "\" (ID: "
-                                    + course.getCourseID() + ")." + RESET);
-                            isAdminActionChosen = true;
-                            break;
-
-                        case "5":
-                            clear();
                             System.out.println(YELLOW + "Giving mark to a student..." + RESET);
 
                             System.out.print("Enter Student ID: ");
                             studentID = scanner.nextLine();
-                            try {
-                                student = IdFinder.findStudentByID(studentID, studentFile);
-                            } catch (NotFoundException e) {
-                                System.out.println(e.getMessage());
-                                isAdminActionChosen = true;
-                                break;
-                            }
-
                             System.out.print("Enter Course ID: ");
                             courseID = scanner.nextLine();
+
                             try {
+                                student = IdFinder.findStudentByID(studentID, studentFile);
                                 course = IdFinder.findCourseByID(courseID, courseFile);
                             } catch (NotFoundException e) {
                                 System.out.println(e.getMessage());
                                 isAdminActionChosen = true;
                                 break;
                             }
+
 
                             boolean isMarkDouble = false;
                             do {
@@ -307,18 +236,27 @@ public class Main {
                                 }
                             } while (!isMarkDouble);
 
-                            student.getMarks().put(course, mark);
+                            try {
+                                student.addMark(course, mark);
+                            } catch (NotFoundException e) {
+                                System.out.println(e.getMessage());
+                                isAdminActionChosen = true;
+                                break;
+                            }
+                            UpdateData.updateCourseData(courseFile, courseTempFile, course.getCourseID(), course.getMarks());
                             UpdateData.updateStudentData(studentFile, studentTempFile, student.getStudentID(),
                                     student.getTotalAverage(), student.getMarks());
+
                             System.out.println(GREEN + "Student (ID: " + studentID + ") mark (" + mark + " for \""
                                     + course.getName() + "\") has been successfully added." + RESET);
                             scanner.nextLine(); //clear buffer
                             isAdminActionChosen = true;
                             break;
 
-                        case "6":
+                        case "4":
                             clear();
                             System.out.println(YELLOW + "Adding assignment..." + RESET);
+
                             System.out.print("Enter Assignment ID: ");
                             assignmentID = scanner.nextLine();
                             boolean isDeadlineCorrect = false;
@@ -332,36 +270,44 @@ public class Main {
                                     System.out.println(RED + "Deadline format is not correct!" + RESET);
                                 }
                             } while (!isDeadlineCorrect);
-                            System.out.print("Enter Course ID: ");
-                            courseID = scanner.nextLine();
-                            try {
-                                course = IdFinder.findCourseByID(courseID, courseFile);
-                            } catch (NotFoundException e) {
-                                System.out.println(e.getMessage());
-                                isAdminActionChosen = true;
-                                break;
-                            }
-                            assignment = new Assignment(assignmentID, deadline, true);
-                            StoreData.storeAssignment(assignmentID, assignmentDeadline, true, assignmentFile);
-                            course.getListOfAssignments().add(assignment);
+
+                            StoreData.storeAssignment(assignmentID, assignmentDeadline, true, "", assignmentFile);
+
                             System.out.println(GREEN + "Assignment (ID: " + assignmentID + ") has been successfully added." + RESET);
                             isAdminActionChosen = true;
                             break;
 
-                        case "7":
+                        case "5":
                             clear();
                             System.out.println(YELLOW + "Removing assignment..." + RESET);
+
                             System.out.print("Enter Assignment ID: ");
                             assignmentID = scanner.nextLine();
-                            System.out.print("Enter Course ID: ");
-                            courseID = scanner.nextLine();
+
                             try {
-                                course = IdFinder.findCourseByID(courseID, courseFile);
+                                assignment = IdFinder.findAssignmentByID(assignmentID, assignmentFile);
+                                Course tempCourse = IdFinder.findCourseByID(assignment.getCourseID(), courseFile);
+                                tempCourse.removeAssignment(assignment);
+                                UpdateData.updateCourseData(courseFile, courseTempFile, tempCourse.getCourseID(),
+                                        tempCourse.getNumberOfAssignments(), tempCourse.getListOfAssignments());
                             } catch (NotFoundException e) {
                                 System.out.println(e.getMessage());
                                 isAdminActionChosen = true;
                                 break;
                             }
+                            UpdateData.updateAssignmentData(assignmentFile, assignmentTempFile, assignmentID);
+
+                            System.out.println(GREEN + "Assignment (ID: " + assignmentID + ") has been successfully removed." + RESET);
+                            isAdminActionChosen = true;
+                            break;
+
+                        case "6":
+                            clear();
+                            System.out.println(YELLOW + "Changing an assignment deadline..." + RESET);
+
+                            System.out.print("Enter Assignment ID: ");
+                            assignmentID = scanner.nextLine();
+
                             try {
                                 assignment = IdFinder.findAssignmentByID(assignmentID, assignmentFile);
                             } catch (NotFoundException e) {
@@ -369,17 +315,7 @@ public class Main {
                                 isAdminActionChosen = true;
                                 break;
                             }
-                            UpdateData.updateAssignmentData(assignmentFile, assignmentTempFile, assignmentID);
-                            course.getListOfAssignments().remove(assignment);
-                            System.out.println(GREEN + "Assignment (ID: " + assignmentID + ") has been successfully removed." + RESET);
-                            isAdminActionChosen = true;
-                            break;
 
-                        case "8":
-                            clear();
-                            System.out.println(YELLOW + "Changing an assignment deadline..." + RESET);
-                            System.out.print("Enter Assignment ID: ");
-                            assignmentID = scanner.nextLine();
                             boolean isNewDeadlineCorrect = false;
                             do {
                                 try {
@@ -391,6 +327,22 @@ public class Main {
                                     System.out.println(RED + "Deadline format is not correct!" + RESET);
                                 }
                             } while (!isNewDeadlineCorrect);
+
+                            assignment.setDeadline(deadline);
+                            UpdateData.updateAssignmentData(assignmentFile, assignmentTempFile, assignmentID, assignmentDeadline);
+
+
+                            System.out.println(GREEN + "Assignment (ID: " + assignmentID + ") deadline has been successfully updated." + RESET);
+                            isAdminActionChosen = true;
+                            break;
+
+                        case "7":
+                            clear();
+                            System.out.println(YELLOW + "Changing an assignment status..." + RESET);
+
+                            System.out.print("Enter Assignment ID: ");
+                            assignmentID = scanner.nextLine();
+
                             try {
                                 assignment = IdFinder.findAssignmentByID(assignmentID, assignmentFile);
                             } catch (NotFoundException e) {
@@ -398,62 +350,65 @@ public class Main {
                                 isAdminActionChosen = true;
                                 break;
                             }
-                            UpdateData.updateAssignmentData(assignmentFile, assignmentTempFile, assignmentID, assignmentDeadline);
-                            assignment.setDeadline(deadline);
-                            System.out.println(GREEN + "Assignment (ID: " + assignmentID + ") deadline has been successfully updated." + RESET);
+
+                            assignment.setActive(!assignment.isActive());
+                            UpdateData.updateAssignmentData(assignmentFile, assignmentTempFile, assignmentID, assignment.isActive());
+
+                            System.out.println(GREEN + "Assignment (ID: " + assignmentID + ") status has been successfully" +
+                                    " changed from " + (!assignment.isActive() ? "active" : "not active") + " to " +
+                                    (assignment.isActive() ? "active." : "not active.") + RESET);
                             isAdminActionChosen = true;
                             break;
 
-                        case "9":
+                        case "8":
                             clear();
                             System.out.println(YELLOW + "Adding teacher..." + RESET);
+
                             System.out.print("Enter Teacher first name: ");
                             teacherFirstName = scanner.nextLine();
                             System.out.print("Enter Teacher last name: ");
                             teacherLastName = scanner.nextLine();
                             System.out.print("Enter Teacher ID: ");
                             teacherID = scanner.nextLine();
-                            StoreData.storeTeacher(teacherFirstName, teacherLastName, teacherID, teacherFile);
+
+                            StoreData.storeTeacher(teacherFirstName, teacherLastName, teacherID, 0,
+                                    new ArrayList<>(), teacherFile);
+
                             System.out.println(GREEN + "Teacher \"" + teacherFirstName + " " + teacherLastName
                                     + "\" (ID: " + teacherID + ") has been successfully added" + RESET);
                             isAdminActionChosen = true;
                             break;
 
-                        case "10":
+                        case "9":
                             clear();
                             System.out.println(YELLOW + "Removing teacher..." + RESET);
+
                             System.out.print("Enter Teacher ID: ");
                             teacherID = scanner.nextLine();
                             try {
-                                IdFinder.findTeacherByID(teacherID, teacherFile);
+                                teacher = IdFinder.findTeacherByID(teacherID, teacherFile);
+                                List<Course> teacherCourses = teacher.getListOfCourses();
+                                for (Course cou : teacherCourses) {
+                                    Course tempCourse = IdFinder.findCourseByID(cou.getCourseID(), courseFile);
+                                    tempCourse.setTeacher(null);
+                                    UpdateData.updateCourseData(courseFile, courseTempFile, tempCourse.getCourseID(), tempCourse.getTeacher());
+                                }
                             } catch (NotFoundException e) {
                                 System.out.println(e.getMessage());
                                 isAdminActionChosen = true;
                                 break;
                             }
+
                             UpdateData.updateTeacherData(teacherFile, teacherTempFile, teacherID);
                             System.out.println(GREEN + "Teacher (ID: " + teacherID +
                                     ") has been successfully removed" + RESET);
                             isAdminActionChosen = true;
                             break;
 
-                        case "11":
-                            clear();
-                            System.out.println(YELLOW + "Adding teacher to course..." + RESET);
-                            //todo
-                            isAdminActionChosen = true;
-                            break;
-
-                        case "12":
-                            clear();
-                            System.out.println(YELLOW + "Removing teacher from course..." + RESET);
-                            //todo
-                            isAdminActionChosen = true;
-                            break;
-
-                        case "13":
+                        case "10":
                             clear();
                             System.out.println(YELLOW + "Adding course..." + RESET);
+
                             System.out.print("Enter Course name: ");
                             courseName = scanner.nextLine();
                             System.out.print("Enter Course ID: ");
@@ -489,32 +444,100 @@ public class Main {
                                     System.out.println(RED + "Exam date format is not correct!" + RESET);
                                 }
                             } while (!isExamDateCorrect);
+
                             StoreData.storeCourse(courseName, courseID, teacher.getFirstName(), teacher.getLastName(),
-                                    teacher.getTeacherID(), String.valueOf(numberOfUnits), courseExamDate, true, courseFile);
+                                    teacher.getTeacherID(), teacher.getNumberOfCourses(), teacher.getListOfCourses(),
+                                    new HashMap<>(), numberOfUnits, 0, new ArrayList<>(), true,
+                                    0, new ArrayList<>(), courseExamDate, courseFile);
+
                             System.out.println(GREEN + "Course \"" + courseName +
                                     "\" (ID: " + courseID + ") has been successfully added" + RESET);
                             isAdminActionChosen = true;
                             break;
 
-                        case "14":
+                        case "11":
                             clear();
                             System.out.println(YELLOW + "Removing course..." + RESET);
+
                             System.out.print("Enter Course ID: ");
                             courseID = scanner.nextLine();
                             try {
-                                IdFinder.findCourseByID(courseID, courseFile);
+                                course = IdFinder.findCourseByID(courseID, courseFile);
+
+                                teacher = course.getTeacher();
+                                teacher.removeCourse(course);
+                                UpdateData.updateTeacherData(teacherFile, teacherTempFile, teacher.getTeacherID(),
+                                        teacher.getNumberOfCourses(), teacher.getListOfCourses());
+
+                                List<Student> courseStudents = course.getListOfStudents();
+                                for (Student stu : courseStudents) {
+                                    Student tempStudent = IdFinder.findStudentByID(stu.getStudentID(), studentFile);
+                                    tempStudent.removeCourse(course);
+                                    UpdateData.updateStudentData(studentFile, studentTempFile, tempStudent.getStudentID(),
+                                            tempStudent.getNumberOfCourses(), tempStudent.getNumberOfUnits(), tempStudent.getListOfCourses());
+                                }
+
+                                List<Assignment> courseAssignments = course.getListOfAssignments();
+                                for (Assignment assign : courseAssignments) {
+                                    Assignment tempAssignment = IdFinder.findAssignmentByID(assign.getAssignmentID(), assignmentFile);
+                                    tempAssignment.setCourseID("");
+                                    UpdateData.updateAssignmentCourse(assignmentFile, assignmentTempFile,
+                                            tempAssignment.getAssignmentID(), tempAssignment.getCourseID());
+                                }
                             } catch (NotFoundException e) {
                                 System.out.println(e.getMessage());
                                 isAdminActionChosen = true;
                                 break;
                             }
                             UpdateData.updateCourseData(courseFile, courseTempFile, courseID);
+
                             System.out.println(GREEN + "Course (ID: " + courseID +
                                     ") has been successfully removed" + RESET);
                             isAdminActionChosen = true;
                             break;
 
+                        case "12":
+                            clear();
+                            System.out.println(YELLOW + "Adding teacher to a course..." + RESET);
+                            //todo
+
+                        case "13":
+                            clear();
+                            System.out.println(YELLOW + "Removing teacher from a course..." + RESET);
+                            //todo
+
+                        case "14":
+                            clear();
+                            System.out.println(YELLOW + "Adding assignment to a course..." + RESET);
+                            //todo
+
                         case "15":
+                            clear();
+                            System.out.println(YELLOW + "Removing assignment from a course..." + RESET);
+                            //todo
+
+                        case "16":
+                            clear();
+                            System.out.println(YELLOW + "Adding student to a course..." + RESET);
+                            //todo
+
+                        case "17":
+                            clear();
+                            System.out.println(YELLOW + "Removing student from a course..." + RESET);
+                            //todo
+
+                        case "18":
+                            clear();
+                            System.out.println(YELLOW + "Changing course status..." + RESET);
+                            //todo
+
+                        case "19":
+                            clear();
+                            System.out.println(YELLOW + "Changing course exam date..." + RESET);
+                            //todo
+
+
+                        case "20":
                             clear();
                             System.out.println(YELLOW + "Exiting..." + RESET);
                             isExitEntered = true;
@@ -532,15 +555,13 @@ public class Main {
             boolean isExitEntered = false;
             while (!isExitEntered) {
                 System.out.println("""
-                        1. Add student
-                        2. Remove student
+                        1. Add a student to a course
+                        2. Remove a student from a course
                         3. Give mark to a student
-                        4. Add assignment
-                        5. Remove assignment
+                        4. Add a new assignment and add it to a course
+                        5. Remove an assignment
                         6. Change an assignment deadline
-                        7. Add course
-                        8. Remove course
-                        9. Exit
+                        7. Exit
                         """);
                 System.out.print("Enter a number: ");
                 boolean isTeacherActionChosen = false;
@@ -577,7 +598,11 @@ public class Main {
                                 isTeacherActionChosen = true;
                                 break;
                             }
-                            validatedTeacher.addStudent(student, course);
+                            try {
+                                validatedTeacher.addStudent(student, course);
+                            } catch (AlreadyExistsException e) {
+                                System.out.println(e.getMessage());
+                            }
                             System.out.println(GREEN + "Student \"" + student.getFirstName() + " "
                                     + student.getLastName() + "\" (ID: " + student.getStudentID() +
                                     ") has been successfully added to course \"" + course.getName() +
@@ -605,7 +630,13 @@ public class Main {
                                 isTeacherActionChosen = true;
                                 break;
                             }
-                            validatedTeacher.removeStudent(student, course);
+                            try {
+                                validatedTeacher.removeStudent(student, course);
+                            } catch (NotFoundException e) {
+                                System.out.println(e.getMessage());
+                                isTeacherActionChosen = true;
+                                break;
+                            }
                             System.out.println(GREEN + "Student \"" + student.getFirstName() + " "
                                     + student.getLastName() + "\" (ID: " + student.getStudentID() +
                                     ") has been successfully removed from course \"" + course.getName() +
@@ -644,7 +675,15 @@ public class Main {
                                     scanner.nextLine(); //clear buffer
                                 }
                             } while (!isMarkDouble);
-                            validatedTeacher.giveMark(student, course, mark);
+
+                            try {
+                                validatedTeacher.giveMark(student, course, mark);
+                            } catch (NotFoundException e) {
+                                System.out.println(e.getMessage());
+                                isTeacherActionChosen = true;
+                                break;
+                            }
+
                             System.out.println(GREEN + "Student (ID: " + studentID + ") mark has been successfully added." + RESET);
                             isTeacherActionChosen = true;
                             break;
@@ -673,8 +712,14 @@ public class Main {
                                     System.out.println(RED + "Deadline format is not correct!" + RESET);
                                 }
                             } while (!isDeadlineCorrect);
-                            assignment = new Assignment(assignmentID, deadline, true);
-                            validatedTeacher.addAssignment(course, assignment);
+                            assignment = new Assignment(assignmentID, deadline, true, "");
+                            try {
+                                validatedTeacher.addAssignment(course, assignment);
+                            } catch (AlreadyExistsException e) {
+                                System.out.println(e.getMessage());
+                                isTeacherActionChosen = true;
+                                break;
+                            }
                             System.out.println(GREEN + "Assignment (ID: " + assignmentID + ") has been successfully added." + RESET);
                             isTeacherActionChosen = true;
                             break;
@@ -699,7 +744,15 @@ public class Main {
                                 isTeacherActionChosen = true;
                                 break;
                             }
-                            validatedTeacher.removeAssignment(course, assignment);
+
+                            try {
+                                validatedTeacher.removeAssignment(course, assignment);
+                            } catch (NotFoundException e) {
+                                System.out.println(e.getMessage());
+                                isTeacherActionChosen = true;
+                                break;
+                            }
+
                             System.out.println(GREEN + "Assignment (ID: " + assignmentID + ") has been successfully removed." + RESET);
                             isTeacherActionChosen = true;
                             break;
@@ -742,7 +795,13 @@ public class Main {
                                 isTeacherActionChosen = true;
                                 break;
                             }
-                            validatedTeacher.addCourse(course);
+                            try {
+                                validatedTeacher.addCourse(course);
+                            } catch (AlreadyExistsException e) {
+                                System.out.println(e.getMessage());
+                                isTeacherActionChosen = true;
+                                break;
+                            }
                             System.out.println(GREEN + "Course \"" + course.getName() + "\" (ID: " + courseID + ") has been successfully added" + RESET);
                             isTeacherActionChosen = true;
                             break;
@@ -758,7 +817,13 @@ public class Main {
                                 isTeacherActionChosen = true;
                                 break;
                             }
-                            validatedTeacher.removeCourse(course);
+                            try {
+                                validatedTeacher.removeCourse(course);
+                            } catch (NotFoundException e) {
+                                System.out.println(e.getMessage());
+                                isTeacherActionChosen = true;
+                                break;
+                            }
                             System.out.println(GREEN + "Course \"" + course.getName() + "\" (ID: " + courseID + ") has been successfully removed" + RESET);
                             isTeacherActionChosen = true;
                             break;
