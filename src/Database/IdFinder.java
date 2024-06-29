@@ -74,7 +74,8 @@ public class IdFinder {
 
     public static Assignment findAssignmentByID(String id, File file) throws NotFoundException {
 
-        String[] assignmentId = new String[2], assignmentDeadline = new String[2], isActive = new String[2];
+        String[] assignmentId = new String[2], assignmentDeadline = new String[2], isActive = new String[2], course = new String[2];
+        Course tempCourse = null;
 
         boolean doesAssignmentExist = false;
         try {
@@ -84,6 +85,17 @@ public class IdFinder {
                 assignmentId = assignmentData[0].split(":");
                 assignmentDeadline = assignmentData[1].split(":");
                 isActive = assignmentData[2].split(":");
+                course = assignmentData[3].split(":");
+
+                String coursePath = "./Database/courses_data.txt";
+                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
+                File courseFile = new File(coursePath);
+
+                try {
+                    tempCourse = IdFinder.findCourseByID(course[1], courseFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
                 if (Objects.equals(assignmentId[1], id)) {
                     doesAssignmentExist = true;
                     break;
@@ -94,7 +106,7 @@ public class IdFinder {
             System.out.println(e.getMessage());
         }
         if (doesAssignmentExist)
-            return new Assignment(assignmentId[1], LocalDate.parse(assignmentDeadline[1]), Objects.equals(isActive[1], "true"));
+            return new Assignment(assignmentId[1], LocalDate.parse(assignmentDeadline[1]), Objects.equals(isActive[1], "true"), course[1]);
         throw new NotFoundException("Assignment", id);
     }
 
@@ -205,7 +217,7 @@ public class IdFinder {
                 File studnetFile = new File(studentPath);
 
                 if (students[1].length() > 2) {
-                    String[] studentsIds = students[1].substring(1, courses[1].length() - 1).split("~");
+                    String[] studentsIds = students[1].substring(1, students[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
                             Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
