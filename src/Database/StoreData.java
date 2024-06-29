@@ -1,11 +1,10 @@
-package database;
+package Database;
 
-import classes.*;
+import Classes.*;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -55,10 +54,21 @@ public class StoreData {
         }
     }
 
-    public static void storeTeacher(String name, String lastName, String id, File file) {
+    public static void storeTeacher(String name, String lastName, String id, int numOfCourses,
+                                    List<Course> listOfCourse, File file) {
         try {
             FileWriter writer = new FileWriter(file, true);
-            writer.write("name:" + name + ",lastname:" + lastName + ",id:" + id + "\n");
+            writer.write("name:" + name + ",lastname:" + lastName + ",id:" + id + ",numOfCourses:" + numOfCourses + ",courses:{");
+
+            StringBuilder coursesId = new StringBuilder();
+            for (Course course : listOfCourse) {
+                coursesId.append(course.getCourseID()).append("~");
+            }
+            if (!coursesId.isEmpty())
+                writer.write(coursesId.substring(0, coursesId.length() - 1) + "}\n");
+            else
+                writer.write("}\n");
+
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -66,12 +76,56 @@ public class StoreData {
         }
     }
 
-    public static void storeCourse(String name, String id, String teacherName, String teacherLastName, String teacherId,
-                                   String units, String examDate, boolean isActive, File file) {
+    public static void storeCourse(String name, String id,
+                                   String teacherName, String teacherLastName, String teacherId,
+                                   int numOfCourses, List<Course> listOfCourse,
+                                   Map<Student, Double> marks, int numOfUnits,
+                                   int numOfStudents, List<Student> listOfStudents, boolean isActive,
+                                   int numOfAssignments, List<Assignment> listOfAssignments,
+                                   String examDate,  File file) {
         try {
             FileWriter writer = new FileWriter(file, true);
-            writer.write("name:" + name + ",id:" + id + ",teacher:name=" + teacherName + "~lastname=" + teacherLastName
-                    + "~id=" + teacherId + ",units:" + units + ",examDate:" + examDate + ",active:" + isActive + "\n");
+            writer.write("name:" + name + ",id:" + id + ",teacher:[name=" + teacherName + "$lastname=" + teacherLastName
+                    + "$id=" + teacherId + "$numOfCourses=" + numOfCourses + "$courses={");
+
+            StringBuilder coursesId = new StringBuilder();
+            for (Course course : listOfCourse) {
+                coursesId.append(course.getCourseID()).append("~");
+            }
+            if (!coursesId.isEmpty())
+                writer.write(coursesId.substring(0, coursesId.length() - 1) + "}],marks:<");
+            else
+                writer.write("}],marks:<");
+
+            StringBuilder marksStr = new StringBuilder();
+            for (Student student : marks.keySet()) {
+                marksStr.append(student.getStudentID()).append("#").append(marks.get(student)).append("*");
+            }
+            if (!marksStr.isEmpty())
+                writer.write(marksStr.substring(0, marksStr.length() - 1) + ">,numOfUnits:" + numOfUnits +
+                         ",numOfStudents" + numOfStudents + ",students:{");
+            else
+                writer.write(">,numOfUnits:" + numOfUnits + ",numOfStudents" + numOfStudents + ",students:{");
+
+            StringBuilder studentsId = new StringBuilder();
+            for (Student student : listOfStudents) {
+                studentsId.append(student.getStudentID()).append("~");
+            }
+            if (!coursesId.isEmpty())
+                writer.write(studentsId.substring(0, studentsId.length() - 1) + "},active:" + isActive +
+                        ",numOfAssignments:" + numOfAssignments + ",assignments:{");
+            else
+                writer.write("},active:" + isActive + ",numOfAssignments:" + numOfAssignments + ",assignments:{");
+
+            StringBuilder assignmentsId = new StringBuilder();
+            for (Assignment assignment : listOfAssignments) {
+                assignmentsId.append(assignment.getAssignmentID()).append("~");
+            }
+            if (!coursesId.isEmpty())
+                writer.write(assignmentsId.substring(0, assignmentsId.length() - 1) + "},examData:" + examDate + "\n");
+            else
+                writer.write("},examData:" + examDate + "\n");
+
             writer.flush();
             writer.close();
         } catch (IOException e) {
