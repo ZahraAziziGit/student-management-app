@@ -64,7 +64,9 @@ public class Student {
                     " " + lastName, "list of courses");
         else {
             listOfCourses.add(course);
+            course.addStudent(this);
             calculateNumberOfCourses();
+            calculateNumberOfUnits();
         }
     }
 
@@ -74,7 +76,9 @@ public class Student {
                     " " + lastName, "list of courses");
         else {
             listOfCourses.remove(course);
+            course.removeStudent(this);
             calculateNumberOfCourses();
+            calculateNumberOfUnits();
         }
     }
 
@@ -110,6 +114,7 @@ public class Student {
                     " " + lastName, "list of courses");
         else {
             this.getMarks().put(course, mark);
+            course.getMarks().put(this, mark);
             calculateTotalAverage();
         }
     }
