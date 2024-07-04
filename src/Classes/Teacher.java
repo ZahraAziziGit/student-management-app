@@ -56,10 +56,12 @@ public class Teacher {
 
 	public void addStudent(Student student, Course course) throws AlreadyExistsException {
 		course.addStudent(student);
+		student.addCourse(course);
 	}
 
 	public void removeStudent(Student student, Course course) throws NotFoundException {
 		course.removeStudent(student);
+		student.removeCourse(course);
 	}
 
 	public void calculateNumberOfCourses() {
@@ -76,10 +78,12 @@ public class Teacher {
 
 	public void addAssignment(Course course, Assignment assignment) throws AlreadyExistsException {
 		course.addAssignment(assignment);
+		assignment.setCourseID(course.getCourseID());
 	}
 	
 	public void removeAssignment(Course course, Assignment assignment) throws NotFoundException {
 		course.removeAssignment(assignment);
+		assignment.setCourseID("");
 	}
 
 
