@@ -2,11 +2,8 @@ package Database;
 
 import Classes.*;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class StoreData {
     public static void storeStudent(String name, String lastName, String id, int numOfCourses,
@@ -77,25 +74,13 @@ public class StoreData {
     }
 
     public static void storeCourse(String name, String id,
-                                   String teacherName, String teacherLastName, String teacherId,
-                                   int numOfCourses, List<Course> listOfCourse,
-                                   Map<Student, Double> marks, int numOfUnits,
+                                   String teacherId, Map<Student, Double> marks, int numOfUnits,
                                    int numOfStudents, List<Student> listOfStudents, boolean isActive,
                                    int numOfAssignments, List<Assignment> listOfAssignments,
                                    String examDate,  File file) {
         try {
             FileWriter writer = new FileWriter(file, true);
-            writer.write("name:" + name + ",id:" + id + ",teacher:[name=" + teacherName + "$lastname=" + teacherLastName
-                    + "$id=" + teacherId + "$numOfCourses=" + numOfCourses + "$courses={");
-
-            StringBuilder coursesId = new StringBuilder();
-            for (Course course : listOfCourse) {
-                coursesId.append(course.getCourseID()).append("~");
-            }
-            if (!coursesId.isEmpty())
-                writer.write(coursesId.substring(0, coursesId.length() - 1) + "}],marks:<");
-            else
-                writer.write("}],marks:<");
+            writer.write("name:" + name + ",id:" + id + ",teacherId:" + teacherId + ",marks:<");
 
             StringBuilder marksStr = new StringBuilder();
             for (Student student : marks.keySet()) {
@@ -105,13 +90,13 @@ public class StoreData {
                 writer.write(marksStr.substring(0, marksStr.length() - 1) + ">,numOfUnits:" + numOfUnits +
                          ",numOfStudents" + numOfStudents + ",students:{");
             else
-                writer.write(">,numOfUnits:" + numOfUnits + ",numOfStudents" + numOfStudents + ",students:{");
+                writer.write(">,numOfUnits:" + numOfUnits + ",numOfStudents:" + numOfStudents + ",students:{");
 
             StringBuilder studentsId = new StringBuilder();
             for (Student student : listOfStudents) {
                 studentsId.append(student.getStudentID()).append("~");
             }
-            if (!coursesId.isEmpty())
+            if (!studentsId.isEmpty())
                 writer.write(studentsId.substring(0, studentsId.length() - 1) + "},active:" + isActive +
                         ",numOfAssignments:" + numOfAssignments + ",assignments:{");
             else
@@ -121,7 +106,7 @@ public class StoreData {
             for (Assignment assignment : listOfAssignments) {
                 assignmentsId.append(assignment.getAssignmentID()).append("~");
             }
-            if (!coursesId.isEmpty())
+            if (!assignmentsId.isEmpty())
                 writer.write(assignmentsId.substring(0, assignmentsId.length() - 1) + "},examData:" + examDate + "\n");
             else
                 writer.write("},examData:" + examDate + "\n");
