@@ -661,17 +661,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -680,21 +671,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -714,6 +698,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -745,11 +730,9 @@ public class UpdateData {
                     }
                 }
 
-
                 if (!Objects.equals(idFromDatabase[1], id))
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -763,17 +746,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -782,21 +756,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -816,6 +783,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -848,8 +816,7 @@ public class UpdateData {
                 }
 
                 StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                        teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                        Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                        teacherIdFromDatabase[1], marksList,
                         Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                         Objects.equals(isActiveFromDatabase[1], "true"),
                         Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -871,17 +838,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -890,21 +848,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -924,6 +875,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -958,16 +910,14 @@ public class UpdateData {
 
                 if (Objects.equals(idFromDatabase[1], id))
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             active,
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
                             examDateFromDatabase[1], temp);
                 else
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -981,17 +931,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1000,21 +941,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -1034,6 +968,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -1066,8 +1001,7 @@ public class UpdateData {
                 }
 
                 StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                        teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                        Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                        teacherIdFromDatabase[1], marksList,
                         Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                         Objects.equals(isActiveFromDatabase[1], "true"),
                         Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1089,17 +1023,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1108,21 +1033,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -1142,6 +1060,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -1176,16 +1095,14 @@ public class UpdateData {
 
                 if (Objects.equals(idFromDatabase[1], id))
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), numOfStudents, newListOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
                             examDateFromDatabase[1], temp);
                 else
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1199,17 +1116,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1218,21 +1126,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -1252,6 +1153,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -1284,8 +1186,7 @@ public class UpdateData {
                 }
 
                 StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                        teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                        Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                        teacherIdFromDatabase[1], marksList,
                         Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                         Objects.equals(isActiveFromDatabase[1], "true"),
                         Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1307,17 +1208,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1326,21 +1218,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -1360,6 +1245,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -1394,16 +1280,14 @@ public class UpdateData {
 
                 if (Objects.equals(idFromDatabase[1], id))
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             numOfAssignments, newListOfAssignments,
                             examDateFromDatabase[1], temp);
                 else
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1417,17 +1301,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1436,21 +1311,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -1470,6 +1338,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -1502,8 +1371,7 @@ public class UpdateData {
                 }
 
                 StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                        teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                        Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                        teacherIdFromDatabase[1], marksList,
                         Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                         Objects.equals(isActiveFromDatabase[1], "true"),
                         Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1525,17 +1393,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1544,21 +1403,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -1578,6 +1430,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -1609,19 +1462,16 @@ public class UpdateData {
                     }
                 }
 
-
                 if (Objects.equals(idFromDatabase[1], id))
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacher.getFirstName(), teacher.getLastName(), teacher.getTeacherID(),
-                            teacher.getNumberOfCourses(), teacher.getListOfCourses(), marksList,
+                            teacher.getTeacherID(), marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
                             examDateFromDatabase[1], temp);
                 else
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1635,17 +1485,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1654,21 +1495,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -1688,6 +1522,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -1720,8 +1555,7 @@ public class UpdateData {
                 }
 
                 StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                        teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                        Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                        teacherIdFromDatabase[1], marksList,
                         Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                         Objects.equals(isActiveFromDatabase[1], "true"),
                         Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1743,17 +1577,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1762,21 +1587,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -1796,6 +1614,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -1827,19 +1646,16 @@ public class UpdateData {
                     }
                 }
 
-
                 if (Objects.equals(idFromDatabase[1], id))
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marks,
+                            teacherIdFromDatabase[1], marks,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
                             examDateFromDatabase[1], temp);
                 else
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1853,17 +1669,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1872,21 +1679,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -1906,6 +1706,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -1938,8 +1739,7 @@ public class UpdateData {
                 }
 
                 StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                        teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                        Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                        teacherIdFromDatabase[1], marksList,
                         Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                         Objects.equals(isActiveFromDatabase[1], "true"),
                         Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1961,17 +1761,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -1980,21 +1771,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -2014,6 +1798,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -2045,19 +1830,16 @@ public class UpdateData {
                     }
                 }
 
-
                 if (Objects.equals(idFromDatabase[1], id))
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
                             examDate, temp);
                 else
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                            Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                            teacherIdFromDatabase[1], marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -2071,17 +1853,8 @@ public class UpdateData {
                 String[] courseData = reader.nextLine().split(",");
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
-
-                String[] teacherDataFromDatabase = courseData[2].split(":");
-                String[] teacherDetailedData = teacherDataFromDatabase[1].substring(1, teacherDataFromDatabase[1].length() - 1).split("\\$");
-                String[] teacherNameFromDatabase = teacherDetailedData[0].split("=");
-                String[] teacherLastNameFromDatabase = teacherDetailedData[1].split("=");
-                String[] teacherIdFromDatabase = teacherDetailedData[2].split("=");
-                String[] numOfCoursesFromDatabase = teacherDetailedData[3].split("=");
-                String[] coursesFromDatabase = teacherDetailedData[4].split("=");
-
+                String[] teacherIdFromDatabase = courseData[2].split(":");
                 String[] marksFromDatabase = courseData[3].split(":");
-                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 String[] unitsFromDatabase = courseData[4].split(":");
                 String[] numOfStudentsFromDatabase = courseData[5].split(":");
                 String[] studentsFromDatabase = courseData[6].split(":");
@@ -2090,21 +1863,14 @@ public class UpdateData {
                 String[] assignmentsFromDatabase = courseData[9].split(":");
                 String[] examDateFromDatabase = courseData[10].split(":");
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
-                if (coursesFromDatabase[1].length() > 2) {
-                    String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                try {
+                    IdFinder.findTeacherByID(teacherIdFromDatabase[1], teacherFile);
+                } catch (NotFoundException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 String studentPath = "./Database/students_data.txt";
@@ -2124,6 +1890,7 @@ public class UpdateData {
                     }
                 }
 
+                String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
                 Map<Student, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
@@ -2156,8 +1923,7 @@ public class UpdateData {
                 }
 
                 StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                        teacherNameFromDatabase[1], teacherLastNameFromDatabase[1], teacherIdFromDatabase[1],
-                        Integer.parseInt(numOfCoursesFromDatabase[1]), listOfCoursesFromDatabase, marksList,
+                        teacherIdFromDatabase[1], marksList,
                         Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                         Objects.equals(isActiveFromDatabase[1], "true"),
                         Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
