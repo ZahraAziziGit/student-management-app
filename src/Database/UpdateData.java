@@ -29,26 +29,26 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
                     for (String courseId : coursesIds) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
+                            IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(courseId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
                     }
                 }
 
-                Map<Course, Double> listOfMarksFromDatabase = new HashMap<>();
+                Map<String, Double> listOfMarksFromDatabase = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     String[] marksMap = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("~");
                     for (String data : marksMap) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(data.split("=")[0], courseFile);
-                            listOfMarksFromDatabase.put(tempCourse, Double.parseDouble(data.split("=")[1]));
+                            IdFinder.findCourseByID(data.split("=")[0], courseFile);
+                            listOfMarksFromDatabase.put(data.split("=")[0], Double.parseDouble(data.split("=")[1]));
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -81,26 +81,26 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
                     for (String courseId : coursesIds) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
+                            IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(courseId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
                     }
                 }
 
-                Map<Course, Double> listOfMarksFromDatabase = new HashMap<>();
+                Map<String, Double> listOfMarksFromDatabase = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     String[] marksMap = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("~");
                     for (String data : marksMap) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(data.split("=")[0], courseFile);
-                            listOfMarksFromDatabase.put(tempCourse, Double.parseDouble(data.split("=")[1]));
+                            IdFinder.findCourseByID(data.split("=")[0], courseFile);
+                            listOfMarksFromDatabase.put(data.split("=")[0], Double.parseDouble(data.split("=")[1]));
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -120,7 +120,7 @@ public class UpdateData {
     }
 
     //update student's courses list
-    public static void updateStudentData(File source, File temp, String id, int numOfCourses, int numOfUnits, List<Course> listOfCourse) {
+    public static void updateStudentData(File source, File temp, String id, int numOfCourses, int numOfUnits, List<String> listOfCourse) {
         try {
             temp.createNewFile();
             Scanner reader = new Scanner(source);
@@ -140,26 +140,26 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
                     for (String courseId : coursesIds) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
+                            IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(courseId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
                     }
                 }
 
-                Map<Course, Double> listOfMarksFromDatabase = new HashMap<>();
+                Map<String, Double> listOfMarksFromDatabase = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     String[] marksMap = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("~");
                     for (String data : marksMap) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(data.split("=")[0], courseFile);
-                            listOfMarksFromDatabase.put(tempCourse, Double.parseDouble(data.split("=")[1]));
+                            IdFinder.findCourseByID(data.split("=")[0], courseFile);
+                            listOfMarksFromDatabase.put(data.split("=")[0], Double.parseDouble(data.split("=")[1]));
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -197,26 +197,26 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
                     for (String courseId : coursesIds) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
+                            IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(courseId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
                     }
                 }
 
-                Map<Course, Double> listOfMarksFromDatabase = new HashMap<>();
+                Map<String, Double> listOfMarksFromDatabase = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     String[] marksMap = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("~");
                     for (String data : marksMap) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(data.split("=")[0], courseFile);
-                            listOfMarksFromDatabase.put(tempCourse, Double.parseDouble(data.split("=")[1]));
+                            IdFinder.findCourseByID(data.split("=")[0], courseFile);
+                            listOfMarksFromDatabase.put(data.split("=")[0], Double.parseDouble(data.split("=")[1]));
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -236,7 +236,7 @@ public class UpdateData {
     }
 
     //update student's marks
-    public static void updateStudentData(File source, File temp, String id, double totalAvg, Map<Course, Double> marks) {
+    public static void updateStudentData(File source, File temp, String id, double totalAvg, Map<String, Double> marks) {
         try {
             temp.createNewFile();
             Scanner reader = new Scanner(source);
@@ -256,26 +256,26 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
                     for (String courseId : coursesIds) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
+                            IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(courseId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
                     }
                 }
 
-                Map<Course, Double> listOfMarksFromDatabase = new HashMap<>();
+                Map<String, Double> listOfMarksFromDatabase = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     String[] marksMap = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("~");
                     for (String data : marksMap) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(data.split("=")[0], courseFile);
-                            listOfMarksFromDatabase.put(tempCourse, Double.parseDouble(data.split("=")[1]));
+                            IdFinder.findCourseByID(data.split("=")[0], courseFile);
+                            listOfMarksFromDatabase.put(data.split("=")[0], Double.parseDouble(data.split("=")[1]));
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -313,26 +313,26 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
                     for (String courseId : coursesIds) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
+                            IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(courseId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
                     }
                 }
 
-                Map<Course, Double> listOfMarksFromDatabase = new HashMap<>();
+                Map<String, Double> listOfMarksFromDatabase = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     String[] marksMap = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("~");
                     for (String data : marksMap) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(data.split("=")[0], courseFile);
-                            listOfMarksFromDatabase.put(tempCourse, Double.parseDouble(data.split("=")[1]));
+                            IdFinder.findCourseByID(data.split("=")[0], courseFile);
+                            listOfMarksFromDatabase.put(data.split("=")[0], Double.parseDouble(data.split("=")[1]));
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -509,6 +509,7 @@ public class UpdateData {
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] teacherData = reader.nextLine().split(",");
+
                 String[] firstNameFromDatabase = teacherData[0].split(":");
                 String[] lastNameFromDatabase = teacherData[1].split(":");
                 String[] idFromDatabase = teacherData[2].split(":");
@@ -519,13 +520,13 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
                     for (String courseId : coursesIds) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
+                            IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(courseId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -542,6 +543,7 @@ public class UpdateData {
             reader = new Scanner(temp);
             while (reader.hasNext()) {
                 String[] teacherData = reader.nextLine().split(",");
+
                 String[] firstNameFromDatabase = teacherData[0].split(":");
                 String[] lastNameFromDatabase = teacherData[1].split(":");
                 String[] idFromDatabase = teacherData[2].split(":");
@@ -552,13 +554,13 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
                     for (String courseId : coursesIds) {
                         try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
+                            IdFinder.findCourseByID(courseId, courseFile);
+                            listOfCoursesFromDatabase.add(courseId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -576,12 +578,13 @@ public class UpdateData {
     }
 
     //update teacher's course list
-    public static void updateTeacherData(File source, File temp, String id, int numOfCourses, List<Course> listOfCourse) {
+    public static void updateTeacherData(File source, File temp, String id, int numOfCourses, List<String> listOfCourse) {
         try {
             temp.createNewFile();
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] teacherData = reader.nextLine().split(",");
+
                 String[] firstNameFromDatabase = teacherData[0].split(":");
                 String[] lastNameFromDatabase = teacherData[1].split(":");
                 String[] idFromDatabase = teacherData[2].split(":");
@@ -592,17 +595,10 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                    Collections.addAll(listOfCoursesFromDatabase, coursesIds);
                 }
 
                 if (Objects.equals(idFromDatabase[1], id))
@@ -618,6 +614,7 @@ public class UpdateData {
             reader = new Scanner(temp);
             while (reader.hasNext()) {
                 String[] teacherData = reader.nextLine().split(",");
+
                 String[] firstNameFromDatabase = teacherData[0].split(":");
                 String[] lastNameFromDatabase = teacherData[1].split(":");
                 String[] idFromDatabase = teacherData[2].split(":");
@@ -628,17 +625,10 @@ public class UpdateData {
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
-                List<Course> listOfCoursesFromDatabase = new ArrayList<>();
+                List<String> listOfCoursesFromDatabase = new ArrayList<>();
                 if (coursesFromDatabase[1].length() > 2) {
                     String[] coursesIds = coursesFromDatabase[1].substring(1, coursesFromDatabase[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCoursesFromDatabase.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                    Collections.addAll(listOfCoursesFromDatabase, coursesIds);
                 }
 
                 StoreData.storeTeacher(firstNameFromDatabase[1], lastNameFromDatabase[1], idFromDatabase[1],
@@ -659,6 +649,7 @@ public class UpdateData {
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -685,13 +676,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -699,14 +690,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -717,13 +708,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -744,6 +735,7 @@ public class UpdateData {
             reader = new Scanner(temp);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -770,13 +762,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -784,14 +776,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -802,13 +794,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -836,6 +828,7 @@ public class UpdateData {
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -862,13 +855,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -876,14 +869,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -894,13 +887,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -929,6 +922,7 @@ public class UpdateData {
             reader = new Scanner(temp);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -955,13 +949,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -969,14 +963,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -987,13 +981,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1015,12 +1009,13 @@ public class UpdateData {
     }
 
     //update course's students list
-    public static void updateCourseData(File source, File temp, String id, List<Student> newListOfStudents, int numOfStudents) {
+    public static void updateCourseData(File source, File temp, String id, List<String> newListOfStudents, int numOfStudents) {
         try {
             temp.createNewFile();
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -1047,13 +1042,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1061,14 +1056,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1079,19 +1074,18 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
                     }
                 }
-
 
                 if (Objects.equals(idFromDatabase[1], id))
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
@@ -1114,6 +1108,7 @@ public class UpdateData {
             reader = new Scanner(temp);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -1140,13 +1135,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1154,14 +1149,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1172,13 +1167,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1200,12 +1195,13 @@ public class UpdateData {
     }
 
     //update course's assignments list
-    public static void updateCourseData(File source, File temp, String id, int numOfAssignments, List<Assignment> newListOfAssignments) {
+    public static void updateCourseData(File source, File temp, String id, int numOfAssignments, List<String> newListOfAssignments) {
         try {
             temp.createNewFile();
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -1232,13 +1228,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1246,14 +1242,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1264,13 +1260,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1299,6 +1295,7 @@ public class UpdateData {
             reader = new Scanner(temp);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -1325,13 +1322,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1339,14 +1336,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1357,13 +1354,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1385,12 +1382,13 @@ public class UpdateData {
     }
 
     //update course's teacher
-    public static void updateCourseData(File source, File temp, String id, Teacher teacher) {
+    public static void updateCourseData(File source, String id, String teacher, File temp) {
         try {
             temp.createNewFile();
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -1417,13 +1415,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1431,14 +1429,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1449,13 +1447,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1464,7 +1462,7 @@ public class UpdateData {
 
                 if (Objects.equals(idFromDatabase[1], id))
                     StoreData.storeCourse(courseNameFromDatabase[1], idFromDatabase[1],
-                            teacher.getTeacherID(), marksList,
+                            teacher, marksList,
                             Integer.parseInt(unitsFromDatabase[1]), Integer.parseInt(numOfStudentsFromDatabase[1]), listOfStudents,
                             Objects.equals(isActiveFromDatabase[1], "true"),
                             Integer.parseInt(numOfAssignmentsFromDatabase[1]), listOfAssignments,
@@ -1483,6 +1481,7 @@ public class UpdateData {
             reader = new Scanner(temp);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -1509,13 +1508,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1523,14 +1522,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1541,13 +1540,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1569,12 +1568,13 @@ public class UpdateData {
     }
 
     //update course's marks list
-    public static void updateCourseData(File source, File temp, String id, Map<Student, Double> marks) {
+    public static void updateCourseData(File source, File temp, String id, Map<String, Double> marks) {
         try {
             temp.createNewFile();
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -1601,13 +1601,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1615,14 +1615,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1633,13 +1633,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1693,13 +1693,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1707,14 +1707,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1725,13 +1725,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1759,6 +1759,7 @@ public class UpdateData {
             Scanner reader = new Scanner(source);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -1785,13 +1786,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1799,14 +1800,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1817,13 +1818,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1851,6 +1852,7 @@ public class UpdateData {
             reader = new Scanner(temp);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
+
                 String[] courseNameFromDatabase = courseData[0].split(":");
                 String[] idFromDatabase = courseData[1].split(":");
                 String[] teacherIdFromDatabase = courseData[2].split(":");
@@ -1877,13 +1879,13 @@ public class UpdateData {
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
                 File studnetFile = new File(studentPath);
 
-                List<Student> listOfStudents = new ArrayList<>();
+                List<String> listOfStudents = new ArrayList<>();
                 if (studentsFromDatabase[1].length() > 2) {
                     String[] studentsIds = studentsFromDatabase[1].substring(1, studentsFromDatabase[1].length() - 1).split("~");
                     for (String stuId : studentsIds) {
                         try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            listOfStudents.add(stuId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1891,14 +1893,14 @@ public class UpdateData {
                 }
 
                 String[] markDetails = marksFromDatabase[1].substring(1, marksFromDatabase[1].length() - 1).split("\\*");
-                Map<Student, Double> marksList = new HashMap<>();
+                Map<String, Double> marksList = new HashMap<>();
                 if (marksFromDatabase[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -1909,13 +1911,13 @@ public class UpdateData {
                 //String assignmentPath = ".\\Database\\assignments_data.txt"; //uncomment this for windows
                 File assignmentFile = new File(assignmentPath);
 
-                List<Assignment> listOfAssignments = new ArrayList<>();
+                List<String> listOfAssignments = new ArrayList<>();
                 if (assignmentsFromDatabase[1].length() > 2) {
                     String[] assignmentsIds = assignmentsFromDatabase[1].substring(1, assignmentsFromDatabase[1].length() - 1).split("~");
                     for (String assignId : assignmentsIds) {
                         try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
+                            IdFinder.findAssignmentByID(assignId, assignmentFile);
+                            listOfAssignments.add(assignId);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }

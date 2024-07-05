@@ -7,8 +7,8 @@ import java.util.*;
 
 public class StoreData {
     public static void storeStudent(String name, String lastName, String id, int numOfCourses,
-                                    int numOfUnits, List<Course> listOfCourse, double totalAvg,
-                                    Map<Course, Double> marks, File file) {
+                                    int numOfUnits, List<String> listOfCourse, double totalAvg,
+                                    Map<String, Double> marks, File file) {
         try {
             FileWriter writer = new FileWriter(file, true);
             writer.write("name:" + name + ",lastname:" + lastName + ",id:" + id +
@@ -16,8 +16,8 @@ public class StoreData {
                     ",courses:{");
 
             StringBuilder coursesId = new StringBuilder();
-            for (Course course : listOfCourse) {
-                coursesId.append(course.getCourseID()).append("~");
+            for (String courseId : listOfCourse) {
+                coursesId.append(courseId).append("~");
             }
             if (!coursesId.isEmpty())
                 writer.write(coursesId.substring(0, coursesId.length() - 1) + "},totalAvg:" + totalAvg + ",marks:{");
@@ -25,8 +25,8 @@ public class StoreData {
                 writer.write("},totalAvg:" + totalAvg + ",marks:{");
 
             StringBuilder marksStr = new StringBuilder();
-            for (Course course : marks.keySet()) {
-                marksStr.append(course.getCourseID()).append("=").append(marks.get(course)).append("~");
+            for (String courseId : marks.keySet()) {
+                marksStr.append(courseId).append("=").append(marks.get(courseId)).append("~");
             }
             if (!marksStr.isEmpty())
                 writer.write(marksStr.substring(0, marksStr.length() - 1) + "}\n");
@@ -52,14 +52,14 @@ public class StoreData {
     }
 
     public static void storeTeacher(String name, String lastName, String id, int numOfCourses,
-                                    List<Course> listOfCourse, File file) {
+                                    List<String> listOfCourse, File file) {
         try {
             FileWriter writer = new FileWriter(file, true);
             writer.write("name:" + name + ",lastname:" + lastName + ",id:" + id + ",numOfCourses:" + numOfCourses + ",courses:{");
 
             StringBuilder coursesId = new StringBuilder();
-            for (Course course : listOfCourse) {
-                coursesId.append(course.getCourseID()).append("~");
+            for (String courseId : listOfCourse) {
+                coursesId.append(courseId).append("~");
             }
             if (!coursesId.isEmpty())
                 writer.write(coursesId.substring(0, coursesId.length() - 1) + "}\n");
@@ -74,27 +74,27 @@ public class StoreData {
     }
 
     public static void storeCourse(String name, String id,
-                                   String teacherId, Map<Student, Double> marks, int numOfUnits,
-                                   int numOfStudents, List<Student> listOfStudents, boolean isActive,
-                                   int numOfAssignments, List<Assignment> listOfAssignments,
+                                   String teacherId, Map<String, Double> marks, int numOfUnits,
+                                   int numOfStudents, List<String> listOfStudents, boolean isActive,
+                                   int numOfAssignments, List<String> listOfAssignments,
                                    String examDate,  File file) {
         try {
             FileWriter writer = new FileWriter(file, true);
             writer.write("name:" + name + ",id:" + id + ",teacherId:" + teacherId + ",marks:<");
 
             StringBuilder marksStr = new StringBuilder();
-            for (Student student : marks.keySet()) {
-                marksStr.append(student.getStudentID()).append("#").append(marks.get(student)).append("*");
+            for (String studentId : marks.keySet()) {
+                marksStr.append(studentId).append("#").append(marks.get(studentId)).append("*");
             }
             if (!marksStr.isEmpty())
                 writer.write(marksStr.substring(0, marksStr.length() - 1) + ">,numOfUnits:" + numOfUnits +
-                         ",numOfStudents" + numOfStudents + ",students:{");
+                         ",numOfStudents:" + numOfStudents + ",students:{");
             else
                 writer.write(">,numOfUnits:" + numOfUnits + ",numOfStudents:" + numOfStudents + ",students:{");
 
             StringBuilder studentsId = new StringBuilder();
-            for (Student student : listOfStudents) {
-                studentsId.append(student.getStudentID()).append("~");
+            for (String studentId : listOfStudents) {
+                studentsId.append(studentId).append("~");
             }
             if (!studentsId.isEmpty())
                 writer.write(studentsId.substring(0, studentsId.length() - 1) + "},active:" + isActive +
@@ -103,13 +103,13 @@ public class StoreData {
                 writer.write("},active:" + isActive + ",numOfAssignments:" + numOfAssignments + ",assignments:{");
 
             StringBuilder assignmentsId = new StringBuilder();
-            for (Assignment assignment : listOfAssignments) {
-                assignmentsId.append(assignment.getAssignmentID()).append("~");
+            for (String assignmentId : listOfAssignments) {
+                assignmentsId.append(assignmentId).append("~");
             }
             if (!assignmentsId.isEmpty())
-                writer.write(assignmentsId.substring(0, assignmentsId.length() - 1) + "},examData:" + examDate + "\n");
+                writer.write(assignmentsId.substring(0, assignmentsId.length() - 1) + "},examDate:" + examDate + "\n");
             else
-                writer.write("},examData:" + examDate + "\n");
+                writer.write("},examDate:" + examDate + "\n");
 
             writer.flush();
             writer.close();

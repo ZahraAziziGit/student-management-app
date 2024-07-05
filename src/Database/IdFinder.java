@@ -9,54 +9,58 @@ import Classes.*;
 
 public class IdFinder {
 
-    public static Student findStudentByID(String id, File file) throws NotFoundException {
+    public static String[] findStudentByID(String id, File file) throws NotFoundException {
 
-        String[] studentFirstName = new String[2], studentLastName = new String[2], studentId = new String[2],
-                numOfCourses = new String[2], numOfUnits = new String[2], totalAvg = new String[2];
-        List<Course> listOfCourses = new ArrayList<>();
-        Map<Course, Double> listOfMarks = new HashMap<>();
+        String[] str = new String[8];
+
+        //todo?
+        List<String> listOfCourses = new ArrayList<>();
+        Map<String, Double> listOfMarks = new HashMap<>();
 
         boolean doesStudentExist = false;
         try {
             Scanner reader = new Scanner(file);
             while (reader.hasNext()) {
                 String[] studentData = reader.nextLine().split(",");
-                studentFirstName = studentData[0].split(":");
-                studentLastName = studentData[1].split(":");
-                studentId = studentData[2].split(":");
-                numOfCourses = studentData[3].split(":");
-                numOfUnits = studentData[4].split(":");
+
+                String[] studentFirstName = studentData[0].split(":");
+                str[0] = studentFirstName[1];
+
+                String[] studentLastName = studentData[1].split(":");
+                str[1] = studentLastName[1];
+
+                String[] studentId = studentData[2].split(":");
+                str[2] = studentId[1];
+
+                String[] numOfCourses = studentData[3].split(":");
+                str[3] = numOfCourses[1];
+
+                String[] numOfUnits = studentData[4].split(":");
+                str[4] = numOfUnits[1];
+
                 String[] courses = studentData[5].split(":");
-                totalAvg = studentData[6].split(":");
+                str[5] = courses[1];
+
+                String[] totalAvg = studentData[6].split(":");
+                str[6] = totalAvg[1];
+
                 String[] marks = studentData[7].split(":");
+                str[7] = marks[1];
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
-
+                //todo?
                 if (courses[1].length() > 2) {
                     String[] coursesIds = courses[1].substring(1, courses[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCourses.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                    Collections.addAll(listOfCourses, coursesIds);
                 }
 
+                //todo?
                 if (marks[1].length() > 2) {
                     String[] marksMap = marks[1].substring(1, marks[1].length() - 1).split("~");
                     for (String data : marksMap) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(data.split("=")[0], courseFile);
-                            listOfMarks.put(tempCourse, Double.parseDouble(data.split("=")[1]));
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
+                        listOfMarks.put(data.split("=")[0], Double.parseDouble(data.split("=")[1]));
                     }
                 }
+
                 if (Objects.equals(studentId[1], id)) {
                     doesStudentExist = true;
                     break;
@@ -67,32 +71,38 @@ public class IdFinder {
             System.out.println(e.getMessage());
         }
         if (doesStudentExist)
-            return new Student(studentFirstName[1], studentLastName[1], studentId[1], Integer.parseInt(numOfCourses[1]),
-                    Integer.parseInt(numOfUnits[1]), listOfCourses, Double.parseDouble(totalAvg[1]), listOfMarks);
+            return str;
         throw new NotFoundException("Student", id);
     }
 
-    public static Assignment findAssignmentByID(String id, File file) throws NotFoundException {
+    public static String[] findAssignmentByID(String id, File file) throws NotFoundException {
 
-        String[] assignmentId = new String[2], assignmentDeadline = new String[2], isActive = new String[2], course = new String[2];
-        Course tempCourse = null;
+        String[] str = new String[4];
 
         boolean doesAssignmentExist = false;
         try {
             Scanner reader = new Scanner(file);
             while (reader.hasNext()) {
                 String[] assignmentData = reader.nextLine().split(",");
-                assignmentId = assignmentData[0].split(":");
-                assignmentDeadline = assignmentData[1].split(":");
-                isActive = assignmentData[2].split(":");
-                course = assignmentData[3].split(":");
+
+                String[] assignmentId = assignmentData[0].split(":");
+                str[0] = assignmentId[1];
+
+                String[] assignmentDeadline = assignmentData[1].split(":");
+                str[1] = assignmentDeadline[1];
+
+                String[] isActive = assignmentData[2].split(":");
+                str[2] = isActive[1];
+
+                String[] course = assignmentData[3].split(":");
+                str[3] = course[1];
 
                 String coursePath = "./Database/courses_data.txt";
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
                 try {
-                    tempCourse = IdFinder.findCourseByID(course[1], courseFile);
+                    IdFinder.findCourseByID(course[1], courseFile);
                 } catch (NotFoundException e) {
                     System.out.println(e.getMessage());
                 }
@@ -106,41 +116,45 @@ public class IdFinder {
             System.out.println(e.getMessage());
         }
         if (doesAssignmentExist)
-            return new Assignment(assignmentId[1], LocalDate.parse(assignmentDeadline[1]), Objects.equals(isActive[1], "true"), course[1]);
+            return str;
         throw new NotFoundException("Assignment", id);
     }
 
-    public static Teacher findTeacherByID(String id, File file) throws NotFoundException {
+    public static String[] findTeacherByID(String id, File file) throws NotFoundException {
 
-        String[] teacherFirstName = new String[2], teacherLastName = new String[2], teacherId = new String[2],
-                numOfCourses = new String[2];
-        List<Course> listOfCourses = new ArrayList<>();
+        String[] str = new String[5];
+
+        List<String> listOfCourses = new ArrayList<>();
 
         boolean doesTeacherExist = false;
         try {
             Scanner reader = new Scanner(file);
             while (reader.hasNext()) {
                 String[] teacherData = reader.nextLine().split(",");
-                teacherFirstName = teacherData[0].split(":");
-                teacherLastName = teacherData[1].split(":");
-                teacherId = teacherData[2].split(":");
-                numOfCourses = teacherData[3].split(":");
+
+                String[] teacherFirstName = teacherData[0].split(":");
+                str[0] = teacherFirstName[1];
+
+                String[] teacherLastName = teacherData[1].split(":");
+                str[1] = teacherLastName[1];
+
+                String[] teacherId = teacherData[2].split(":");
+                str[2] = teacherId[1];
+
+                String[] numOfCourses = teacherData[3].split(":");
+                str[3] = numOfCourses[1];
+
                 String[] courses = teacherData[4].split(":");
+                str[4] = courses[1];
 
                 String coursePath = "./Database/courses_data.txt";
                 //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
                 File courseFile = new File(coursePath);
 
+                //todo?
                 if (courses[1].length() > 2) {
                     String[] coursesIds = courses[1].substring(1, courses[1].length() - 1).split("~");
-                    for (String courseId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(courseId, courseFile);
-                            listOfCourses.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                    Collections.addAll(listOfCourses, coursesIds);
                 }
 
                 if (Objects.equals(teacherId[1], id)) {
@@ -153,64 +167,67 @@ public class IdFinder {
             System.out.println(e.getMessage());
         }
         if (doesTeacherExist)
-            return new Teacher(teacherFirstName[1], teacherLastName[1], teacherId[1], Integer.parseInt(numOfCourses[1]),
-                    listOfCourses);
+            return str;
         throw new NotFoundException("Teacher", id);
     }
 
-    public static Course findCourseByID(String id, File file) throws NotFoundException {
+    public static String[] findCourseByID(String id, File file) throws NotFoundException {
 
-        String[] courseName = new String[2], courseId = new String[2], teacherData, teacherName = new String[2],
-                teacherLastName = new String[2], teacherId = new String[2],marks ,numOfCourses = new String[2],
-                units = new String[2], numOfStudents = new String[2], isActive = new String[2],
-                numOfAssignments = new String[2], examDate = new String[2];
+        String[] str = new String[11];
 
-        List<Course> listOfCourses = new ArrayList<>();
-        List<Student> listOfStudents = new ArrayList<>();
-        List<Assignment> listOfAssignments = new ArrayList<>();
-        Map<Student, Double> marksList = new HashMap<>();
+        List<String> listOfStudents = new ArrayList<>();
+        List<String> listOfAssignments = new ArrayList<>();
+        Map<String, Double> marksList = new HashMap<>();
 
         boolean doesCourseExist = false;
         try {
             Scanner reader = new Scanner(file);
             while (reader.hasNext()) {
                 String[] courseData = reader.nextLine().split(",");
-                courseName = courseData[0].split(":");
-                courseId = courseData[1].split(":");
 
-                teacherData = courseData[2].split(":");
-                String[] teacherDetailedData = teacherData[1].substring(1, teacherData[1].length() - 1).split("\\$");
-                teacherName = teacherDetailedData[0].split("=");
-                teacherLastName = teacherDetailedData[1].split("=");
-                teacherId = teacherDetailedData[2].split("=");
-                numOfCourses = teacherDetailedData[3].split("=");
-                String[] courses = teacherDetailedData[4].split("=");
+                String[] courseName = courseData[0].split(":");
+                str[0] = courseName[1];
 
-                marks = courseData[3].split(":");
-                String[] markDetails = marks[1].substring(1, marks[1].length() - 1).split("\\*");
-                units = courseData[4].split(":");
-                numOfStudents = courseData[5].split(":");
+                String[] courseId = courseData[1].split(":");
+                str[1] = courseId[1];
+
+                String[] teacherId = courseData[2].split(":");
+                str[2] = teacherId[1];
+
+                String[] marks = courseData[3].split(":");
+                str[3] = marks[1];
+
+                String[] units = courseData[4].split(":");
+                str[4] = units[1];
+
+                String[] numOfStudents = courseData[5].split(":");
+                str[5] = numOfStudents[1];
+
                 String[] students = courseData[6].split(":");
-                isActive = courseData[7].split(":");
-                numOfAssignments = courseData[8].split(":");
+                str[6] = students[1];
+
+                String[] isActive = courseData[7].split(":");
+                str[7] = isActive[1];
+
+                String[] numOfAssignments = courseData[8].split(":");
+                str[8] = numOfAssignments[1];
+
                 String[] assignments = courseData[9].split(":");
-                examDate = courseData[10].split(":");
+                str[9] = assignments[1];
 
-                String coursePath = "./Database/courses_data.txt";
-                //String coursePath = ".\\Database\\courses_data.txt"; //uncomment this for windows
-                File courseFile = new File(coursePath);
+                String[] examDate = courseData[10].split(":");
+                str[10] = examDate[1];
 
-                if (courses[1].length() > 2) {
-                    String[] coursesIds = courses[1].substring(1, courses[1].length() - 1).split("~");
-                    for (String couId : coursesIds) {
-                        try {
-                            Course tempCourse = IdFinder.findCourseByID(couId, courseFile);
-                            listOfCourses.add(tempCourse);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
+                String teacherPath = "./Database/teachers_data.txt";
+                //String teacherPath = ".\\Database\\teachers_data.txt"; //uncomment this for windows
+                File teacherFile = new File(teacherPath);
+
+                if (!teacherId[1].equals("-"))
+                    try {
+                        IdFinder.findTeacherByID(teacherId[1], teacherFile);
+                    } catch (NotFoundException e) {
+                        System.out.println(e.getMessage());
                     }
-                }
 
                 String studentPath = "./Database/students_data.txt";
                 //String studentPath = ".\\Database\\students_data.txt"; //uncomment this for windows
@@ -218,23 +235,31 @@ public class IdFinder {
 
                 if (students[1].length() > 2) {
                     String[] studentsIds = students[1].substring(1, students[1].length() - 1).split("~");
-                    for (String stuId : studentsIds) {
-                        try {
-                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
-                            listOfStudents.add(tempStudent);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                    Collections.addAll(listOfStudents, studentsIds);
                 }
 
+                //todo?
+//                if (students[1].length() > 2) {
+//                    String[] studentsIds = students[1].substring(1, students[1].length() - 1).split("~");
+//                    for (String stuId : studentsIds) {
+//                        try {
+//                            Student tempStudent = IdFinder.findStudentByID(stuId, studnetFile);
+//                            listOfStudents.add(tempStudent);
+//                        } catch (NotFoundException e) {
+//                            System.out.println(e.getMessage());
+//                        }
+//                    }
+//                }
+
+                //todo?
+                String[] markDetails = marks[1].substring(1, marks[1].length() - 1).split("\\*");
                 if (marks[1].length() > 2) {
                     for (String studentAndMark : markDetails) {
                         String stuId = studentAndMark.split("#")[0];
                         double score = Double.parseDouble(studentAndMark.split("#")[1]);
                         try {
-                            Student stu = IdFinder.findStudentByID(stuId, studnetFile);
-                            marksList.put(stu, score);
+                            IdFinder.findStudentByID(stuId, studnetFile);
+                            marksList.put(stuId, score);
                         } catch (NotFoundException e) {
                             System.out.println(e.getMessage());
                         }
@@ -247,15 +272,21 @@ public class IdFinder {
 
                 if (assignments[1].length() > 2) {
                     String[] assignmentsIds = assignments[1].substring(1, assignments[1].length() - 1).split("~");
-                    for (String assignId : assignmentsIds) {
-                        try {
-                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
-                            listOfAssignments.add(tempAssignment);
-                        } catch (NotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
+                    Collections.addAll(listOfAssignments, assignmentsIds);
                 }
+
+                //todo?
+//                if (assignments[1].length() > 2) {
+//                    String[] assignmentsIds = assignments[1].substring(1, assignments[1].length() - 1).split("~");
+//                    for (String assignId : assignmentsIds) {
+//                        try {
+//                            Assignment tempAssignment = IdFinder.findAssignmentByID(assignId, assignmentFile);
+//                            listOfAssignments.add(tempAssignment);
+//                        } catch (NotFoundException e) {
+//                            System.out.println(e.getMessage());
+//                        }
+//                    }
+//                }
 
                 if (Objects.equals(courseId[1], id)) {
                     doesCourseExist = true;
@@ -267,10 +298,7 @@ public class IdFinder {
             System.out.println(e.getMessage());
         }
         if (doesCourseExist)
-            return new Course(courseName[1], courseId[1], new Teacher(teacherName[1], teacherLastName[1], teacherId[1],
-                    Integer.parseInt(numOfCourses[1]), listOfCourses), marksList, Integer.parseInt(units[1]),
-                    listOfStudents, Integer.parseInt(numOfStudents[1]), Objects.equals(isActive[1], "true"),
-                    listOfAssignments, Integer.parseInt(numOfAssignments[1]), LocalDate.parse(examDate[1]));
+            return str;
         throw new NotFoundException("Course", id);
     }
 }
