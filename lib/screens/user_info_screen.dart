@@ -346,7 +346,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           bottom: 0,
                           right: 0,
                           child: GestureDetector(
-                            onTap: _pickImage, //todo
+                            onTap: _pickImage,
                             child: const CircleAvatar(
                               radius: 15,
                               backgroundColor: Colors.black87,
