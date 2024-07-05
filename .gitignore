@@ -29,6 +29,5 @@ out
 README.md
 .gitignore
 *.iml
-*.txt
 Test.java
 
