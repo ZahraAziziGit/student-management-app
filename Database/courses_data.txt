@@ -1,0 +1,2 @@
+name:math,id:1,teacherId:1,marks:<1#20.0*2#16.0*4#10.0>,numOfUnits:3,students{1~2~4},active:true,numOfAssignments:2,assignments:{1~2},examDate:2020-08-08
+name:math,id:1,teacherId:1,marks:<1#18.0*3#14.0>,numOfUnits:3,students{1~3},active:true,numOfAssignments:3,assignments:{3~4~5},examDate:2020-08-10
