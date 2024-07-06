@@ -7,6 +7,7 @@ import 'package:radiohead/widgets/task_item_with_time.dart';
 import 'package:radiohead/widgets/navigation_bar.dart';
 
 import 'package:radiohead/screens/home_screen.dart';
+import 'package:radiohead/screens/classes_screen.dart';
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
@@ -23,7 +24,7 @@ class _TasksScreenState extends State<TasksScreen> {
   final List<Widget> _widgetOptions = <Widget>[
     const HomeContent(),
     const TasksContent(),
-    const Text('Classes Page'),
+    const ClassesContent(),
     const Text('News Page'),
     const Text('Assignments Page'),
   ];
