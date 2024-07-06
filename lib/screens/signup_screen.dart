@@ -165,6 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 25.0,
                       ),
                       TextFormField(
+                        keyboardType: TextInputType.number,
                         controller: _idController,
                         decoration: InputDecoration(
                           label: const Text("Student ID"),
