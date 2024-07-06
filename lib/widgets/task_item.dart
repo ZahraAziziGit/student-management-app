@@ -5,7 +5,7 @@ class TaskItem extends StatelessWidget {
   final bool initialCompleted;
   final VoidCallback onToggleCompletion;
 
-  TaskItem({
+  const TaskItem({super.key,
     required this.taskName,
     required this.initialCompleted,
     required this.onToggleCompletion,
@@ -37,7 +37,7 @@ class TaskItem extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             Icon(
-              initialCompleted ? Icons.check_circle : Icons.cancel,
+              initialCompleted ? Icons.cancel : Icons.check_circle,
               color: initialCompleted ? Colors.purple : Colors.purpleAccent,
             ),
           ],

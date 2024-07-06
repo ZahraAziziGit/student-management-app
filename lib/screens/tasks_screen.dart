@@ -77,27 +77,43 @@ class _TasksScreenState extends State<TasksScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Add New Task'),
+          title: const Text('Add New Task',
+              style: TextStyle(fontFamily: 'Times New Roman', fontSize: 22)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: taskNameController,
-                decoration: const InputDecoration(labelText: 'Task Name', border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
+                decoration: const InputDecoration(
+                  labelText: 'Task Name',
+                  labelStyle: TextStyle(color: Colors.black54),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                ),
               ),
               const SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ElevatedButton(
-                      onPressed: () => _selectDate(context),
-                      child: const Text('Date'),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                        onPressed: () => _selectDate(context),
+                        child: const Text('Date'),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: () => _selectTime(context),
-                      child: const Text('Time'),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                        onPressed: () => _selectTime(context),
+                        child: const Text('Time'),
+                      ),
                     ),
                   ],
                 ),
@@ -105,27 +121,33 @@ class _TasksScreenState extends State<TasksScreen> {
             ],
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Icon (Icons.cancel_outlined),
-            ),
-            TextButton(
-              onPressed: () {
-                final name = taskNameController.text;
-                final deadline = DateTime(
-                  _selectedDate.year,
-                  _selectedDate.month,
-                  _selectedDate.day,
-                  _selectedTime.hour,
-                  _selectedTime.minute,
-                );
-                Provider.of<TaskProvider>(context, listen: false).addTask(name, deadline);
-                Navigator.of(context).pop();
-              },
-              child: const Icon (Icons.add_circle_outline),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final name = taskNameController.text;
+                    final deadline = DateTime(
+                      _selectedDate.year,
+                      _selectedDate.month,
+                      _selectedDate.day,
+                      _selectedTime.hour,
+                      _selectedTime.minute,
+                    );
+                    Provider.of<TaskProvider>(context, listen: false)
+                        .addTask(name, deadline);
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Add"),
+                ),
+              ],
+            )
           ],
         );
       },
@@ -138,7 +160,8 @@ class _TasksScreenState extends State<TasksScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const Icon (Icons.remove, color: Colors.transparent),
+        leading: const Icon(Icons.remove, color: Colors.transparent),
+        toolbarHeight: 5,
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -162,7 +185,7 @@ class _TasksScreenState extends State<TasksScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddTaskDialog(context),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -184,18 +207,21 @@ class TasksContent extends StatelessWidget {
                 'Current tasks',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               const SizedBox(height: 12),
               Column(
                 children: taskProvider.currentTasks
                     .map((task) => TaskItemWithTime(
-                  taskName: task.name,
-                  initialCompleted: task.completed,
-                  onToggleCompletion: () => taskProvider.toggleTaskCompletion(task),
-                  deadline: task.deadline,
-                  onToggleDelete: () => taskProvider.deleteTask(task),
-                ))
+                          taskName: task.name,
+                          initialCompleted: task.completed,
+                          onToggleCompletion: () =>
+                              taskProvider.toggleTaskCompletion(task),
+                          deadline: task.deadline,
+                          onToggleDelete: () => taskProvider.deleteTask(task),
+                        ))
                     .toList(),
               ),
               const SizedBox(height: 12),
@@ -203,18 +229,21 @@ class TasksContent extends StatelessWidget {
                 'Done tasks',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               const SizedBox(height: 12),
               Column(
                 children: taskProvider.doneTasks
                     .map((task) => TaskItemWithTime(
-                  taskName: task.name,
-                  initialCompleted: task.completed,
-                  onToggleCompletion: () => taskProvider.toggleTaskCompletion(task),
-                  deadline: task.deadline,
-                  onToggleDelete: () => taskProvider.deleteTask(task),
-                ))
+                          taskName: task.name,
+                          initialCompleted: task.completed,
+                          onToggleCompletion: () =>
+                              taskProvider.toggleTaskCompletion(task),
+                          deadline: task.deadline,
+                          onToggleDelete: () => taskProvider.deleteTask(task),
+                        ))
                     .toList(),
               ),
             ],

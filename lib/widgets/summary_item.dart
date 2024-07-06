@@ -8,8 +8,10 @@ class SummaryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double heightOfScreen = MediaQuery.of(context).size.height;
+    double widthOfScreen = MediaQuery.of(context).size.width;
     return Container(
-      width: 100,
+      width: widthOfScreen / 4,
       height: 100,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(

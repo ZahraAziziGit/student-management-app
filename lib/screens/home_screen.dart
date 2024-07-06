@@ -12,7 +12,7 @@ import 'package:radiohead/screens/user_info_screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -81,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          // Background Image
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -103,13 +102,13 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class HomeContent extends StatefulWidget {
-  const HomeContent({Key? key}) : super(key: key);
+  const HomeContent({super.key});
 
   @override
-  _HomeContentState createState() => _HomeContentState();
+  HomeContentState createState() => HomeContentState();
 }
 
-class _HomeContentState extends State<HomeContent> {
+class HomeContentState extends State<HomeContent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -138,7 +137,7 @@ class _HomeContentState extends State<HomeContent> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SummaryItem(icon: Icons.pending_actions, text: 'Past deadlines: 3'),
-                  SummaryItem(icon: Icons.sentiment_very_dissatisfied, text: 'Worst mark: 10.0.'),
+                  SummaryItem(icon: Icons.sentiment_very_dissatisfied, text: 'Worst mark: 10.0'),
                 ],
               ),
               const SizedBox(height: 18),

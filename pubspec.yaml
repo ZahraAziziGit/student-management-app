@@ -31,7 +31,6 @@ dependencies:
   flutter:
     sdk: flutter
   image_picker: ^0.8.4+8
-  fluttertoast: ^8.2.6
   provider: ^6.1.2
   shared_preferences: ^2.2.3
 
