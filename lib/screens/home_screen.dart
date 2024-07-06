@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import 'package:radiohead/widgets/summary_item.dart';
 import 'package:radiohead/widgets/task_item.dart';
 import 'package:radiohead/widgets/navigation_bar.dart';
+import 'package:radiohead/widgets/task_provider.dart';
 
 import 'package:radiohead/screens/tasks_screen.dart';
 import 'package:radiohead/screens/user_info_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -106,96 +110,74 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
-  final List<Task> _currentTasks = [
-    Task(name: 'ODE - HW1', completed: false),
-    Task(name: 'AP - HW2', completed: false),
-  ];
-
-  final List<Task> _doneTasks = [
-    Task(name: 'AP - HW1', completed: true),
-    Task(name: 'DM - HW1', completed: true),
-  ];
-
-  void _toggleTaskCompletion(Task task) {
-    setState(() {
-      if (task.completed) {
-        _doneTasks.remove(task);
-        _currentTasks.add(task);
-      } else {
-        _currentTasks.remove(task);
-        _doneTasks.add(task);
-      }
-      task.completed = !task.completed;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: ListView(
-        children: [
-          const Text(
-            'Summary',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          const SizedBox(height: 16),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Consumer<TaskProvider>(
+        builder: (context, taskProvider, child) {
+          return ListView(
             children: [
-              SummaryItem(icon: Icons.star, text: 'Best score: 20.0'),
-              SummaryItem(icon: Icons.article, text: 'Exams: 3'),
-              SummaryItem(icon: Icons.timer, text: 'Homeworks: 2'),
+              const Text(
+                'Summary',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              const SizedBox(height: 16),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SummaryItem(icon: Icons.star, text: 'Best score: 20.0'),
+                  SummaryItem(icon: Icons.article, text: 'Exams: 3'),
+                  SummaryItem(icon: Icons.timer, text: 'Homeworks: 2'),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SummaryItem(icon: Icons.pending_actions, text: 'Past deadlines: 3'),
+                  SummaryItem(icon: Icons.sentiment_very_dissatisfied, text: 'Worst mark: 10.0.'),
+                ],
+              ),
+              const SizedBox(height: 18),
+              const Text(
+                'Current tasks',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              const SizedBox(height: 12),
+              Column(
+                children: taskProvider.currentTasks
+                    .map((task) => TaskItem(
+                  taskName: task.name,
+                  initialCompleted: task.completed,
+                  onToggleCompletion: () => taskProvider.toggleTaskCompletion(task),
+                ))
+                    .toList(),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Done tasks',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              const SizedBox(height: 12),
+              Column(
+                children: taskProvider.doneTasks
+                    .map((task) => TaskItem(
+                  taskName: task.name,
+                  initialCompleted: task.completed,
+                  onToggleCompletion: () => taskProvider.toggleTaskCompletion(task),
+                ))
+                    .toList(),
+              ),
             ],
-          ),
-          const SizedBox(height: 16),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SummaryItem(
-                  icon: Icons.pending_actions, text: 'Past deadlines: 3'),
-              SummaryItem(
-                  icon: Icons.sentiment_very_dissatisfied,
-                  text: 'Worst mark: 10.0.'),
-            ],
-          ),
-          const SizedBox(height: 18),
-          const Text(
-            'Current tasks',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          const SizedBox(height: 12),
-          Column(
-            children: _currentTasks
-                .map((task) => TaskItem(
-                      taskName: task.name,
-                      initialCompleted: task.completed,
-                      onToggleCompletion: () => _toggleTaskCompletion(task),
-                    ))
-                .toList(),
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Done tasks',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          const SizedBox(height: 12),
-          Column(
-            children: _doneTasks
-                .map((task) => TaskItem(
-                      taskName: task.name,
-                      initialCompleted: task.completed,
-                      onToggleCompletion: () => _toggleTaskCompletion(task),
-                    ))
-                .toList(),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -207,3 +189,5 @@ class Task {
 
   Task({required this.name, this.completed = false});
 }
+
+
