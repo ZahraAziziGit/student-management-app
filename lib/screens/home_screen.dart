@@ -9,7 +9,7 @@ import 'package:radiohead/widgets/task_provider.dart';
 
 import 'package:radiohead/screens/tasks_screen.dart';
 import 'package:radiohead/screens/user_info_screen.dart';
-
+import 'package:radiohead/screens/classes_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -45,6 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const TasksScreen())
+      );
+    }
+
+    if (index == 2) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ClassesScreen())
       );
     }
   }
