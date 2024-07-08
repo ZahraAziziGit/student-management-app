@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:radiohead/screens/welcome_screen.dart';
 import 'package:radiohead/theme/theme.dart';
+
+import 'package:radiohead/screens/welcome_screen.dart';
+
+import 'package:radiohead/widgets/assignment_provider.dart';
 import 'package:radiohead/widgets/task_provider.dart';
 
 void main() {
@@ -10,6 +13,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => TaskProvider()),
+        ChangeNotifierProvider(create: (context) => AssignmentProvider()),
       ],
       child: const MyApp(),
     ),
