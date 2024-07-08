@@ -172,7 +172,7 @@ class HomeContentState extends State<HomeContent> {
                     .map((assignment) => AssignmentItem(
                   assignmentName: assignment.name,
                   initialCompleted: assignment.completed,
-                  onToggleCompletion: () => assignmentProvider.toggleTaskCompletion(assignment),
+                  onToggleCompletion: () => assignmentProvider.toggleAssignmentCompletion(assignment),
                   deadline: assignment.deadline,
                 ))
                     .toList(),
@@ -190,7 +190,7 @@ class HomeContentState extends State<HomeContent> {
                     .map((assignment) => AssignmentItem(
                   assignmentName: assignment.name,
                   initialCompleted: assignment.completed,
-                  onToggleCompletion: () => assignmentProvider.toggleTaskCompletion(assignment),
+                  onToggleCompletion: () => assignmentProvider.toggleAssignmentCompletion(assignment),
                   deadline: assignment.deadline,
                 ))
                     .toList(),
