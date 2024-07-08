@@ -1,0 +1,4 @@
+name:ali,lastname:alavi,id:402243001,numOfCourses:2,numOfUnits:6,courses:{1~2},totalAvg:19.0,marks:{1=20.0~2=18.0}
+name:emma,lastname:watson,id:402243002,numOfCourses:1,numOfUnits:3,courses:{1},totalAvg:16.0,marks:{1=16.0}
+name:mike,lastname:wazowski,id:402243003,numOfCourses:1,numOfUnits:3,courses:{2},totalAvg:14.0,marks:{2=14.0}
+name:winnie,lastname:puuh,id:402243004,numOfCourses:1,numOfUnits:3,courses:{1},totalAvg:10.0,marks:{1=10.0}
