@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:radiohead/theme/theme.dart';
@@ -22,7 +24,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? _username;
   String? _studentId;
   String? _password;
-
+  bool idChecker = false;
+  String response = '';
   bool _isPasswordVisible = false;
 
   @override
@@ -257,8 +260,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_formSignupKey.currentState!.validate()) {
+                          onPressed: () async {
+                            await signUp();
+                            if (_formSignupKey.currentState!.validate() && idChecker) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text("Success!"),
@@ -268,6 +272,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (e) => const LogInScreen(),
+                                ),
+                              );
+                            } else if (!idChecker) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Student ID was not found"),
+                                ),
+                              );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (e) => const SignUpScreen(),
                                 ),
                               );
                             }
@@ -329,4 +345,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+  Future<String> signUp() async {
+    try {
+      final serverSocket = await Socket.connect("192.168.1.102", 2041);
+      serverSocket.write('$_username~$_studentId~$_password\u0000');
+      serverSocket.flush();
+
+      serverSocket.listen((socketResponse) {
+        setState(() {
+          response = String.fromCharCodes(socketResponse);
+        });
+      });
+
+      await Future.delayed(const Duration(seconds: 2));
+      serverSocket.close();
+
+      print("-----------server response is: { $response }");
+
+      if (response == "found") {
+        idChecker = true;
+      } else {
+        idChecker = false;
+      }
+    } catch (e) {
+      print("Error: $e");
+      if (e is SocketException) {
+        print('SocketException: ${e.message}, address: ${e.address}, port: ${e.port}');
+      }
+    }
+    return response;
+  }
+
 }
+
+
