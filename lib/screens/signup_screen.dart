@@ -24,9 +24,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? _username;
   String? _studentId;
   String? _password;
-  bool idChecker = false;
-  String response = '';
   bool _isPasswordVisible = false;
+  bool idChecker = false;
+  bool duplicateUsername = false;
+  String response = '';
 
   @override
   void dispose() {
@@ -71,11 +72,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (value.length < 8) {
       return "password must be more than 8 characters";
     }
-    RegExp regex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?*#@]).+$');
+    RegExp regex =
+        RegExp(r'^(?!.~).(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?*#@]).+$');
     if (!regex.hasMatch(value)) {
       return "Password must contain:\n"
           "an uppercase letter and a lowercase letter\n"
-          "a number and a special character (!?*#@)";
+          "a number and a special character (!?*#@)\n"
+          "and no '~'";
     }
     return null;
   }
@@ -262,7 +265,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: ElevatedButton(
                           onPressed: () async {
                             await signUp();
-                            if (_formSignupKey.currentState!.validate() && idChecker) {
+                            if (_formSignupKey.currentState!.validate() &&
+                                idChecker &&
+                                !duplicateUsername) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text("Success!"),
@@ -274,16 +279,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   builder: (e) => const LogInScreen(),
                                 ),
                               );
-                            } else if (!idChecker) {
+                            } else if (!idChecker && !duplicateUsername) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text("Student ID was not found"),
                                 ),
                               );
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (e) => const SignUpScreen(),
+                            } else if (!idChecker && duplicateUsername) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text("Username has been already taken"),
                                 ),
                               );
                             }
@@ -345,10 +351,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
   Future<String> signUp() async {
     try {
       final serverSocket = await Socket.connect("192.168.1.102", 2041);
-      serverSocket.write('$_username~$_studentId~$_password\u0000');
+      serverSocket.write('signup~$_username~$_studentId~$_password\u0000');
       serverSocket.flush();
 
       serverSocket.listen((socketResponse) {
@@ -357,25 +364,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
         });
       });
 
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
       serverSocket.close();
 
       print("-----------server response is: { $response }");
 
       if (response == "found") {
         idChecker = true;
+        duplicateUsername = false;
+      } else if (response == "duplicate") {
+        duplicateUsername = true;
+        idChecker = false;
       } else {
         idChecker = false;
+        duplicateUsername = false;
       }
     } catch (e) {
       print("Error: $e");
       if (e is SocketException) {
-        print('SocketException: ${e.message}, address: ${e.address}, port: ${e.port}');
+        print(
+            'SocketException: ${e.message}, address: ${e.address}, port: ${e.port}');
       }
     }
     return response;
   }
-
 }
-
-
