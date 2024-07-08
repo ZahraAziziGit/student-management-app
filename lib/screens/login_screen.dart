@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:radiohead/theme/theme.dart';
@@ -15,16 +17,17 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   final _formLoginKey = GlobalKey<FormState>();
-  String? _username;
-  String? _studentId;
+  String? _usernameOrID;
   String? _password;
   bool _isPasswordVisible = false;
+  bool userChecker = false;
+  bool passwordChecker = false;
+  String response = '';
 
   String? _validateIdOrUsername(String? value) {
     if (value == null || value.isEmpty) {
       return "Field must be filled";
     }
-    //todo
     return null;
   }
 
@@ -32,7 +35,6 @@ class _LogInScreenState extends State<LogInScreen> {
     if (value == null || value.isEmpty) {
       return "Password must be filled";
     }
-    //todo
     return null;
   }
 
@@ -115,13 +117,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         validator: _validateIdOrUsername,
                         onChanged: (value) {
                           setState(() {
-                            RegExp idRegex = RegExp(r'[0-9]{9}');
-                            RegExp usernameRegex = RegExp(r'^[a-zA-Z0-9_]{5,}$');
-                            if (idRegex.hasMatch(value)) {
-                              _studentId = value;
-                            } else if (usernameRegex.hasMatch(value)) {
-                              _username = value;
-                            }
+                            _usernameOrID = value;
                           });
                         },
                       ),
@@ -182,8 +178,9 @@ class _LogInScreenState extends State<LogInScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_formLoginKey.currentState!.validate()) {
+                          onPressed: () async {
+                            await logIn();
+                            if (_formLoginKey.currentState!.validate() && passwordChecker && userChecker) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text("Success!"),
@@ -193,6 +190,18 @@ class _LogInScreenState extends State<LogInScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (e) => const HomeScreen(),
+                                ),
+                              );
+                            } else if (!passwordChecker && !userChecker) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("User not found"),
+                                ),
+                              );
+                            } else if (!passwordChecker && userChecker) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Wrong password"),
                                 ),
                               );
                             }
@@ -254,4 +263,41 @@ class _LogInScreenState extends State<LogInScreen> {
       ),
     );
   }
+
+  Future<String> logIn() async {
+    try {
+      final serverSocket = await Socket.connect("192.168.1.102", 2041);
+      serverSocket.write('login~$_usernameOrID~$_password\u0000');
+      serverSocket.flush();
+
+      serverSocket.listen((socketResponse) {
+        setState(() {
+          response = String.fromCharCodes(socketResponse);
+        });
+      });
+
+      await Future.delayed(const Duration(seconds: 1));
+      serverSocket.close();
+
+      print("-----------server response is: { $response }");
+
+      if (response == "found") {
+        userChecker = true;
+        passwordChecker = true;
+      } else if (response == "not found"){
+        passwordChecker = false;
+        userChecker = false;
+      } else if (response == "wrong password"){
+        userChecker = true;
+        passwordChecker = false;
+      }
+    } catch (e) {
+      print("Error: $e");
+      if (e is SocketException) {
+        print('SocketException: ${e.message}, address: ${e.address}, port: ${e.port}');
+      }
+    }
+    return response;
+  }
+  
 }
