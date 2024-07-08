@@ -96,7 +96,7 @@ class ClassesContent extends StatefulWidget {
 }
 
 class ClassesContentState extends State<ClassesContent> {
-  
+
   void _addNewClass(BuildContext context) {
     showModalBottomSheet(
       context: context,
