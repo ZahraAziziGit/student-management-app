@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:radiohead/widgets/navigation_bar.dart';
 import 'package:radiohead/widgets/task_provider.dart';
 import 'package:radiohead/widgets/task_item_with_time.dart';
-import 'package:radiohead/widgets/navigation_bar.dart';
 
 import 'package:radiohead/screens/home_screen.dart';
 import 'package:radiohead/screens/classes_screen.dart';
+import 'package:radiohead/screens/news_screen.dart';
+import 'package:radiohead/screens/assignments_screen.dart';
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
@@ -25,8 +27,8 @@ class _TasksScreenState extends State<TasksScreen> {
     const HomeContent(),
     const TasksContent(),
     const ClassesContent(),
-    const Text('News Page'),
-    const Text('Assignments Page'),
+    const NewsContent(),
+    const AssignmentsContent(),
   ];
 
   void _onItemTapped(int index) {
@@ -42,6 +44,21 @@ class _TasksScreenState extends State<TasksScreen> {
     if (index == 1) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const TasksScreen()));
+    }
+
+    if (index == 2) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ClassesScreen()));
+    }
+
+    if (index == 3) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const NewsScreen()));
+    }
+
+    if (index == 4) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const AssignmentsScreen()));
     }
   }
 
