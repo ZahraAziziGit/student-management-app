@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:radiohead/widgets/summary_item.dart';
-import 'package:radiohead/widgets/task_item.dart';
 import 'package:radiohead/widgets/navigation_bar.dart';
-import 'package:radiohead/widgets/task_provider.dart';
+import 'package:radiohead/widgets/summary_item.dart';
+import 'package:radiohead/widgets/assignment_item.dart';
+import 'package:radiohead/widgets/assignment_provider.dart';
 
-import 'package:radiohead/screens/tasks_screen.dart';
 import 'package:radiohead/screens/user_info_screen.dart';
+import 'package:radiohead/screens/tasks_screen.dart';
 import 'package:radiohead/screens/classes_screen.dart';
+import 'package:radiohead/screens/news_screen.dart';
+import 'package:radiohead/screens/assignments_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,9 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _widgetOptions = <Widget>[
     const HomeContent(),
     const TasksContent(),
-    const Text('Classes Page'),
-    const Text('News Page'),
-    const Text('Assignments Page'),
+    const ClassesContent(),
+    const NewsContent(),
+    const AssignmentsContent(),
   ];
 
   void _onItemTapped(int index) {
@@ -53,6 +55,16 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
           MaterialPageRoute(builder: (context) => const ClassesScreen())
       );
+    }
+
+    if (index == 3) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const NewsScreen()));
+    }
+
+    if (index == 4) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const AssignmentsScreen()));
     }
   }
 
@@ -120,8 +132,8 @@ class HomeContentState extends State<HomeContent> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Consumer<TaskProvider>(
-        builder: (context, taskProvider, child) {
+      child: Consumer<AssignmentProvider>(
+        builder: (context, assignmentProvider, child) {
           return ListView(
             children: [
               const Text(
@@ -149,35 +161,37 @@ class HomeContentState extends State<HomeContent> {
               ),
               const SizedBox(height: 18),
               const Text(
-                'Current tasks',
+                'To do',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                     fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const SizedBox(height: 12),
               Column(
-                children: taskProvider.currentTasks
-                    .map((task) => TaskItem(
-                  taskName: task.name,
-                  initialCompleted: task.completed,
-                  onToggleCompletion: () => taskProvider.toggleTaskCompletion(task),
+                children: assignmentProvider.notFinishedAssignments
+                    .map((assignment) => AssignmentItem(
+                  assignmentName: assignment.name,
+                  initialCompleted: assignment.completed,
+                  onToggleCompletion: () => assignmentProvider.toggleTaskCompletion(assignment),
+                  deadline: assignment.deadline,
                 ))
                     .toList(),
               ),
               const SizedBox(height: 12),
               const Text(
-                'Done tasks',
+                'Done!',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                     fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const SizedBox(height: 12),
               Column(
-                children: taskProvider.doneTasks
-                    .map((task) => TaskItem(
-                  taskName: task.name,
-                  initialCompleted: task.completed,
-                  onToggleCompletion: () => taskProvider.toggleTaskCompletion(task),
+                children: assignmentProvider.finishedAssignments
+                    .map((assignment) => AssignmentItem(
+                  assignmentName: assignment.name,
+                  initialCompleted: assignment.completed,
+                  onToggleCompletion: () => assignmentProvider.toggleTaskCompletion(assignment),
+                  deadline: assignment.deadline,
                 ))
                     .toList(),
               ),
