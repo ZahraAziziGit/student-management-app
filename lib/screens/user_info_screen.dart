@@ -25,8 +25,18 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   String? _password;
   String? _name;
   String? _lastname;
+  String? _studentId;
+  String? _unitCounts;
+  String? _totalAvg;
+  String response = "";
 
   File? _image;
+
+  @override
+  void initState() {
+    super.initState();
+    userInfo();
+  }
 
   @override
   void dispose() {
@@ -55,11 +65,13 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     if (value.length < 8) {
       return "password must be more than 8 characters";
     }
-    RegExp regex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?*#@]).+$');
+    RegExp regex =
+        RegExp(r'^(?!.~).(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?*#@]).+$');
     if (!regex.hasMatch(value)) {
       return "Password must contain:\n"
           "an uppercase letter and a lowercase letter\n"
-          "a number and a special character (!?*#@)";
+          "a number and a special character (!?*#@)\n"
+          "and no '~'";
     }
     return null;
   }
@@ -357,14 +369,32 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      _lastname == null ? " " : "$_name $_lastname",
-                      style: const TextStyle(
-                        fontFamily: 'Georgia',
-                        color: Colors.white,
-                        fontSize: 23,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    Center(
+                      child: Text.rich(TextSpan(
+                        children: [
+                          TextSpan(
+                            text: _name == null ? "" : _name!,
+                            style: const TextStyle(
+                              fontFamily: 'Georgia',
+                              color: Colors.white,
+                              fontSize: 23,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const TextSpan(
+                            text: "  ",
+                          ),
+                          TextSpan(
+                            text: _lastname == null ? "" : _lastname!,
+                            style: const TextStyle(
+                              fontFamily: 'Georgia',
+                              color: Colors.white,
+                              fontSize: 23,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      )),
                     ),
                     const Text(
                       "Student",
@@ -391,9 +421,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 ),
                 child: Column(
                   children: [
-                    const Card(
+                    Card(
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(5, 7, 5, 7),
+                        padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
                         child: Column(
                           children: [
                             SizedBox(
@@ -403,7 +433,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Student ID",
                                       style: TextStyle(
                                         fontFamily: 'Verdana',
@@ -412,8 +442,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       textAlign: TextAlign.left,
                                     ),
                                     Text(
-                                      "402243000",
-                                      style: TextStyle(
+                                      _studentId == null ? "" : _studentId!,
+                                      style: const TextStyle(
                                         fontFamily: 'Verdana',
                                         color: Colors.grey,
                                       ),
@@ -422,14 +452,14 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   ],
                                 ),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 20),
+                                    const EdgeInsets.symmetric(horizontal: 20),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               endIndent: 20,
                               indent: 20,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 45,
                               child: ListTile(
                                 title: Row(
@@ -458,7 +488,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                     EdgeInsets.symmetric(horizontal: 20),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               endIndent: 20,
                               indent: 20,
                             ),
@@ -469,7 +499,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Units count",
                                       style: TextStyle(
                                         fontFamily: 'Verdana',
@@ -478,8 +508,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       textAlign: TextAlign.left,
                                     ),
                                     Text(
-                                      "16",
-                                      style: TextStyle(
+                                      _unitCounts == null ? "" : _unitCounts!,
+                                      style: const TextStyle(
                                         fontFamily: 'Verdana',
                                         color: Colors.grey,
                                       ),
@@ -488,10 +518,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   ],
                                 ),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 20),
+                                    const EdgeInsets.symmetric(horizontal: 20),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               endIndent: 20,
                               indent: 20,
                             ),
@@ -502,7 +532,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Total average",
                                       style: TextStyle(
                                         fontFamily: 'Verdana',
@@ -511,8 +541,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       textAlign: TextAlign.left,
                                     ),
                                     Text(
-                                      "16.54",
-                                      style: TextStyle(
+                                      _totalAvg == null ? "" : _totalAvg!,
+                                      style: const TextStyle(
                                         fontFamily: 'Verdana',
                                         color: Colors.grey,
                                       ),
@@ -521,7 +551,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                   ],
                                 ),
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 20),
+                                    const EdgeInsets.symmetric(horizontal: 20),
                               ),
                             ),
                           ],
@@ -615,5 +645,47 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         ),
       ),
     );
+  }
+
+  Future<String> userInfo() async {
+    try {
+      final serverSocket = await Socket.connect("192.168.1.102", 2041);
+
+      serverSocket.write('userinfo\u0000');
+      serverSocket.flush();
+
+      serverSocket.listen((socketResponse) {
+        setState(() {
+          response = String.fromCharCodes(socketResponse);    //name~lastname~id~unitCount~avg
+          _name = response.split("~")[0];
+          _lastname = response.split("~")[1];
+          _studentId = response.split("~")[2];
+          _unitCounts = response.split("~")[3];
+          _totalAvg = response.split("~")[4];
+        });
+      });
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      print("-----------server response is: { $response }");
+
+      // serverSocket.listen((socketResponse) {
+      //   setState(() {
+      //     response = String.fromCharCodes(socketResponse);
+      //   });
+      // });
+      //
+      // await Future.delayed(const Duration(seconds: 1));
+      // serverSocket.close();
+      //
+      // print("-----------server response is: { $response }");
+    } catch (e) {
+      print("Error: $e");
+      if (e is SocketException) {
+        print(
+            'SocketException: ${e.message}, address: ${e.address}, port: ${e.port}');
+      }
+    }
+    return response;
   }
 }
