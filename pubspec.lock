@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  file_picker:
+    dependency: "direct main"
+    description:
+      name: file_picker
+      sha256: a7965f87b5894605771d8fffd29236f7d697f73bd254d1e599e7075cb7b1f8bf
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.1.0+1"
   file_selector_linux:
     dependency: transitive
     description:
@@ -224,6 +232,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.17.0"
   leak_tracker:
     dependency: transitive
     description:
