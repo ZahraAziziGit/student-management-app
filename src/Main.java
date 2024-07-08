@@ -35,8 +35,8 @@ public class Main {
         File tempFile = new File(filePath);
         tempFile.mkdir();
 
-        String studentPath = filePath + "/students.txt";
-        String studentTempPath = filePath + "/temp_students.txt";
+        String studentPath = filePath + "/students_data.txt";
+        String studentTempPath = filePath + "/temp_students_data.txt";
         String assignmentPath = filePath + "/assignments_data.txt";
         String assignmentTempPath = filePath + "/temp_assignments_data.txt";
         String teacherPath = filePath + "/teachers_data.txt";
@@ -45,8 +45,8 @@ public class Main {
         String courseTempPath = filePath + "/temp_courses_data.txt";
 
         //for windows, uncomment this part and comment the previous part.
-    /*  String studentPath = filePath + "\\students.txt";
-        String studentTempPath = filePath + "\\temp_students.txt";
+    /*  String studentPath = filePath + "\\students_data.txt";
+        String studentTempPath = filePath + "\\temp_students_data.txt";
         String assignmentPath = filePath + "\\assignments_data.txt";
         String assignmentTempPath = filePath + "\\temp_assignments_data.txt";
         String teacherPath = filePath + "\\teachers_data.txt";
