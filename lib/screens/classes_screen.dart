@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:radiohead/widgets/class_card.dart';
 import 'package:radiohead/widgets/navigation_bar.dart';
+import 'package:radiohead/widgets/class_card.dart';
 
-import 'package:radiohead/screens/tasks_screen.dart';
 import 'package:radiohead/screens/home_screen.dart';
+import 'package:radiohead/screens/tasks_screen.dart';
+import 'package:radiohead/screens/news_screen.dart';
+import 'package:radiohead/screens/assignments_screen.dart';
 
 class ClassesScreen extends StatefulWidget {
   const ClassesScreen({super.key});
@@ -20,8 +22,8 @@ class _ClassesScreenState extends State<ClassesScreen> {
     const HomeContent(),
     const TasksContent(),
     const ClassesContent(),
-    const Text('News Page'),
-    const Text('Assignments Page'),
+    const NewsContent(),
+    const AssignmentsContent(),
   ];
 
   void _onItemTapped(int index) {
@@ -42,6 +44,16 @@ class _ClassesScreenState extends State<ClassesScreen> {
     if (index == 2) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ClassesScreen()));
+    }
+
+    if (index == 3) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const NewsScreen()));
+    }
+
+    if (index == 4) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const AssignmentsScreen()));
     }
   }
 
@@ -84,6 +96,7 @@ class ClassesContent extends StatefulWidget {
 }
 
 class ClassesContentState extends State<ClassesContent> {
+  
   void _addNewClass(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -148,7 +161,7 @@ class ClassesContentState extends State<ClassesContent> {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 25),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
