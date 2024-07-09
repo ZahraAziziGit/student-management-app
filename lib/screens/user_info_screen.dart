@@ -35,7 +35,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   void initState() {
     super.initState();
-    userInfo();
+    userInfo("userinfo");
   }
 
   @override
@@ -263,7 +263,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: lightColorScheme.secondary,
                             ),
-                            onPressed: () {
+                            onPressed: () async {
+                              await userInfo("password");
                               if (passwordFormKey.currentState!.validate()) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -611,7 +612,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     SizedBox(
                       width: 360,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          await userInfo("delete");
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text("Account was deleted"),
@@ -647,38 +649,48 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     );
   }
 
-  Future<String> userInfo() async {
+  Future<String> userInfo(String command) async {
     try {
       final serverSocket = await Socket.connect("192.168.1.102", 2041);
 
-      serverSocket.write('userinfo\u0000');
-      serverSocket.flush();
+      if (command == "userinfo") {
+        serverSocket.write('userinfo\u0000');
+        serverSocket.flush();
 
-      serverSocket.listen((socketResponse) {
-        setState(() {
-          response = String.fromCharCodes(socketResponse);    //name~lastname~id~unitCount~avg
-          _name = response.split("~")[0];
-          _lastname = response.split("~")[1];
-          _studentId = response.split("~")[2];
-          _unitCounts = response.split("~")[3];
-          _totalAvg = response.split("~")[4];
+        serverSocket.listen((socketResponse) {
+          setState(() {
+            response = String.fromCharCodes(
+                socketResponse); //name~lastname~id~unitCount~avg
+            _name = response.split("~")[0];
+            _lastname = response.split("~")[1];
+            _studentId = response.split("~")[2];
+            _unitCounts = response.split("~")[3];
+            _totalAvg = response.split("~")[4];
+          });
         });
-      });
+      } else if (command == "password") {
+        serverSocket.write('password~$_password\u0000');
+        serverSocket.flush();
+
+        serverSocket.listen((socketResponse) {
+          setState(() {
+            response = String.fromCharCodes(socketResponse);
+          });
+        });
+      } else if (command == "delete") {
+        serverSocket.write('delete~\u0000');
+        serverSocket.flush();
+
+        serverSocket.listen((socketResponse) {
+          setState(() {
+            response = String.fromCharCodes(socketResponse);
+          });
+        });
+      }
 
       await Future.delayed(const Duration(seconds: 1));
 
       print("-----------server response is: { $response }");
-
-      // serverSocket.listen((socketResponse) {
-      //   setState(() {
-      //     response = String.fromCharCodes(socketResponse);
-      //   });
-      // });
-      //
-      // await Future.delayed(const Duration(seconds: 1));
-      // serverSocket.close();
-      //
-      // print("-----------server response is: { $response }");
     } catch (e) {
       print("Error: $e");
       if (e is SocketException) {
