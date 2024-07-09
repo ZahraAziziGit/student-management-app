@@ -874,7 +874,7 @@ public class Main {
                                 break;
                             }
                             String courseStatus = courseData[7];
-                            UpdateData.updateCourseData(courseFile, courseTempFile, courseID, (courseStatus.equals("true") ? "false" : "true"));
+                            UpdateData.updateCourseData(courseFile, courseTempFile, courseID, (!courseStatus.equals("true")));
 
                             System.out.println(GREEN + "Course (ID: " + courseID +
                                     ") status has been successfully changed from " + (courseStatus.equals("true") ? "active" : "not active")
@@ -888,14 +888,6 @@ public class Main {
 
                             System.out.print("Enter Course ID: ");
                             courseID = scanner.nextLine();
-
-                            try {
-                                courseData = IdFinder.findCourseByID(courseID, courseFile);
-                            } catch (NotFoundException e) {
-                                System.out.println(e.getMessage());
-                                isAdminActionChosen = true;
-                                break;
-                            }
 
                             isExamDateCorrect = false;
                             do {
@@ -911,8 +903,7 @@ public class Main {
 
                             UpdateData.updateCourseData(courseFile, courseTempFile, courseID, courseExamDate);
 
-                            System.out.println(GREEN + "Course (ID: " + courseID +
-                                    ") exam date has been successfully changed to " + courseExamDate + "." + RESET);
+                            System.out.println(GREEN + "Course (ID: " + courseID + ") exam date has been successfully changed to " + courseExamDate + "." + RESET);
                             isAdminActionChosen = true;
                             break;
 
