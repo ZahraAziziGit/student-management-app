@@ -348,6 +348,98 @@ class ClientHandler extends Thread {
                     writer(bestMark + "~" + worstMark + "~" + exams + "~" + homeworks + "~" + pastDeadline);
                     break;
 
+                case "assignment":
+
+                    currentUserReader = new Scanner(currentUserFile);
+                    currentUserId = currentUserReader.nextLine();
+                    currentUserReader.close();
+                    System.out.println("current user id: " + currentUserId);
+
+
+                    StringBuilder assignmentDetails = new StringBuilder();
+                    studentReader = new Scanner(studentFile);
+                    while (studentReader.hasNext()) {
+                        studentDetailsFromDB = studentReader.nextLine().split(",");
+                        if (studentDetailsFromDB[2].split(":")[1].equals(currentUserId)) {
+                            courses = studentDetailsFromDB[5].split(":")[1].substring(1, studentDetailsFromDB[5].split(":")[1].length() - 1).split("~");
+                            for (String couId : courses) {
+                                Scanner courseReader = new Scanner(courseFile);
+                                while (courseReader.hasNext()) {
+                                    String[] courseData = courseReader.nextLine().split(",");
+                                    String courseId = courseData[1].split(":")[1];
+                                    if (couId.equals(courseId)) {
+                                        String[] assignmentIds = courseData[9].split(":")[1].substring(1, courseData[9].split(":")[1].length() - 1).split("~");
+                                        for (String assignID : assignmentIds) {
+                                            Scanner assignmentReader = new Scanner(assignmentFile);
+                                            while (assignmentReader.hasNext()) {
+                                                String[] assignmentData = assignmentReader.nextLine().split(",");
+                                                String assignmentId = assignmentData[0].split(":")[1];
+                                                if (assignmentId.equals(assignID)) {
+                                                    String assignmentName = assignmentData[4].split(":")[1];
+                                                    String assignmentDeadline = assignmentData[1].split(":")[1];
+                                                    assignmentDetails.append(assignmentName).append("~").append(assignmentDeadline).append("#");
+                                                }
+                                            }
+                                            assignmentReader.close();
+                                        }
+                                    }
+                                }
+                                courseReader.close();
+                            }
+                            break;
+                        }
+                    }
+                    studentReader.close();
+                    writer(assignmentDetails.toString());
+                    break;
+
+                case "home assignment":
+
+                    currentUserReader = new Scanner(currentUserFile);
+                    currentUserId = currentUserReader.nextLine();
+                    currentUserReader.close();
+                    System.out.println("current user id: " + currentUserId);
+
+
+                    assignmentDetails = new StringBuilder();
+                    studentReader = new Scanner(studentFile);
+                    while (studentReader.hasNext()) {
+                        studentDetailsFromDB = studentReader.nextLine().split(",");
+                        if (studentDetailsFromDB[2].split(":")[1].equals(currentUserId)) {
+                            courses = studentDetailsFromDB[5].split(":")[1].substring(1, studentDetailsFromDB[5].split(":")[1].length() - 1).split("~");
+                            for (String couId : courses) {
+                                Scanner courseReader = new Scanner(courseFile);
+                                while (courseReader.hasNext()) {
+                                    String[] courseData = courseReader.nextLine().split(",");
+                                    String courseId = courseData[1].split(":")[1];
+                                    if (couId.equals(courseId)) {
+                                        String[] assignmentIds = courseData[9].split(":")[1].substring(1, courseData[9].split(":")[1].length() - 1).split("~");
+                                        for (String assignID : assignmentIds) {
+                                            Scanner assignmentReader = new Scanner(assignmentFile);
+                                            while (assignmentReader.hasNext()) {
+                                                String[] assignmentData = assignmentReader.nextLine().split(",");
+                                                String assignmentId = assignmentData[0].split(":")[1];
+                                                if (assignmentId.equals(assignID)) {
+                                                    String assignmentName = assignmentData[4].split(":")[1];
+                                                    String assignmentDeadline = assignmentData[1].split(":")[1];
+                                                    assignmentDetails.append(assignmentName).append("~").append(assignmentDeadline).append("#");
+                                                }
+                                            }
+                                            assignmentReader.close();
+                                        }
+                                    }
+                                }
+                                courseReader.close();
+                            }
+                            break;
+                        }
+                    }
+                    studentReader.close();
+                    writer(assignmentDetails.toString());
+                    break;
+
+                case "":
+                    break;
             }
 
 
