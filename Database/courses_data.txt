@@ -1,2 +1,2 @@
-name:math,id:1,teacherId:1,marks:<1#20.0*2#16.0*4#10.0>,numOfUnits:3,students{1~2~4},active:true,numOfAssignments:2,assignments:{1~2},examDate:2020-08-08
-name:math,id:1,teacherId:1,marks:<1#18.0*3#14.0>,numOfUnits:3,students{1~3},active:true,numOfAssignments:3,assignments:{3~4~5},examDate:2020-08-10
+name:math,id:1,teacherId:1,marks:<402243001#20.0*402243002#16.0*402243004#10.0>,numOfUnits:3,numOfStudents{3},students{402243001~402243002~402243004},active:true,numOfAssignments:2,assignments:{1~2},examDate:2024-08-08
+name:chemistry,id:2,teacherId:2,marks:<402243001#18.0*402243003#14.0>,numOfUnits:3,numOfStudents{2},students{402243001~402243003},active:true,numOfAssignments:3,assignments:{3~4~5},examDate:2024-08-10
