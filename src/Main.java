@@ -133,6 +133,7 @@ public class Main {
                         19. Change a course exam date
                         20. Exit
                         """);
+                //TODO 12? 13? 14? 15?
                 System.out.print("Enter a number: ");
 
                 boolean isAdminActionChosen = false;
@@ -141,12 +142,11 @@ public class Main {
 
                     //variables
                     String studentFirstName, studentLastName, studentID,
-                            assignmentID, assignmentDeadline = "",
+                            assignmentName, assignmentID, assignmentDeadline = "",
                             teacherFirstName, teacherLastName, teacherID,
                             courseName, courseID, courseExamDate = "";
                     double mark = -1;
                     int numberOfUnits = 0;
-                    LocalDate deadline = LocalDate.now();
 
                     String[] studentData;
                     String[] courseData;
@@ -169,9 +169,7 @@ public class Main {
                                     0, 0,
                                     new ArrayList<>(), 0.0, new HashMap<>(), studentFile);
 
-                            System.out.println(GREEN + "Student \"" + studentFirstName + " "
-                                    + studentLastName + "\" (ID: " + studentID +
-                                    ") has been successfully added." + RESET);
+                            System.out.println(GREEN + "Student (ID: " + studentID + ") has been successfully added." + RESET);
                             isAdminActionChosen = true;
                             break;
 
@@ -285,6 +283,8 @@ public class Main {
 
                             System.out.print("Enter Assignment ID: ");
                             assignmentID = scanner.nextLine();
+                            System.out.print("Enter Assignment name: ");
+                            assignmentName = scanner.nextLine();
                             System.out.print("Enter Course ID: ");
                             courseID = scanner.nextLine();
 
@@ -316,7 +316,7 @@ public class Main {
                                 Collections.addAll(courseAssignments, assignmentIds);
                             courseAssignments.add(assignmentID);
 
-                            StoreData.storeAssignment(assignmentID, assignmentDeadline, true, courseID, assignmentFile);
+                            StoreData.storeAssignment(assignmentID, assignmentDeadline, true, courseID, assignmentName, assignmentFile);
                             UpdateData.updateCourseData(courseFile, courseTempFile, courseID, numOfCourseAssignment, courseAssignments);
 
                             System.out.println(GREEN + "Assignment (ID: " + assignmentID + ") has been successfully added." + RESET);
@@ -332,17 +332,16 @@ public class Main {
 
                             try {
                                 assignmentData = IdFinder.findAssignmentByID(assignmentID, assignmentFile);
-                                if (!Objects.equals(assignmentData[3], "")) {
-                                    courseData = IdFinder.findCourseByID(assignmentData[3], courseFile);
-                                    int numOfAssignments = Integer.parseInt(courseData[8]);
-                                    numOfAssignments--;
-                                    assignmentIds = courseData[9].substring(1, courseData[9].length() - 1).split("~");
-                                    List<String> listOfAssignmentIds = new ArrayList<>();
-                                    Collections.addAll(listOfAssignmentIds, assignmentIds);
-                                    listOfAssignmentIds.remove(assignmentID);
-                                    UpdateData.updateCourseData(courseFile, courseTempFile, assignmentData[3],
-                                            numOfAssignments, listOfAssignmentIds);
-                                }
+                                courseData = IdFinder.findCourseByID(assignmentData[3], courseFile);
+                                int numOfAssignments = Integer.parseInt(courseData[8]);
+                                numOfAssignments--;
+                                assignmentIds = courseData[9].substring(1, courseData[9].length() - 1).split("~");
+                                List<String> listOfAssignmentIds = new ArrayList<>();
+                                Collections.addAll(listOfAssignmentIds, assignmentIds);
+                                listOfAssignmentIds.remove(assignmentID);
+                                UpdateData.updateCourseData(courseFile, courseTempFile, assignmentData[3],
+                                        numOfAssignments, listOfAssignmentIds);
+
                             } catch (NotFoundException e) {
                                 System.out.println(e.getMessage());
                                 isAdminActionChosen = true;
@@ -374,7 +373,7 @@ public class Main {
                                 try {
                                     System.out.print("Enter new deadline (Format: yyyy-mm-dd): ");
                                     assignmentDeadline = scanner.nextLine();
-                                    deadline = LocalDate.parse(assignmentDeadline);
+                                    LocalDate deadline = LocalDate.parse(assignmentDeadline);
                                     isNewDeadlineCorrect = true;
                                 } catch (DateTimeParseException e) {
                                     System.out.println(RED + "Deadline format is not correct!" + RESET);
