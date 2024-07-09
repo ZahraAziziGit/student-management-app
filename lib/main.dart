@@ -6,6 +6,7 @@ import 'package:radiohead/theme/theme.dart';
 import 'package:radiohead/screens/welcome_screen.dart';
 
 import 'package:radiohead/widgets/assignment_provider.dart';
+import 'package:radiohead/widgets/course_provider.dart';
 import 'package:radiohead/widgets/task_provider.dart';
 
 void main() {
@@ -14,6 +15,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => TaskProvider()),
         ChangeNotifierProvider(create: (context) => AssignmentProvider()),
+        ChangeNotifierProvider(create: (context) => CourseProvider()),
       ],
       child: const MyApp(),
     ),
