@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radiohead/widgets/navigation_bar.dart';
@@ -8,7 +10,6 @@ import 'package:radiohead/screens/tasks_screen.dart';
 import 'package:radiohead/screens/classes_screen.dart';
 import 'package:radiohead/screens/news_screen.dart';
 import 'package:radiohead/widgets/assignment_details.dart';
-import 'package:intl/intl.dart'; // Add this import
 
 class AssignmentsScreen extends StatefulWidget {
   const AssignmentsScreen({super.key});
@@ -20,7 +21,6 @@ class AssignmentsScreen extends StatefulWidget {
 class _AssignmentsScreenState extends State<AssignmentsScreen> {
   int _selectedIndex = 4;
   DateTime _selectedDate = DateTime.now();
-  TimeOfDay _selectedTime = TimeOfDay.now();
 
   final List<Widget> _widgetOptions = <Widget>[
     const HomeContent(),
@@ -31,8 +31,15 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
   ];
 
   void _onItemTapped(int index) {
+    if (index != _selectedIndex) {
+      Provider.of<AssignmentProvider>(context, listen: false)
+          .clearAssignments();
+    }
+
     setState(() {
       _selectedIndex = index;
+      Provider.of<AssignmentProvider>(context, listen: false)
+          .filterAssignmentsByDate(_selectedDate);
     });
 
     if (index == 0) {
@@ -64,25 +71,15 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: _selectedDate,
       firstDate: DateTime(2024),
       lastDate: DateTime(2025),
     );
-    if (picked != null) {
+    if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
-      });
-    }
-  }
-
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        _selectedTime = picked;
+        Provider.of<AssignmentProvider>(context, listen: false)
+            .filterAssignmentsByDate(_selectedDate);
       });
     }
   }
@@ -92,9 +89,18 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
+        elevation: 40,
         leading: const Icon(Icons.remove, color: Colors.transparent),
-        toolbarHeight: 5,
+        toolbarHeight: 40,
+        actions: [
+          IconButton(
+            icon: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.calendar_today, color: Colors.white, size: 25),
+            ),
+            onPressed: () => _selectDate(context),
+          ),
+        ],
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -120,8 +126,22 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
   }
 }
 
-class AssignmentsContent extends StatelessWidget {
+class AssignmentsContent extends StatefulWidget {
   const AssignmentsContent({super.key});
+
+  @override
+  AssignmentsContentState createState() => AssignmentsContentState();
+}
+
+class AssignmentsContentState extends State<AssignmentsContent> {
+  String response = "";
+  String? assignmentName, assignmentDeadline;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => assignment());
+  }
 
   void _showAssignmentDetailsDialog(BuildContext context, String title,
       DateTime deadline, String estimatedTime, String description) {
@@ -158,7 +178,7 @@ class AssignmentsContent extends StatelessWidget {
               const SizedBox(height: 12),
               Column(
                 children:
-                    assignmentProvider.notFinishedAssignments.map((assignment) {
+                assignmentProvider.notFinishedAssignments.map((assignment) {
                   return GestureDetector(
                     onTap: () {
                       _showAssignmentDetailsDialog(
@@ -191,7 +211,7 @@ class AssignmentsContent extends StatelessWidget {
               const SizedBox(height: 12),
               Column(
                 children:
-                    assignmentProvider.finishedAssignments.map((assignment) {
+                assignmentProvider.finishedAssignments.map((assignment) {
                   return GestureDetector(
                     onTap: () {
                       _showAssignmentDetailsDialog(
@@ -218,4 +238,40 @@ class AssignmentsContent extends StatelessWidget {
       },
     );
   }
+
+  Future<String> assignment() async {
+    try {
+      final serverSocket = await Socket.connect("192.168.1.102", 2041);
+
+      serverSocket.write('assignment\u0000');
+      serverSocket.flush();
+
+      serverSocket.listen((socketResponse) {
+        setState(() {
+          response = String.fromCharCodes(socketResponse);
+          print("-----------server response is: { $response }");
+          //assignmentName~assignmentDeadline#assignmentName~assignmentDeadline#
+          List<String> data = response.split("#");
+          for (int i = 0; i < data.length - 1; i++) {
+            print("-----------details are: { ${data[i]} }");
+            assignmentName = data[i].split("~")[0];
+            assignmentDeadline = "${data[i].split("~")[1]} 23:59";
+            Provider.of<AssignmentProvider>(context, listen: false)
+                .addAssignment(
+                assignmentName!, DateTime.parse(assignmentDeadline!));
+          }
+        });
+      });
+
+      await Future.delayed(const Duration(seconds: 1));
+    } catch (e) {
+      print("Error: $e");
+      if (e is SocketException) {
+        print(
+            'SocketException: ${e.message}, address: ${e.address}, port: ${e.port}');
+      }
+    }
+    return response;
+  }
 }
+
