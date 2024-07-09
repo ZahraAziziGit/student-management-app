@@ -438,11 +438,78 @@ class ClientHandler extends Thread {
                     writer(assignmentDetails.toString());
                     break;
 
-                case "":
+                case "classes":
+
+                    currentUserReader = new Scanner(currentUserFile);
+                    currentUserId = currentUserReader.nextLine();
+                    currentUserReader.close();
+                    System.out.println("current user id: " + currentUserId);
+
+
+                    StringBuilder courseDetails = new StringBuilder();
+                    studentReader = new Scanner(studentFile);
+                    while (studentReader.hasNext()) {
+                        studentDetailsFromDB = studentReader.nextLine().split(",");
+                        if (studentDetailsFromDB[2].split(":")[1].equals(currentUserId)) {
+                            courses = studentDetailsFromDB[5].split(":")[1].substring(1, studentDetailsFromDB[5].split(":")[1].length() - 1).split("~");
+                            for (String couId : courses) {
+                                Scanner courseReader = new Scanner(courseFile);
+                                while (courseReader.hasNext()) {
+                                    String[] courseData = courseReader.nextLine().split(",");
+                                    String courseId = courseData[1].split(":")[1];
+                                    if (couId.equals(courseId)) {
+                                        String courseName = courseData[0].split(":")[1];
+                                        String teacherId = courseData[2].split(":")[1];
+                                        String teacherName = "";
+                                        Scanner teacherReader = new Scanner(teacherFile);
+                                        while (teacherReader.hasNext()) {
+                                            String[] teacherData = teacherReader.nextLine().split(",");
+                                            String teachId = teacherData[2].split(":")[1];
+                                            if (teachId.equals(teacherId)) {
+                                                teacherName = teacherData[0].split(":")[1] + " " + teacherData[1].split(":")[1];
+                                                ;
+                                            }
+                                        }
+                                        teacherReader.close();
+                                        String units = courseData[4].split(":")[1];
+                                        String assignments = courseData[8].split(":")[1];
+                                        String[] marksOfCourse = courseData[3].split(":")[1].substring(1, courseData[3].split(":")[1].length() - 1).split("\\*");
+                                        Map<String, Double> markCourse = new HashMap<>();
+                                        for (String str : marksOfCourse) {
+                                            markCourse.put(str.split("#")[0], Double.valueOf(str.split("#")[1]));
+                                        }
+                                        String topStudent = "";
+                                        String topStudentId = "";
+                                        double maxMark = -1.0;
+                                        for (String str : markCourse.keySet()) {
+                                            if (markCourse.get(str) > maxMark) {
+                                                maxMark = markCourse.get(str);
+                                                topStudentId = str;
+                                            }
+                                        }
+                                        Scanner stuReader = new Scanner(studentFile);
+                                        while (stuReader.hasNext()) {
+                                            String[] studentRead = stuReader.nextLine().split(",");
+                                            String stuId = studentRead[2].split(":")[1];
+                                            if (stuId.equals(topStudentId)) {
+                                                topStudent = studentRead[0].split(":")[1] + " " + studentRead[1].split(":")[1];
+                                            }
+                                        }
+                                        stuReader.close();
+                                        //courseName~teacherName~units~assignments~topStudent#
+                                        courseDetails.append(courseName).append("~").append(teacherName).append("~").append(units).append("~").append(assignments).append("~").append(topStudent).append("#");
+                                    }
+                                }
+                                courseReader.close();
+                            }
+                            break;
+                        }
+                    }
+                    studentReader.close();
+                    writer(courseDetails.toString());
                     break;
+
             }
-
-
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
