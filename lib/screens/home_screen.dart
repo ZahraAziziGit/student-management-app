@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -32,6 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   void _onItemTapped(int index) {
+    if (index != _selectedIndex) {
+      Provider.of<AssignmentProvider>(context, listen: false)
+          .clearAssignments();
+    }
+
     setState(() {
       _selectedIndex = index;
     });
@@ -128,6 +135,17 @@ class HomeContent extends StatefulWidget {
 }
 
 class HomeContentState extends State<HomeContent> {
+  String response = "";
+  String? bestMark, worstMark, exams, homeworks, pastDeadline;
+  String? assignmentName, assignmentDeadline;
+
+  @override
+  void initState() {
+    super.initState();
+    home("summary");
+    home("home assignment");
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -143,20 +161,20 @@ class HomeContentState extends State<HomeContent> {
                     fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const SizedBox(height: 16),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SummaryItem(icon: Icons.star, text: 'Best score: 20.0'),
-                  SummaryItem(icon: Icons.article, text: 'Exams: 3'),
-                  SummaryItem(icon: Icons.timer, text: 'Homeworks: 2'),
+                  SummaryItem(icon: Icons.star, text: 'Best mark: $bestMark'),
+                  SummaryItem(icon: Icons.article, text: 'Exams: $exams'),
+                  SummaryItem(icon: Icons.timer, text: 'Homeworks: $homeworks'),
                 ],
               ),
               const SizedBox(height: 16),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SummaryItem(icon: Icons.pending_actions, text: 'Past deadlines: 3'),
-                  SummaryItem(icon: Icons.sentiment_very_dissatisfied, text: 'Worst mark: 10.0'),
+                  SummaryItem(icon: Icons.pending_actions, text: 'Past deadlines: $pastDeadline'),
+                  SummaryItem(icon: Icons.sentiment_very_dissatisfied, text: 'Worst mark: $worstMark'),
                 ],
               ),
               const SizedBox(height: 18),
@@ -201,6 +219,61 @@ class HomeContentState extends State<HomeContent> {
       ),
     );
   }
+
+  Future<String> home(String command) async {
+    try {
+      final serverSocket = await Socket.connect("192.168.1.102", 2041);
+
+      if (command == "summary") {
+        serverSocket.write('summary\u0000');
+        serverSocket.flush();
+
+        serverSocket.listen((socketResponse) {
+          setState(() {
+            response = String.fromCharCodes(
+                socketResponse); //bestMark~worstMark~exams~homeworks~pastDeadline
+            bestMark = response.split("~")[0];
+            worstMark = response.split("~")[1];
+            exams = response.split("~")[2];
+            homeworks = response.split("~")[3];
+            pastDeadline = response.split("~")[4];
+          });
+        });
+      } else if (command == "home assignment") {
+        serverSocket.write('home assignment\u0000');
+        serverSocket.flush();
+
+        serverSocket.listen((socketResponse) {
+          setState(() {
+            response = String.fromCharCodes(socketResponse);
+            print("-----------server response is: { $response }");
+            //assignmentName~assignmentDeadline#assignmentName~assignmentDeadline#
+            List<String> data = response.split("#");
+            for (int i = 0; i < data.length - 1; i++) {
+              print("-----------details are: { ${data[i]} }");
+              assignmentName = data[i].split("~")[0];
+              assignmentDeadline = "${data[i].split("~")[1]} 23:59";
+              Provider.of<AssignmentProvider>(context, listen: false)
+                  .addAssignment(
+                  assignmentName!, DateTime.parse(assignmentDeadline!));
+            }
+          });
+        });
+      }
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      print("-----------server response is: { $response }");
+    } catch (e) {
+      print("Error: $e");
+      if (e is SocketException) {
+        print(
+            'SocketException: ${e.message}, address: ${e.address}, port: ${e.port}');
+      }
+    }
+    return response;
+  }
+  
 }
 
 class Task {
