@@ -1,37 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Assignment {
   String name;
-  bool completed;
   DateTime deadline;
+  bool completed;
 
-  Assignment({required this.name, this.completed = false, required this.deadline});
+  Assignment({
+    required this.name,
+    required this.deadline,
+    this.completed = false,
+  });
 }
 
-final DateTime now = DateTime.now();
-
 class AssignmentProvider with ChangeNotifier {
-  final List<Assignment> _notFinishedAssignments = [
-    Assignment(name: 'AP - HW2', completed: false, deadline: DateTime.parse('2024-07-20 20:18')),
-  ];
+  List<Assignment> _assignments = [];
+  List<Assignment> _filteredAssignments = [];
 
-  final List<Assignment> _finishedAssignments = [
-    Assignment(name: 'AP - HW1', completed: true, deadline: DateTime.parse('2024-07-02 15:09')),
-    Assignment(name: 'DM - HW1', completed: true, deadline: DateTime.parse('2024-07-16 23:59')),
-  ];
+  List<Assignment> get notFinishedAssignments =>
+      _filteredAssignments.where((assignment) => !assignment.completed).toList();
 
-  List<Assignment> get notFinishedAssignments => _notFinishedAssignments;
-  List<Assignment> get finishedAssignments => _finishedAssignments;
+  List<Assignment> get finishedAssignments =>
+      _filteredAssignments.where((assignment) => assignment.completed).toList();
+
+  void addAssignment(String name, DateTime deadline) {
+    _assignments.add(Assignment(name: name, deadline: deadline));
+    _filteredAssignments = _assignments;
+    notifyListeners();
+  }
 
   void toggleAssignmentCompletion(Assignment assignment) {
-    if (assignment.completed) {
-      _finishedAssignments.remove(assignment);
-      _notFinishedAssignments.add(assignment);
-    } else {
-      _notFinishedAssignments.remove(assignment);
-      _finishedAssignments.add(assignment);
-    }
     assignment.completed = !assignment.completed;
+    notifyListeners();
+  }
+
+  void clearAssignments() {
+    _assignments.clear();
+    _filteredAssignments.clear();
+    notifyListeners();
+  }
+
+  void filterAssignmentsByDate(DateTime date) {
+    _filteredAssignments = _assignments.where((assignment) {
+      return assignment.deadline.year == date.year &&
+          assignment.deadline.month == date.month &&
+          assignment.deadline.day == date.day;
+    }).toList();
     notifyListeners();
   }
 }
