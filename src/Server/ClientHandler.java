@@ -2,6 +2,9 @@ package Server;
 
 import java.io.*;
 import java.net.*;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 class ClientHandler extends Thread {
@@ -34,7 +37,6 @@ class ClientHandler extends Thread {
 
     public void writer(String write) throws IOException {
         try {
-            System.out.println("Writer started");
             dos.writeBytes(write);
             dos.flush();
             dos.close();
@@ -83,7 +85,7 @@ class ClientHandler extends Thread {
             userFile.createNewFile();
 
             String[] userDataFromServer;
-            String studentUsername, studentId, studentPassword, studentUsernameOrId = "";
+            String studentUsername, studentId, studentPassword, studentUsernameOrId;
 
             String[] userDataFromDB;
             String usernameFromDB, userIdFromDB, userPasswordFromDB;
@@ -190,6 +192,7 @@ class ClientHandler extends Thread {
                     currentUserId = currentUserReader.nextLine();
                     currentUserReader.close();
                     System.out.println("current user id: " + currentUserId);
+
                     studentReader = new Scanner(studentFile);
                     while (studentReader.hasNext()) {
                         studentDetailsFromDB = studentReader.nextLine().split(",");
@@ -272,6 +275,79 @@ class ClientHandler extends Thread {
                     writer("user deleted");
                     break;
 
+                case "summary":
+                    String bestMark = "", worstMark = "", exams = "", homeworks = "", pastDeadline = "";
+                    String[] courses, marks;
+
+                    int numOfExams, numOfAssignments = 0, numOfPastAssignments = 0;
+
+                    LocalDate now = LocalDate.now();
+
+                    currentUserReader = new Scanner(currentUserFile);
+                    currentUserId = currentUserReader.nextLine();
+                    currentUserReader.close();
+                    System.out.println("current user id: " + currentUserId);
+
+                    studentReader = new Scanner(studentFile);
+                    while (studentReader.hasNext()) {
+                        studentDetailsFromDB = studentReader.nextLine().split(",");
+                        if (studentDetailsFromDB[2].split(":")[1].equals(currentUserId)) {
+                            courses = studentDetailsFromDB[5].split(":")[1].substring(1, studentDetailsFromDB[5].split(":")[1].length() - 1).split("~");
+                            numOfExams = courses.length;
+
+                            for (String couId : courses) {
+                                Scanner courseReader = new Scanner(courseFile);
+                                while (courseReader.hasNext()) {
+                                    String[] courseData = courseReader.nextLine().split(",");
+                                    String courseId = courseData[1].split(":")[1];
+                                    if (couId.equals(courseId)) {
+                                        String[] assignmentIds = courseData[9].split(":")[1].substring(1, courseData[9].split(":")[1].length() - 1).split("~");
+                                        for (String assignID : assignmentIds) {
+                                            Scanner assignmentReader = new Scanner(assignmentFile);
+                                            while (assignmentReader.hasNext()) {
+                                                String[] assignmentData = assignmentReader.nextLine().split(",");
+                                                String assignmentId = assignmentData[0].split(":")[1];
+                                                if (assignmentId.equals(assignID)) {
+                                                    LocalDate assignmentDeadline = LocalDate.parse(assignmentData[1].split(":")[1]);
+                                                    if (assignmentDeadline.isAfter(now)) {
+                                                        numOfAssignments++;
+                                                    } else if (assignmentDeadline.isBefore(now)) {
+                                                        numOfPastAssignments++;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            marks = studentDetailsFromDB[7].split(":")[1].substring(1, studentDetailsFromDB[7].split(":")[1].length() - 1).split("~");
+                            Map<String, Double> mapOfMarks = new HashMap<>();
+                            for (String markDetails : marks) {
+                                mapOfMarks.put(markDetails.split("=")[0], Double.valueOf(markDetails.split("=")[1]));
+                            }
+                            double maxMark = -1.0;
+                            double minMark = 21.0;
+                            for (String courseInMarks : mapOfMarks.keySet()) {
+                                if (mapOfMarks.get(courseInMarks) > maxMark) {
+                                    maxMark = mapOfMarks.get(courseInMarks);
+                                }
+                                if (mapOfMarks.get(courseInMarks) < minMark) {
+                                    minMark = mapOfMarks.get(courseInMarks);
+                                }
+                            }
+                            bestMark = String.valueOf(maxMark);
+                            worstMark = String.valueOf(minMark);
+                            exams = String.valueOf(numOfExams);
+                            homeworks = String.valueOf(numOfAssignments);
+                            pastDeadline = String.valueOf(numOfPastAssignments);
+                            break;
+                        }
+                    }
+
+                    writer(bestMark + "~" + worstMark + "~" + exams + "~" + homeworks + "~" + pastDeadline);
+                    break;
+
             }
 
 
@@ -280,3 +356,5 @@ class ClientHandler extends Thread {
         }
     }
 }
+
+
