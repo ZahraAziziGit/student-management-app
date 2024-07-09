@@ -360,20 +360,12 @@ public class Main {
                             System.out.print("Enter Assignment ID: ");
                             assignmentID = scanner.nextLine();
 
-                            try {
-                                assignmentData = IdFinder.findAssignmentByID(assignmentID, assignmentFile);
-                            } catch (NotFoundException e) {
-                                System.out.println(e.getMessage());
-                                isAdminActionChosen = true;
-                                break;
-                            }
-
                             boolean isNewDeadlineCorrect = false;
                             do {
                                 try {
                                     System.out.print("Enter new deadline (Format: yyyy-mm-dd): ");
                                     assignmentDeadline = scanner.nextLine();
-                                    LocalDate deadline = LocalDate.parse(assignmentDeadline);
+                                    LocalDate.parse(assignmentDeadline);
                                     isNewDeadlineCorrect = true;
                                 } catch (DateTimeParseException e) {
                                     System.out.println(RED + "Deadline format is not correct!" + RESET);
