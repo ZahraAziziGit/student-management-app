@@ -17,8 +17,9 @@ class AssignmentProvider with ChangeNotifier {
   List<Assignment> _assignments = [];
   List<Assignment> _filteredAssignments = [];
 
-  List<Assignment> get notFinishedAssignments =>
-      _filteredAssignments.where((assignment) => !assignment.completed).toList();
+  List<Assignment> get notFinishedAssignments => _filteredAssignments
+      .where((assignment) => !assignment.completed)
+      .toList();
 
   List<Assignment> get finishedAssignments =>
       _filteredAssignments.where((assignment) => assignment.completed).toList();
@@ -46,6 +47,17 @@ class AssignmentProvider with ChangeNotifier {
           assignment.deadline.month == date.month &&
           assignment.deadline.day == date.day;
     }).toList();
+    notifyListeners();
+  }
+
+  int getAssignmentCount() {
+    return _filteredAssignments.length;
+  }
+
+  void removeAssignments(int count) {
+    if (count <= 0) return;
+    _filteredAssignments =
+        _filteredAssignments.sublist(0, _filteredAssignments.length - count);
     notifyListeners();
   }
 }
