@@ -142,10 +142,21 @@ class HomeContentState extends State<HomeContent> {
   @override
   void initState() {
     super.initState();
-    home("summary");
-    home("home assignment");
+    _initializeAssignments();
+    _removeHalfAssignments();
   }
-  
+
+  Future<void> _initializeAssignments() async {
+    await home("summary");
+    await home("home assignment");
+    _removeHalfAssignments();
+  }
+
+  void _removeHalfAssignments() {
+    int halfCount = (Provider.of<AssignmentProvider>(context, listen: false).getAssignmentCount() / 3).floor();
+    Provider.of<AssignmentProvider>(context, listen: false).removeAssignments(halfCount);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(

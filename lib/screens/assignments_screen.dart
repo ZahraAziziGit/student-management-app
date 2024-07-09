@@ -89,13 +89,12 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 40,
+        elevation: 0,
         leading: const Icon(Icons.remove, color: Colors.transparent),
-        toolbarHeight: 40,
         actions: [
           IconButton(
             icon: const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(18.0),
               child: Icon(Icons.calendar_today, color: Colors.white, size: 25),
             ),
             onPressed: () => _selectDate(context),
@@ -140,7 +139,18 @@ class AssignmentsContentState extends State<AssignmentsContent> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => assignment());
+    _initializeAssignments();
+    _removeHalfAssignments();
+  }
+
+  Future<void> _initializeAssignments() async {
+    await assignment();
+    _removeHalfAssignments();
+  }
+
+  void _removeHalfAssignments() {
+    int halfCount = (Provider.of<AssignmentProvider>(context, listen: false).getAssignmentCount() / 3).floor();
+    Provider.of<AssignmentProvider>(context, listen: false).removeAssignments(halfCount);
   }
 
   void _showAssignmentDetailsDialog(BuildContext context, String title,
