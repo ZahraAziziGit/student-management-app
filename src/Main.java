@@ -417,8 +417,7 @@ public class Main {
                             StoreData.storeTeacher(teacherFirstName, teacherLastName, teacherID, 0,
                                     new ArrayList<>(), teacherFile);
 
-                            System.out.println(GREEN + "Teacher \"" + teacherFirstName + " " + teacherLastName
-                                    + "\" (ID: " + teacherID + ") has been successfully added" + RESET);
+                            System.out.println(GREEN + "Teacher (ID: " + teacherID + ") has been successfully added" + RESET);
                             isAdminActionChosen = true;
                             break;
 
