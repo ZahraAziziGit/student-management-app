@@ -61,70 +61,75 @@ class ClientHandler extends Thread {
             String teacherPath = filePath + "/teachers_data.txt";
             String coursePath = filePath + "/courses_data.txt";
             String userPath = filePath + "/users_data.txt";
+            String userTempPath = filePath + "/users_temp_data.txt";
+            String currentUserPath = filePath + "/current_user.txt";
 
             //for windows, uncomment this part and comment the previous part.
         /*  String studentPath = filePath + "\\students_data.txt";
             String assignmentPath = filePath + "\\assignments_data.txt";
             String teacherPath = filePath + "\\teachers_data.txt";
             String coursePath = filePath + "\\courses_data.txt";
-             String userPath = filePath + "\\users_data.txt"; */
+            String userPath = filePath + "\\users_data.txt";
+            String userTampPath = filePath + "\\users_temp_data.txt";*/
 
             File studentFile = new File(studentPath);
             File assignmentFile = new File(assignmentPath);
             File teacherFile = new File(teacherPath);
             File courseFile = new File(coursePath);
             File userFile = new File(userPath);
+            File userTempFile = new File(userTempPath);
+            File currentUserFile = new File(currentUserPath);
 
-            try {
-                userFile.createNewFile();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+            userFile.createNewFile();
 
-            String[] userData;
-            String studentUsername;
-            String studentId;
-            String studentPassword;
-            String studentUsernameOrId = "";
+            String[] userDataFromServer;
+            String studentUsername, studentId, studentPassword, studentUsernameOrId = "";
 
-            String studentDataFromDB;
+            String[] userDataFromDB;
+            String usernameFromDB, userIdFromDB, userPasswordFromDB;
+
+            String currentUserId = "";
+
             String[] studentDetailsFromDB;
 
             command = listener();
-
             String action = command.split("~")[0];
+
+            Scanner userReader, studentReader;
+
             switch (action) {
 
                 case "signup":
-                    userData = command.split("~");   //example: signup~testUser~123456789~password
-                    studentUsername= userData[1];
-                    studentId = userData[2];
-                    studentPassword = userData[3];
+                    userDataFromServer = command.split("~");   //example: signup~testUser~123456789~password
+                    studentUsername = userDataFromServer[1];
+                    studentId = userDataFromServer[2];
+                    studentPassword = userDataFromServer[3];
 
                     boolean isUsernameDuplicate = false;
-                    Scanner userReader = new Scanner(userFile);
+                    userReader = new Scanner(userFile);
                     while (userReader.hasNext()) {
-                        String[] userDataFromDB = userReader.nextLine().split("~");
-                        String username = userDataFromDB[0].split(":")[1];
-                        if (username.equals(studentUsername)) {
+                        userDataFromDB = userReader.nextLine().split("~");
+                        usernameFromDB = userDataFromDB[0].split(":")[1];
+                        if (usernameFromDB.equals(studentUsername)) {
                             isUsernameDuplicate = true;
                             break;
                         }
                     }
 
                     if (!isUsernameDuplicate) {
-                        Scanner studentReader = new Scanner(studentFile);
                         boolean isStudentFound = false;
+                        studentReader = new Scanner(studentFile);
                         while (studentReader.hasNext()) {
-                            studentDataFromDB = studentReader.nextLine();
-                            studentDetailsFromDB = studentDataFromDB.split(",");
-                            if (studentDetailsFromDB[2].split(":")[1].equals(studentId))
+                            studentDetailsFromDB = studentReader.nextLine().split(",");
+                            if (studentDetailsFromDB[2].split(":")[1].equals(studentId)) {
                                 isStudentFound = true;
+                                studentReader.close();
+                            }
                         }
                         if (isStudentFound) {
                             writer("found");
                             Writer writer = new FileWriter(userFile, true);
-                            writer.write("username:" + studentUsername+ "~id:" + studentId + "~password:" + studentPassword + "\n");
+                            writer.write("username:" + studentUsername + "~id:" + studentId + "~password:" + studentPassword + "\n");
                             writer.flush();
                             writer.close();
                         } else
@@ -133,29 +138,38 @@ class ClientHandler extends Thread {
                     } else {
                         writer("duplicate");
                     }
+                    userReader.close();
                     break;
 
                 case "login":
-                    String[] studentData = command.split("~");   //example: login~testUser~password
-                    studentUsernameOrId = studentData[1];
-                    studentPassword = studentData[2];
+                    userDataFromServer = command.split("~");   //example: login~testUser~password
+                    studentUsernameOrId = userDataFromServer[1];
+                    studentPassword = userDataFromServer[2];
 
-                    boolean isUserFound = false;
-                    boolean isPasswordOk = false;
+                    boolean isUserFound = false, isPasswordOk = false;
+
                     userReader = new Scanner(userFile);
                     while (userReader.hasNext()) {
-                        String[] userDataFromDB = userReader.nextLine().split("~");
-                        String username = userDataFromDB[0].split(":")[1];
-                        String id = userDataFromDB[1].split(":")[1];
-                        String password = userDataFromDB[2].split(":")[1];
-                        if (username.equals(studentUsernameOrId) || id.equals(studentUsernameOrId)) {
+                        userDataFromDB = userReader.nextLine().split("~");
+                        usernameFromDB = userDataFromDB[0].split(":")[1];
+                        userIdFromDB = userDataFromDB[1].split(":")[1];
+                        userPasswordFromDB = userDataFromDB[2].split(":")[1];
+                        if (usernameFromDB.equals(studentUsernameOrId) || userIdFromDB.equals(studentUsernameOrId)) {
                             isUserFound = true;
-                            if (password.equals(studentPassword)) {
+                            currentUserId = userIdFromDB;
+                            System.out.println("current user id: " + currentUserId);
+                            if (userPasswordFromDB.equals(studentPassword)) {
                                 isPasswordOk = true;
                             }
                             break;
                         }
                     }
+
+                    currentUserFile.createNewFile();
+                    Writer userWriter = new FileWriter(currentUserFile);
+                    userWriter.write(currentUserId);
+                    userWriter.flush();
+                    userWriter.close();
 
                     if (isUserFound) {
                         if (isPasswordOk) {
@@ -170,23 +184,16 @@ class ClientHandler extends Thread {
 
                 case "userinfo":
 
-                    //userinfo
                     String name = "", lastname = "", id = "", unitCounts = "", totalAvg = "";
 
-                    userReader = new Scanner(userFile);
-                    while (userReader.hasNext()) {
-                        String[] userDataFromDB = userReader.nextLine().split("~");
-                        String username = userDataFromDB[0].split(":")[1];
-                        id = userDataFromDB[1].split(":")[1];
-                        if (username.equals(studentUsernameOrId) || id.equals(studentUsernameOrId))
-                            break;
-                    }
-
-                    Scanner studentReader = new Scanner(studentFile);
+                    Scanner currentUserReader = new Scanner(currentUserFile);
+                    currentUserId = currentUserReader.nextLine();
+                    currentUserReader.close();
+                    System.out.println("current user id: " + currentUserId);
+                    studentReader = new Scanner(studentFile);
                     while (studentReader.hasNext()) {
-                        studentDataFromDB = studentReader.nextLine();
-                        studentDetailsFromDB = studentDataFromDB.split(",");
-                        if (studentDetailsFromDB[2].split(":")[1].equals(id)) {
+                        studentDetailsFromDB = studentReader.nextLine().split(",");
+                        if (studentDetailsFromDB[2].split(":")[1].equals(currentUserId)) {
                             name = studentDetailsFromDB[0].split(":")[1];
                             lastname = studentDetailsFromDB[1].split(":")[1];
                             id = studentDetailsFromDB[2].split(":")[1];
@@ -195,11 +202,75 @@ class ClientHandler extends Thread {
                             break;
                         }
                     }
-                    //name~lastname~id~unitCount~avg
                     writer(name + "~" + lastname + "~" + id + "~" + unitCounts + "~" + totalAvg);
-
                     break;
 
+                case "password":
+                    //password~pass
+                    String newPassword = command.split("~")[1];
+                    System.out.println("new password: " + newPassword);
+
+                    currentUserReader = new Scanner(currentUserFile);
+                    currentUserId = currentUserReader.nextLine();
+                    currentUserReader.close();
+                    System.out.println("current user id: " + currentUserId);
+
+                    try {
+                        userTempFile.createNewFile();
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                    Writer newWriter = new FileWriter(userTempFile, true);
+                    userReader = new Scanner(userFile);
+                    while (userReader.hasNext()) {
+                        userDataFromDB = userReader.nextLine().split("~");
+                        usernameFromDB = userDataFromDB[0].split(":")[1];
+                        userIdFromDB = userDataFromDB[1].split(":")[1];
+                        userPasswordFromDB = userDataFromDB[2].split(":")[1];
+                        if (userIdFromDB.equals(currentUserId))
+                            newWriter.write("username:" + usernameFromDB + "~id:" + userIdFromDB + "~password:" + newPassword + "\n");
+                        else
+                            newWriter.write("username:" + usernameFromDB + "~id:" + userIdFromDB + "~password:" + userPasswordFromDB + "\n");
+                        newWriter.flush();
+
+                    }
+                    newWriter.close();
+                    userFile.delete();
+                    userTempFile.renameTo(new File(userPath));
+                    writer("password changed");
+                    break;
+
+                case "delete":
+                    currentUserReader = new Scanner(currentUserFile);
+                    currentUserId = currentUserReader.nextLine();
+                    currentUserReader.close();
+                    System.out.println("current user id: " + currentUserId);
+
+                    try {
+                        userTempFile.createNewFile();
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                    newWriter = new FileWriter(userTempFile, true);
+                    userReader = new Scanner(userFile);
+                    while (userReader.hasNext()) {
+                        userDataFromDB = userReader.nextLine().split("~");
+                        usernameFromDB = userDataFromDB[0].split(":")[1];
+                        userIdFromDB = userDataFromDB[1].split(":")[1];
+                        userPasswordFromDB = userDataFromDB[2].split(":")[1];
+                        if (!userIdFromDB.equals(currentUserId))
+                            newWriter.write("username:" + usernameFromDB + "~id:" + userIdFromDB + "~password:" + userPasswordFromDB + "\n");
+                        newWriter.flush();
+
+                    }
+                    newWriter.close();
+                    userFile.delete();
+                    userTempFile.renameTo(new File(userPath));
+                    currentUserFile.delete();
+                    writer("user deleted");
+                    break;
 
             }
 
