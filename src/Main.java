@@ -438,14 +438,12 @@ public class Main {
                             try {
                                 teacherData = IdFinder.findTeacherByID(teacherID, teacherFile);
                                 String[] teacherCourses = teacherData[4].substring(1, teacherData[4].length() - 1).split("~");
-
-                                if (teacherCourses.length > 2) {
-                                    List<String> listOfTeacherCourses = new ArrayList<>();
-                                    Collections.addAll(listOfTeacherCourses, teacherCourses);
-                                    for (String courseId : listOfTeacherCourses) {
-                                        UpdateData.updateCourseData(courseFile, courseId, "-", courseTempFile);
-                                    }
+                                List<String> listOfTeacherCourses = new ArrayList<>();
+                                Collections.addAll(listOfTeacherCourses, teacherCourses);
+                                for (String courseId : listOfTeacherCourses) {
+                                    UpdateData.updateCourseData(courseFile, courseId, "-", courseTempFile);
                                 }
+
                             } catch (NotFoundException e) {
                                 System.out.println(e.getMessage());
                                 isAdminActionChosen = true;
@@ -542,63 +540,62 @@ public class Main {
                                 }
 
                                 String[] studentIds = courseData[6].substring(1, courseData[6].length() - 1).split("~");
-                                if (studentIds.length > 2) {
-                                    List<String> courseStudents = new ArrayList<>();
-                                    Collections.addAll(courseStudents, studentIds);
-                                    for (String studentId : courseStudents) {
-                                        System.out.println("im in student loop");
-                                        studentData = IdFinder.findStudentByID(studentId, studentFile);
-                                        int numOfStudentsCourses = Integer.parseInt(studentData[3]);
-                                        numOfStudentsCourses--;
-                                        int numOfStudentUnits = Integer.parseInt(studentData[4]);
-                                        numOfStudentUnits -= Integer.parseInt(courseData[4]);
-                                        String[] studentCourses = studentData[5].substring(1, studentData[5].length() - 1).split("~");
-                                        List<String> studentCoursesIds = new ArrayList<>();
-                                        Collections.addAll(studentCoursesIds, studentCourses);
-                                        studentCoursesIds.remove(courseID);
-                                        UpdateData.updateStudentData(studentFile, studentTempFile, studentId,
-                                                numOfStudentsCourses, numOfStudentUnits, studentCoursesIds);
+
+                                List<String> courseStudents = new ArrayList<>();
+                                Collections.addAll(courseStudents, studentIds);
+                                for (String studentId : courseStudents) {
+                                    studentData = IdFinder.findStudentByID(studentId, studentFile);
+                                    int numOfStudentsCourses = Integer.parseInt(studentData[3]);
+                                    numOfStudentsCourses--;
+                                    int numOfStudentUnits = Integer.parseInt(studentData[4]);
+                                    numOfStudentUnits -= Integer.parseInt(courseData[4]);
+                                    String[] studentCourses = studentData[5].substring(1, studentData[5].length() - 1).split("~");
+                                    List<String> studentCoursesIds = new ArrayList<>();
+                                    Collections.addAll(studentCoursesIds, studentCourses);
+                                    studentCoursesIds.remove(courseID);
+                                    UpdateData.updateStudentData(studentFile, studentTempFile, studentId,
+                                            numOfStudentsCourses, numOfStudentUnits, studentCoursesIds);
 
 
-                                        String[] studentMarksForCourseDelete = studentData[7].substring(1, studentData[7].length() - 1).split("~");
-                                        Map<String, Double> stuMarks = new HashMap<>();
-                                        for (String stuMarkDetails : studentMarksForCourseDelete) {
-                                            System.out.println("im in student mark loop");
-                                            stuMarks.put(stuMarkDetails.split("=")[0], Double.valueOf(stuMarkDetails.split("=")[1]));
-                                        }
-                                        stuMarks.remove(courseID);
-                                        newStudentAvg = 0.0;
-                                        sumOfUnits = 0;
-                                        for (String courseId : stuMarks.keySet()) {
-                                            System.out.println("im in student mark 2 loop");
-                                            try {
-                                                String[] coursesForMarkData = IdFinder.findCourseByID(courseId, courseFile);
-                                                int courseUnits = Integer.parseInt(coursesForMarkData[4]);
-                                                sumOfUnits += courseUnits;
-                                                newStudentAvg += courseUnits * stuMarks.get(courseId);
-                                            } catch (NotFoundException e) {
-                                                System.out.println(e.getMessage());
-                                                isAdminActionChosen = true;
-                                                break;
-                                            }
-                                        }
-                                        newStudentAvg /= sumOfUnits;
-                                        UpdateData.updateStudentData(studentFile, studentTempFile, studentId,
-                                                newStudentAvg, stuMarks);
-
+                                    String[] studentMarksForCourseDelete = studentData[7].substring(1, studentData[7].length() - 1).split("~");
+                                    Map<String, Double> stuMarks = new HashMap<>();
+                                    for (String stuMarkDetails : studentMarksForCourseDelete) {
+                                        stuMarks.put(stuMarkDetails.split("=")[0], Double.valueOf(stuMarkDetails.split("=")[1]));
                                     }
+                                    stuMarks.remove(courseID);
+                                    newStudentAvg = 0.0;
+                                    sumOfUnits = 0;
+                                    for (String courseId : stuMarks.keySet()) {
+                                        try {
+                                            String[] coursesForMarkData = IdFinder.findCourseByID(courseId, courseFile);
+                                            int courseUnits = Integer.parseInt(coursesForMarkData[4]);
+                                            sumOfUnits += courseUnits;
+                                            newStudentAvg += courseUnits * stuMarks.get(courseId);
+                                        } catch (NotFoundException e) {
+                                            System.out.println(e.getMessage());
+                                            isAdminActionChosen = true;
+                                            break;
+                                        }
+                                    }
+                                    if (sumOfUnits != 0)
+                                        newStudentAvg /= sumOfUnits;
+                                    else
+                                        newStudentAvg = 0.0;
+                                    UpdateData.updateStudentData(studentFile, studentTempFile, studentId,
+                                            newStudentAvg, stuMarks);
+
                                 }
+
 
                                 assignmentIds = courseData[9].substring(1, courseData[9].length() - 1).split("~");
-                                if (assignmentIds.length > 2) {
-                                    courseAssignments = new ArrayList<>();
-                                    Collections.addAll(courseAssignments, assignmentIds);
-                                    for (String assignmentId : courseAssignments) {
-                                        System.out.println("im in assignment loop");
-                                        UpdateData.updateAssignmentCourse(assignmentFile, assignmentTempFile,
-                                                assignmentId, "-");
-                                    }
+
+                                courseAssignments = new ArrayList<>();
+                                Collections.addAll(courseAssignments, assignmentIds);
+                                for (String assignmentId : courseAssignments) {
+                                    UpdateData.updateAssignmentCourse(assignmentFile, assignmentTempFile,
+                                            assignmentId, "-");
                                 }
+
                             } catch (NotFoundException e) {
                                 System.out.println(e.getMessage());
                                 isAdminActionChosen = true;
