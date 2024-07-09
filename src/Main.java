@@ -553,7 +553,7 @@ public class Main {
 
 
                                         String[] studentMarksForCourseDelete = studentData[7].substring(1, studentData[7].length() - 1).split("~");
-                                        Map <String, Double> stuMarks = new HashMap<>();
+                                        Map<String, Double> stuMarks = new HashMap<>();
                                         for (String stuMarkDetails : studentMarksForCourseDelete) {
                                             System.out.println("im in student mark loop");
                                             stuMarks.put(stuMarkDetails.split("=")[0], Double.valueOf(stuMarkDetails.split("=")[1]));
@@ -802,13 +802,40 @@ public class Main {
                             numOfStudentsCourses = Integer.parseInt(studentData[3]);
                             numOfStudentsCourses--;
                             numOfStudentUnits = Integer.parseInt(studentData[4]);
-                            numOfStudentUnits += Integer.parseInt(courseData[4]);
+                            numOfStudentUnits -= Integer.parseInt(courseData[4]);
                             studentCourses = studentData[5].substring(1, studentData[5].length() - 1).split("~");
                             studentCoursesIds = new ArrayList<>();
                             Collections.addAll(studentCoursesIds, studentCourses);
                             studentCoursesIds.remove(courseID);
                             UpdateData.updateStudentData(studentFile, studentTempFile, studentID,
                                     numOfStudentsCourses, numOfStudentUnits, studentCoursesIds);
+
+                            String[] studentMarksForCourseDelete = studentData[7].substring(1, studentData[7].length() - 1).split("~");
+                            if (studentMarksForCourseDelete.length > 1) {
+                                Map<String, Double> stuMarks = new HashMap<>();
+                                for (String stuMarkDetails : studentMarksForCourseDelete) {
+                                    System.out.println(stuMarkDetails);
+                                    stuMarks.put(stuMarkDetails.split("=")[0], Double.valueOf(stuMarkDetails.split("=")[1]));
+                                }
+                                stuMarks.remove(courseID);
+                                newStudentAvg = 0.0;
+                                sumOfUnits = 0;
+                                for (String courseId : stuMarks.keySet()) {
+                                    try {
+                                        String[] coursesForMarkData = IdFinder.findCourseByID(courseId, courseFile);
+                                        int courseUnits = Integer.parseInt(coursesForMarkData[4]);
+                                        sumOfUnits += courseUnits;
+                                        newStudentAvg += courseUnits * stuMarks.get(courseId);
+                                    } catch (NotFoundException e) {
+                                        System.out.println(e.getMessage());
+                                        isAdminActionChosen = true;
+                                        break;
+                                    }
+                                }
+                                newStudentAvg /= sumOfUnits;
+                                UpdateData.updateStudentData(studentFile, studentTempFile, studentID,
+                                        newStudentAvg, stuMarks);
+                            }
 
                             numOfStudents = Integer.parseInt(courseData[5]);
                             numOfStudents--;
@@ -817,6 +844,16 @@ public class Main {
                             Collections.addAll(listOfStudentsIds, studentsIds);
                             listOfStudentsIds.remove(studentID);
                             UpdateData.updateCourseData(courseFile, courseTempFile, courseID, listOfStudentsIds, numOfStudents);
+
+                            String[] courseMarksForStudentRemove = courseData[3].split("\\*");
+                            if (courseMarksForStudentRemove.length > 1) {
+                                Map<String, Double> newCourseMarksStudentRemove = new HashMap<>();
+                                for (String markDetails : courseMarksForStudentRemove) {
+                                    newCourseMarksStudentRemove.put(markDetails.split("#")[0], Double.valueOf(markDetails.split("#")[1]));
+                                }
+                                newCourseMarksStudentRemove.remove(studentID);
+                                UpdateData.updateCourseData(courseFile, courseTempFile, courseID, newCourseMarksStudentRemove);
+                            }
                             System.out.println(GREEN + "Student (ID: " + studentID + ") has been successfully removed from Course " +
                                     "(ID:" + courseID + ")." + RESET);
                             isAdminActionChosen = true;
