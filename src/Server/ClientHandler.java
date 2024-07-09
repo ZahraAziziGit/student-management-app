@@ -125,9 +125,10 @@ class ClientHandler extends Thread {
                             studentDetailsFromDB = studentReader.nextLine().split(",");
                             if (studentDetailsFromDB[2].split(":")[1].equals(studentId)) {
                                 isStudentFound = true;
-                                studentReader.close();
                             }
                         }
+                        studentReader.close();
+
                         if (isStudentFound) {
                             writer("found");
                             Writer writer = new FileWriter(userFile, true);
@@ -467,7 +468,6 @@ class ClientHandler extends Thread {
                                             String teachId = teacherData[2].split(":")[1];
                                             if (teachId.equals(teacherId)) {
                                                 teacherName = teacherData[0].split(":")[1] + " " + teacherData[1].split(":")[1];
-                                                ;
                                             }
                                         }
                                         teacherReader.close();
