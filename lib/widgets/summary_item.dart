@@ -12,7 +12,7 @@ class SummaryItem extends StatelessWidget {
     double widthOfScreen = MediaQuery.of(context).size.width;
     return Container(
       width: widthOfScreen / 4,
-      height: 100,
+      height: 110,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -27,6 +27,9 @@ class SummaryItem extends StatelessWidget {
       ),
       child: Column(
         children: [
+          const SizedBox(
+            height: 5,
+          ),
           Icon(icon, size: 30, color: Colors.deepPurpleAccent),
           const SizedBox(height: 10),
           Text(
