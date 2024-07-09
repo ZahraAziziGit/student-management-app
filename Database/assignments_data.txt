@@ -1,6 +1,6 @@
-id:1,deadline:2024-02-02,active:true,course:1
-id:2,deadline:2024-08-02,active:true,course:1
-id:3,deadline:2024-03-01,active:true,course:2
-id:4,deadline:2024-08-20,active:true,course:2
-id:5,deadline:2024-08-07,active:true,course:2
+id:1,deadline:2024-02-02,active:true,course:1,name:AP - HW1
+id:2,deadline:2024-08-02,active:true,course:1,name:AP - HW2
+id:3,deadline:2024-03-01,active:true,course:2,name:DM - HW1
+id:4,deadline:2024-08-20,active:true,course:2,name:DM - HW3
+id:5,deadline:2024-08-07,active:true,course:2,name:DM - HW2
 
