@@ -40,10 +40,10 @@ public class StoreData {
         }
     }
 
-    public static void storeAssignment(String id, String deadline, boolean isActive, String courseId, File file) {
+    public static void storeAssignment(String id, String deadline, boolean isActive, String courseId,String name, File file) {
         try {
             FileWriter writer = new FileWriter(file, true);
-            writer.write("id:" + id + ",deadline:" + deadline + ",active:" + isActive + ",course:" + courseId + "\n");
+            writer.write("id:" + id + ",deadline:" + deadline + ",active:" + isActive + ",course:" + courseId + ",name:" + name + "\n");
             writer.flush();
             writer.close();
         } catch (IOException e) {
