@@ -66,7 +66,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       return "password must be more than 8 characters";
     }
     RegExp regex =
-        RegExp(r'^(?!.~).(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?*#@]).+$');
+        RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?*#@]).+$');
     if (!regex.hasMatch(value)) {
       return "Password must contain:\n"
           "an uppercase letter and a lowercase letter\n"
