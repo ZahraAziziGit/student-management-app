@@ -6,6 +6,7 @@
 💻 In the CLI,  the admin can register new students, teachers, courses, and assignments or change them. The teacher can also make changes on their courses and students. It is implemented in [Java](https://www.java.com/) ☕️.
 
 📱 In the app, a student can make an account with their desired password and username (not a repeated one) and use them to log in. They can have access to a brief summary of upcoming deadlines. They can also create their own To-Do list. Likewise, they can see their best and worst  marks   to get motivated for trying even harder than before! There is also a simplified list of their courses and news related to the university. (In this project, news are from _SBU Computer science and Engineering faculty [website](https://encse.sbu.ac.ir/)_). It is implemented using [flutter](https://flutter.dev/) framework and [Dart](https://dart.dev/).
+
 [video for the app](https://www.aparat.com/v/pgbofnc)
 
 ## Flutter app
