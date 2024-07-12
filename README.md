@@ -1,47 +1,119 @@
-# AP Project : Student management app
-![Static Badge](https://img.shields.io/badge/Advance%20Programming-%20%20%237d1dde) ![Static Badge](https://img.shields.io/badge/Java%20-%20%20%230444fa%20) ![Static Badge](https://img.shields.io/badge/Flutter%20-%20%20%2304b0fa) ![Static Badge](https://img.shields.io/badge/Dart%20-%20%20%2304e8fa)
+# Student Management App
 
-🎓This project is a simple app for managing students of a university.
+## Overview
 
-💻 In the CLI,  the admin can register new students, teachers, courses, and assignments or change them. The teacher can also make changes on their courses and students. It is implemented in [Java](https://www.java.com/) ☕️.
+This repository contains a student management application developed as an Advanced Programming Project for Spring 2024. The project is implemented using Java for the backend and [Flutter](https://flutter.dev/) for the mobile application. It provides functionalities for managing students, teachers, courses, and assignments.
+You can watch this [video](https://www.aparat.com/v/pgbofnc) to see how the app works.
 
-📱 In the app, a student can make an account with their desired password and username (not a repeated one) and use them to log in. They can have access to a brief summary of upcoming deadlines. They can also create their own To-Do list. Likewise, they can see their best and worst  marks   to get motivated for trying even harder than before! There is also a simplified list of their courses and news related to the university. (In this project, news are from _SBU Computer science and Engineering faculty [website](https://encse.sbu.ac.ir/)_). It is implemented using [flutter](https://flutter.dev/) framework and [Dart](https://dart.dev/).
+## Features
 
-[video for the app](https://www.aparat.com/v/pgbofnc)
-
-## Flutter app
-- Welcome page
-  - With two buttons for navigating to login and sign up page
-- Sign Up & login page
-![Section 1](https://github.com/ZahraAziziGit/Project-Radiohead/assets/148708816/ac56a9d9-c23b-4444-9944-bf4b9c572c29)
-- User info
-  - With ability to upload an avatar
-  - Deleting account
-  - Changing password
-![Section 2](https://github.com/ZahraAziziGit/Project-Radiohead/assets/148708816/f79dfc0a-b20b-4cac-82bb-1e9234413d18)
-- Home Screen
-  - Summary of user records (marks, deadlines etc.)
-  - Summary of assignments
-- To-Do list
-  - Add & remove tasks
-![Section 3](https://github.com/ZahraAziziGit/Project-Radiohead/assets/148708816/276139b1-ca58-4678-aa58-b50dafbc4650)
-- Assignments
-- News 
-- Classes
-  - Add new classes
-![Section 4](https://github.com/ZahraAziziGit/Project-Radiohead/assets/148708816/d526a1c2-9458-413a-a3d5-d9b8b398d732)
-
-## CLI
-- Admin menu
-  - Add/Remove students
-  - Add/Remove teachers
-  - Add/Remove classes
-  - Add/Remove assignments
-  - Modify changes to assignments, classes, data of students ant etc.
-- Teacher menu
+### CLI Application
+- **Admin Menu**:
+  - Add/Remove students, teachers, classes, assignments
+  - Modify assignments, classes, student, and teacher data
+- **Teacher Menu**:
   - Add/Remove students to/from classes
   - Add/Remove assignments to/from classes
-  - Modify changes to assignments, data of students ant etc.
+  - Modify assignments, and student data
+
+### Mobile Application
+- **Welcome Page**: Navigation to login and sign-up
+- **Sign Up & Login**: User authentication
+![Section 1](https://github.com/user-attachments/assets/abcb926c-b902-428c-b424-9dfa0fa57537)
+- **User Info**: Avatar upload, account deletion, password change
+- **Home Screen**: Summary of records and assignments
+![Section 2](https://github.com/user-attachments/assets/545f3cfb-0e06-46a5-850d-852bf9983123)
+- **To-Do List**: Task management
+- **Classes**: Class management
+![Section 3](https://github.com/user-attachments/assets/c1da3a62-7a1f-4797-a7f6-d56e8d12ca9b)
+- **News**: University news updates
+- **Assignments**: Assignment details
+![Section 4](https://github.com/user-attachments/assets/083ac99b-2afe-46fb-8b9c-6fd591f5de9a)
 
 ## Backend
-The backend is implemented using [Socket](https://docs.oracle.com/javase/8/docs/api/java/net/Socket.html) connection. It has a server that accept client handlers' requests. Client handler extends Thread so the server in capable of answering to multiple clients.
+- **Server**: Handles multiple client requests using Socket connections and multithreading.
+
+## Technologies
+- **Backend**: [Java](https://www.java.com/)
+- **Frontend**: [Flutter](https://flutter.dev/) and [Dart](https://dart.dev/)
+
+## Installation
+
+### Prerequisites
+- Java Development Kit (JDK)
+- Flutter SDK
+
+### Steps
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/ZahraAziziGit/student-management-app.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd student-management-app
+    ```
+3. Follow specific setup instructions for the backend and frontend as per the documentation.
+
+## Usage
+
+### Running the CLI
+1. Compile and run the Main
+	```bash
+	cd src
+	
+	javac Main.java
+	
+	java Main.class
+	```
+
+
+### Running the Backend
+1. Compile and run the Java server.
+	```bash
+	cd src/Server
+	
+	javac Server.java
+	
+	java Server.class
+	```
+
+
+### Running the Mobile App
+1. Open the Flutter project in an IDE (e.g., Android Studio).
+2. Run the app on an emulator or a physical device.
+
+## Contributing
+1. Fork the repository.
+2. Create a new branch:
+    ```bash
+    git checkout -b <feature-branch>
+    ```
+3. Make your changes and commit them:
+    ```bash
+    git commit -m "Description of the feature"
+    ```
+4. Push to the branch:
+    ```bash
+    git push origin <feature-branch>
+    ```
+5. Open a pull request.
+
+## TODO List
+⬜ Uploading files for assignments
+
+⬜ Adding a student to a course via the app
+
+⬜  Sorting the assignments based on closer deadlines
+
+⬜  Adding a dark theme
+
+## License
+This project is licensed under the [MIT](https://github.com/ZahraAziziGit/student-management-app/tree/main?tab=MIT-1-ov-file#) License.
+
+## Contact
+Thank you for checking out the Student Management App project! If you have any questions or feedback, feel free to reach out.
+
+[Telegram](https://t.me/zahraAziziT)
+
+ E-mail: [azizi.zahra.tehran@gmail.com](mailto:azizi.zahra.tehran@gmail.com)
+
