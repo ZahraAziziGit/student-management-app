@@ -82,22 +82,6 @@ You can watch this [video](https://www.aparat.com/v/pgbofnc) to see how the app 
 1. Open the Flutter project in an IDE (e.g., Android Studio).
 2. Run the app on an emulator or a physical device.
 
-## Contributing
-1. Fork the repository.
-2. Create a new branch:
-    ```bash
-    git checkout -b <feature-branch>
-    ```
-3. Make your changes and commit them:
-    ```bash
-    git commit -m "Description of the feature"
-    ```
-4. Push to the branch:
-    ```bash
-    git push origin <feature-branch>
-    ```
-5. Open a pull request.
-
 ## TODO List
 ⬜ Uploading files for assignments
 
@@ -110,10 +94,6 @@ You can watch this [video](https://www.aparat.com/v/pgbofnc) to see how the app 
 ## License
 This project is licensed under the [MIT](https://github.com/ZahraAziziGit/student-management-app/tree/main?tab=MIT-1-ov-file#) License.
 
-## Contact
+## 
 Thank you for checking out the Student Management App project! If you have any questions or feedback, feel free to reach out.
-
-[Telegram](https://t.me/zahraAziziT)
-
- E-mail: [azizi.zahra.tehran@gmail.com](mailto:azizi.zahra.tehran@gmail.com)
 
